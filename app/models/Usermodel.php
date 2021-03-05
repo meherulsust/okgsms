@@ -29,6 +29,8 @@ class Usermodel extends MT_Model
         $this->db->join('tenant t', 't.id = ad.tenant_id', 'left');
         if( $this->tenant_id != 0 )
         $this->db->where('ad.tenant_id', $this->tenant_id);
+        if ($this->session->userdata('admin_group_id') !=1)
+        $this->db->where('id_admin_group !=',1);
         $rs = $this->db->get();
         $users = $rs->result_array();
         return $users;
@@ -42,6 +44,8 @@ class Usermodel extends MT_Model
         $this->db->join('tenant t', 't.id = ad.tenant_id', 'left');;
         if( $this->tenant_id != 0 )
         $this->db->where('ad.tenant_id', $this->tenant_id);
+        if ($this->session->userdata('admin_group_id') !=1)
+        $this->db->where('id_admin_group !=',1);
         $rs = $this->db->get();
         $users = $rs->num_rows();
         return $users;

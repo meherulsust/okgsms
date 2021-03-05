@@ -57,28 +57,6 @@ class Optionmodel extends MT_Model
         return $this->get_assoc();
     }
 
-    public function county_option()
-    {
-        $this->db->select('id, county as title');
-        $this->db->from('county');
-        $this->db->where('status', 'Active');
-        if( $this->tenant_id != 0 )
-        $this->db->where('tenant_id', $this->tenant_id);
-        $this->db->order_by('title', 'asc');
-        return $this->get_assoc();
-    }
-
-    public function subcounty_option()
-    {
-        $this->db->select('id, subcounty as title');
-        $this->db->from('subcounty');
-        $this->db->where('status', 'Active');
-        if( $this->tenant_id != 0 )
-        $this->db->where('tenant_id', $this->tenant_id);
-        $this->db->order_by('title', 'asc');
-        return $this->get_assoc();
-    }
-
     public function weather_division_options()
     {
         $this->db->select('id, weather_division as title');
@@ -88,6 +66,15 @@ class Optionmodel extends MT_Model
         $this->db->where('tenant_id', $this->tenant_id);
         $this->db->order_by('title', 'asc');
         return $this->get_assoc();
+    }
+
+    function scale_options()
+    {
+        $this->db->select('id,title');
+        $this->db->from('result_scale');
+        $this->db->where('status=','Active');
+        $this->db->order_by('id','asc');
+        return $this->get_assoc(); 
     }
 
 
