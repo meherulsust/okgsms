@@ -77,5 +77,14 @@ class Optionmodel extends MT_Model
         return $this->get_assoc(); 
     }
 
+    function version_options()
+ 	{
+ 		$this->db->select('id,title');
+ 		$this->db->from('version_list');
+		$this->db->where('status=','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}
+
 
 }

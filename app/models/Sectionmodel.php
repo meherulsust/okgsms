@@ -24,7 +24,7 @@
  	 	 	
  	function get_list()
  	{ 		
-		$this->db->select('se.*,vl.title as version,cl.title as class');		
+		$this->db->select('se.*,vl.title as version,cl.title as class, se.status as custom_set_status');		
  	 	$this->db->from('section se');
 		$this->db->join('version_list vl','vl.id = se.version_id','left');
 		$this->db->join('class cl','cl.id = se.class_id','left');

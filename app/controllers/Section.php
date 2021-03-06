@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
     }
 	
-	function index()
+	function index($sort_type='asc',$sort_on='serial')
 	{
 		$labels=array('title'=>'Section','version'=>'Version','class'=>'Class','room_number'=>'Room Number','status'=>'Status');
 		$this->tpl->set_js(array('jquery.statusmenu'));
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on']='id';
 		$config['sort_type']='desc';
-		if($this->session->userdata('admin_userid')==1){
+		if($this->session->userdata('admin_group_id')==1){
 		$this->assign('grid_action',array('edit'=>'edit','del'=>'del'));
 		}else{
 		$this->assign('grid_action',array('edit'=>'edit'));	

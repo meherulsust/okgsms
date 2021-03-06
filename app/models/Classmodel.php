@@ -26,7 +26,8 @@
  	{ 		
 		$this->db->select('*');		
  	 	$this->db->from('class');
-		$rs=$this->db->get(); 	    
+		$rs=$this->db->get(); 
+		$this->db->order_by('id');	    
 		$class=$rs->result_array(); 	    
 		return $class;
  	}
