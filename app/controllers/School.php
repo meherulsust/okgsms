@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							array('field'=>'description','label'=>'Description','rules'=>'trim')
 						);
 		$this->form_validation->set_rules($config);
-		$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
+		$this->validation_error_msg();
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('school/edit');

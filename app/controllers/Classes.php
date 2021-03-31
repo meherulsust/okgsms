@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -----------------------------------------------------
 | PRODUCT NAME			: SMS
 -----------------------------------------------------
-| CONTROLLER CLASS NAME : Classes
+| CONTROLLER CLASS NAME : 
 | -----------------------------------------------------
 | AUTHOR                : Md.Meherul Islam
 | -----------------------------------------------------
@@ -214,7 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  $data['description']		= $this->input->post('description');
 		  $data['room_number']		= $this->input->post('room_number');
 		  $data['status']			= $this->input->post('status');
-		  $data['updated_by']			= $this->session->userdata('admin_userid');
+		  $data['updated_by']		= $this->session->userdata('admin_userid');
 		  $this->sectionmodel->edit($id,$data);   // Update data 
 		  $this->session->set_flashdata('message',$this->tpl->set_message('edit','section'));
 		  redirect('Classes/view/'.encode($data['class_id']));	

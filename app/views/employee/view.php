@@ -1,7 +1,14 @@
 <div class="box box-primary">	
 	<div class="box-header">
-		<i class="fa fa-list-alt"></i><h3 class="box-title"><?php echo $page_title; ?></h3>
-	</div>	
+    	<i class="fa fa-pencil-square-o"></i>
+    	<h3 class="box-title"><?php echo $page_title; ?></h3>
+		<div class="box-tools pull-right">
+			<a class="ajax_link" href="<?=$site_url . $link_action;?>">
+			<button class="btn btn-primary btn-xs" type="button"><i class='fa fa-plus'></i>
+				<?php echo $link_title; ?></button>
+			</a>
+		</div>
+    </div>	
 	<table class="form_table">
 		<tr>
 			<td width="1%">Name :</td>
@@ -13,8 +20,9 @@
 		<tr>
 			<td>Photo :</td>
 			<td>
-				<img src="<?=$base_url;?>upload_images/teacher_image/<?php echo $photo;?>"  width="120">
-				<br/><a href="<?php echo $site_url.$active_controller;?>/download_photo/<?php echo $id?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> Download </button></a></td>
+			<img src="<?= (!empty($photo)) ? $upload_url.'employee_images/'.$photo : $upload_url.'user_image/'.'default.png';?>"
+                alt="User profile picture" class="profile-user-img">  
+				<br/><a href="<?= $upload_url.'employee_images/'.$photo ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> View </button></a></td>
 			</td>
 		</tr>
 		<?php endif;?>
@@ -27,7 +35,7 @@
 		<tr>
 			<td>Relevant Subject :</td>
 			<td>
-				<?php echo $designation; ?>
+				<?php echo $relevant_subject; ?>
 			</td>
 		</tr>	
 		<tr>
@@ -48,11 +56,11 @@
 				<?php echo $address; ?>
 			</td>
 		</tr>
-		<?php if(!empty($cv_upload)):?>
+		<?php if(!empty($cv)):?>
 		<tr>
 			<td>CV File :</td>
 			<td>
-				<a href="<?php echo $site_url.$active_controller;?>/download_cv/<?php echo $id?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> Download </button></a>
+				<a href="<?= $upload_url.'employee_cv/'.$cv ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> Download </button></a>
 			</td>
 		</tr>
 		<?php endif;?>	

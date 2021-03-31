@@ -759,8 +759,6 @@ $(window).load(function() {
                         d.wheelDelta && (c = -d.wheelDelta / 120);
                         d.detail && (c = d.detail / 3);
                         f(d.target || d.srcTarget || d.srcElement).closest("." + a.wrapperClass).is(b.parent()) && m(c, !0);
-                        d.preventDefault && !k && d.preventDefault();
-                        k || (d.returnValue = !1)
                     }
                 }
                 function m(d, f, h) {

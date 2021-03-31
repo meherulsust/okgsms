@@ -35,7 +35,7 @@ class User extends MT_Controller
         $this->tpl->set_js(array('jquery.statusmenu'));
         $head = array('page_title'=>'User list','link_title'=>'New User','link_action'=>'user/add');
         if( $this->tenant_id == 0 ){
-            $labels = array('username' => 'Username', 'full_name' => 'Full Name', 'email' => 'Email', 'admin_type' => 'Group','tenant' => 'Tenant', 'status' => 'Status');
+            $labels = array('username' => 'Username', 'full_name' => 'Full Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');
             $this->assign('grid_action', array('view' => 'view', 'edit' => 'edit'));
         }else{
             $labels = array('username' => 'Username', 'full_name' => 'Full Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');

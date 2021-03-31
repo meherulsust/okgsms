@@ -48,24 +48,21 @@ class Optionmodel extends MT_Model
         return $this->get_assoc();
     }
 
-    public function country_option()
+    function religion_options()
     {
-        $this->db->select('id, country as title');
-        $this->db->from('country');
-        $this->db->where('status', 'Active');
-        $this->db->order_by('title', 'asc');
-        return $this->get_assoc();
+        $this->db->select('id,title');
+        $this->db->from('religion');
+        //$this->db->where('status=','Active');
+        $this->db->order_by('id','asc');
+        return $this->get_assoc(); 
     }
-
-    public function weather_division_options()
+   function blood_group_options()
     {
-        $this->db->select('id, weather_division as title');
-        $this->db->from('weather_division');
-        $this->db->where('status', 'Active');
-        if( $this->tenant_id != 0 )
-        $this->db->where('tenant_id', $this->tenant_id);
-        $this->db->order_by('title', 'asc');
-        return $this->get_assoc();
+        $this->db->select('id,symbol as title');
+        $this->db->from('blood_group');
+        //$this->db->where('status=','Active');
+        $this->db->order_by('id','asc');
+        return $this->get_assoc(); 
     }
 
     function scale_options()
@@ -81,7 +78,7 @@ class Optionmodel extends MT_Model
  	{
  		$this->db->select('id,title');
  		$this->db->from('version_list');
-		$this->db->where('status=','Active');
+		//$this->db->where('status=','Active');
 		$this->db->order_by('id','asc');
  		return $this->get_assoc(); 
  	}

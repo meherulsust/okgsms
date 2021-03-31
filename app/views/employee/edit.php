@@ -2,12 +2,12 @@
 	<div class="box-header">
 		<i class="fa fa-pencil-square-o"></i><h3 class="box-title"><?php echo $page_title; ?></h3>
 	</div>	
-	<form class="ajax_submit" role="form" action="<?=$site_url.$active_controller?>/edit/<?php echo $id;?>" method="post" enctype="multipart/form-data">
+	<form class="ajax_submit" role="form" action="<?=$site_url.$active_controller?>/edit/<?= encode($id);?>" method="post" enctype="multipart/form-data">
 		<table class="form_table">
-			<tr>
+		<tr>
 				<td>Category :</td>
 				<td>
-					<select name='category_id' class='form-control' required>
+					<select name='category_id' class='form-control' id="category_id" required>
 						<option value="" >---- Select Category ----</option>
 						<?php echo html_options($category_options,set_value('category_id',$category_id)); ?>
 					</select>
@@ -17,22 +17,32 @@
 			<tr>
 				<td>Name :</td>
 				<td>
-					<input name="name" type="text" class="form-control" value="<?=set_value('name',$name); ?>" required />
+					<input name="name" type="text" class="form-control" value="<?=set_value('name',$name); ?>" />
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Username :</td>
 				<td>
-					<input name="username" type="text" class="form-control" value="<?=set_value('username',$username); ?>"  required/>
+					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username',$username); ?>" />
 					<span class='error'>* <?php echo form_error('username'); ?></span>
 				</td>
 			</tr>
 			
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Password :</td>
 				<td>
-					<input name="passwd" type="password" class="form-control" value="<?=set_value('passwd'); ?>"/>
+					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>"/>
+				</td>
+			</tr>
+			<tr class="teaching_stuff">
+				<td>Group :</td>
+				<td>
+				<select class="form-control" name="id_admin_group" id ="id_admin_group">
+					<option value="">---- Select Group ----</option>
+					<?php echo html_options($admin_group_options, set_value('id_admin_group',$id_admin_group)); ?>
+				</select>
+				<span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
 				</td>
 			</tr>
 					
@@ -44,16 +54,16 @@
 					
 				</td>
 			</tr>
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Relevant Subject :</td>
 				<td>
-					<input name="relevant_subject" type="text" class="form-control" value="<?=set_value('relevant_subject',$relevant_subject); ?>" />
+					<input name="relevant_subject" id="relevant_subject" type="text" class="form-control" value="<?=set_value('relevant_subject',$relevant_subject); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td>Date of Birth :</td>
 				<td>
-					<input type="text" class="form-control calander"  name="dob" value="<?=set_value('dob',$dob); ?>" required />
+					<input type="text" class="form-control calander"  name="dob" value="<?=set_value('dob',$dob); ?>" required  autocomplete="off"/>
 					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
 					<span class="error">* <?php echo form_error('dob'); ?></span>
 				</td>
@@ -63,7 +73,7 @@
 				<td>
 					<select name='gender' class='form-control' required>
 					<option value="" >---- Select Gender ----</option>
-					<?php echo html_options($gender_options,set_value('gender',$gender)); ?>
+					<?php echo html_options($gender_options,set_value('gender',$gender));  ?>
 					</select>
 					<span class='error'>* <?php echo form_error('gender'); ?> </span>
 				</td>
@@ -90,10 +100,10 @@
 				</td>
 			</tr>
 			
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Email :</td>
 				<td>
-					<input name="email" type="text" class="form-control" value="<?=set_value('email',$email); ?>" required />     
+					<input name="email" type="text" class="form-control" value="<?=set_value('email',$email); ?>" />     
 					<span class='error'>* <?php echo form_error('email'); ?></span>   					
 				</td>
 			</tr>	
@@ -112,17 +122,17 @@
 				</td>
 			</tr>
 			<tr>				
-				<td>Teacher Picture :</td>
+				<td>Employee Picture :</td>
 				<td>
 					<input name="photo" type="file" class='form-control'/> [Size (300 X 300)]
-					<span class='error'></span> <?php if(!empty($upload_error)) echo $upload_error; ?>
+					<span class='error'> <?=(isset($error_photo))? $error_photo :''; ?></span>
 				</td>
 			</tr>
 			<tr>				
 				<td>Uplaod CV :</td>
 				<td>
-					<input name="cv_upload" type="file" class='form-control'/> [Size (3M)]
-					<span class='error'></span> <?php if(!empty($upload_error)) echo $upload_error; ?>
+					<input name="cv" type="file" class='form-control'/> [Max Size (3M)]
+					<span class='error'> <?=(isset($error_cv))? $error_cv :''; ?></span>
 				</td>
 			</tr>
 			<tr>
@@ -163,9 +173,16 @@
 
 <script>
 $(document).ready(function(){
-		$('.calander').datepicker({
-			format: 'yyyy-mm-dd',
-			autoclose: true
-		});	
+	$('#category_id').change(function(){
+		if($('#category_id').val() == '2') {
+			 $('.teaching_stuff').hide();
+		}else{
+			 $('.teaching_stuff').show();
+		}
+	});
+	$('.calander').datepicker({
+		format: 'yyyy-mm-dd',
+		autoclose: true
+	});	
 }); 
 </script>

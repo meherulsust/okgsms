@@ -374,7 +374,7 @@
 		$upconfig['upload_path'] = $this->upload_dir() .$folder_name."/";
         $file_info = pathinfo($image_name);
         $upconfig['file_name'] = basename($image_name, '.' . $file_info['extension']);
-        $upconfig['allowed_types'] = 'gif|jpg|png|jpeg|ico';
+        $upconfig['allowed_types'] = 'gif|jpg|png|jpeg|ico|pdf|doc|docx';
         $upconfig['max_size'] = '10000';
         //$upconfig['min_width'] = '1590';
         //$upconfig['min_height'] = '670';

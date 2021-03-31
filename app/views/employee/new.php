@@ -17,22 +17,32 @@
 			<tr>
 				<td>Name :</td>
 				<td>
-					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" required />
+					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" />
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Username :</td>
 				<td>
-					<input name="username" type="text" class="form-control" value="<?=set_value('username'); ?>"  required/>
+					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username'); ?> " autocomplete="new_username"/>
 					<span class='error'>* <?php echo form_error('username'); ?></span>
 				</td>
 			</tr>
 			
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Password :</td>
 				<td>
-					<input name="passwd" type="password" class="form-control" value="<?=set_value('passwd'); ?>"/>
+					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>" autocomplete="new_pass"/>
+				</td>
+			</tr>
+			<tr class="teaching_stuff">
+				<td>Group :</td>
+				<td>
+				<select class="form-control" name="id_admin_group" id ="id_admin_group">
+					<option value="">---- Select Group ----</option>
+					<?php echo html_options($admin_group_options, set_value('id_admin_group')); ?>
+				</select>
+				<span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
 				</td>
 			</tr>
 					
@@ -44,7 +54,7 @@
 					
 				</td>
 			</tr>
-			<tr class="relevant_subject">
+			<tr class="teaching_stuff">
 				<td>Relevant Subject :</td>
 				<td>
 					<input name="relevant_subject" id="relevant_subject" type="text" class="form-control" value="<?=set_value('relevant_subject'); ?>" />
@@ -53,7 +63,7 @@
 			<tr>
 				<td>Date of Birth :</td>
 				<td>
-					<input type="text" class="form-control calander"  name="dob" value="<?=set_value('dob'); ?>" required />
+					<input type="text" class="form-control calander"  name="dob" value="<?=set_value('dob'); ?>" required  autocomplete="off"/>
 					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
 					<span class="error">* <?php echo form_error('dob'); ?></span>
 				</td>
@@ -90,10 +100,10 @@
 				</td>
 			</tr>
 			
-			<tr>
+			<tr class="teaching_stuff">
 				<td>Email :</td>
 				<td>
-					<input name="email" type="text" class="form-control" value="<?=set_value('email'); ?>" required />     
+					<input name="email" type="text" class="form-control" value="<?=set_value('email'); ?>" />     
 					<span class='error'>* <?php echo form_error('email'); ?></span>   					
 				</td>
 			</tr>	
@@ -112,23 +122,23 @@
 				</td>
 			</tr>
 			<tr>				
-				<td>Teacher Picture :</td>
+				<td>Employee Picture :</td>
 				<td>
 					<input name="photo" type="file" class='form-control'/> [Size (300 X 300)]
-					<span class='error'></span> <?php if(!empty($upload_error)) echo $upload_error; ?>
+					<span class='error'> <?=(isset($error_photo))? $error_photo :''; ?></span>
 				</td>
 			</tr>
 			<tr>				
 				<td>Uplaod CV :</td>
 				<td>
-					<input name="cv_upload" type="file" class='form-control'/> [Size (3M)]
-					<span class='error'></span> <?php if(!empty($upload_error)) echo $upload_error; ?>
+					<input name="cv" type="file" class='form-control'/> [Max Size (3M)]
+					<span class='error'> <?=(isset($error_cv))? $error_cv :''; ?></span>
 				</td>
 			</tr>
 			<tr>
 				<td>Joining  Date :</td>
 				<td>
-					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date'); ?>" required />
+					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date'); ?>" required autocomplete="off"/>
 					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
 					<span class="error">* <?php echo form_error('join_date'); ?></span>
 				</td>
@@ -163,12 +173,11 @@
 
 <script>
 $(document).ready(function(){
-	$('.relevant_subject').hide();
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
-			 $('.relevant_subject').hide();
+			 $('.teaching_stuff').hide();
 		}else{
-			 $('.relevant_subject').show();
+			 $('.teaching_stuff').show();
 		}
 	}); 
 	
