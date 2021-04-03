@@ -20,7 +20,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Section Name :</td>
+				<td>Form Name :</td>
 				<td>
 					<input name="title" type="text" class="form-control" value="<?=set_value('title'); ?>" required/>
 					<span class='error'>* <?php echo form_error('title'); ?></span>

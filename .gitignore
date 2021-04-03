@@ -23,3 +23,9 @@ app/logs/*
 *.sublime-project
 .env
 app/config/database.php
+public/assets/upload_images/employee_cv/*
+public/assets/upload_images/employee_images/*
+public/assets/upload_images/login_banner/*
+public/assets/upload_images/logo/*
+public/assets/upload_images/user_image/*
+public/assets/upload_images/student/*

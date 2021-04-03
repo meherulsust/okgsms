@@ -39,10 +39,10 @@
 <div class="box box-primary">
   <div class="box-header">
     <i class="fa fa-table"></i>
-    <h3 class="box-title">Section List</h3>
+    <h3 class="box-title">Form List</h3>
     <div class="box-tools pull-right">
       <a href="<?=$site_url;?>classes/add_section/<?=encode($id);?>">
-        <button class="btn btn-primary btn-xs" type="button"><i class='fa fa-plus'></i> Add Section</button>
+        <button class="btn btn-primary btn-xs" type="button"><i class='fa fa-plus'></i> Add Form</button>
         <a href="<?=$site_url . $active_controller;?>"><span class="btn btn-danger btn-xs">Cancel</span></a>
       </a>
     </div>

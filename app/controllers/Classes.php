@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 
 		//------------ for grid board ---------------//
-		$labels=array('title'=>'Section','version'=>'Version','class'=>'Class','room_number'=>'Room Number','custom_set_status'=>'Status');
+		$labels=array('title'=>'Form','version'=>'Version','class'=>'Class','room_number'=>'Room Number','custom_set_status'=>'Status');
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->sectionmodel->count_list();
@@ -167,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function add_section($id="")
 	{
-	  $head = array('page_title'=>'Add new section','link_title'=>'Section List','class_id'=>$id,'link_action'=>'Classes/view/'.$id);
+	  $head = array('page_title'=>'Add new Form','link_title'=>'Form List','class_id'=>$id,'link_action'=>'Classes/view/'.$id);
 	  $this->form_validation->set_rules($this->validate_section());
 	  $this->validation_error_msg();
 	  if ($this->form_validation->run() == FALSE)
@@ -186,9 +186,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  $data['created_by']  		= $this->session->userdata('admin_userid');
 		  $section_id = $this->sectionmodel->add($data);
 		  if($section_id){
-			  $this->session->set_flashdata('message',$this->tpl->set_message('add','Section'));
+			  $this->session->set_flashdata('message',$this->tpl->set_message('add','Form'));
 		  }else{
-			  $this->session->set_flashdata('message',$this->tpl->set_message('error','Section has not saved!.'));
+			  $this->session->set_flashdata('message',$this->tpl->set_message('error','Form has not saved!.'));
 		  }
 		  redirect('Classes/view/'.encode($data['class_id']));
 	  }
@@ -197,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   function edit_section($id="")
   {
 	$id = decode($id);  
-	$head = array('page_title'=>'Edit Section information','link_title'=>'Section List','link_action'=>'Classes/view/'.encode($id));	
+	$head = array('page_title'=>'Edit Form information','link_title'=>'Section List','link_action'=>'Classes/view/'.encode($id));	
 	  $class=$this->sectionmodel->get_record($id);							// get record
 	  $this->assign($class);  
 	  $this->form_validation->set_rules($this->validate_section());
@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  $data['status']			= $this->input->post('status');
 		  $data['updated_by']		= $this->session->userdata('admin_userid');
 		  $this->sectionmodel->edit($id,$data);   // Update data 
-		  $this->session->set_flashdata('message',$this->tpl->set_message('edit','section'));
+		  $this->session->set_flashdata('message',$this->tpl->set_message('edit','Form'));
 		  redirect('Classes/view/'.encode($data['class_id']));	
 	  }
   }
@@ -233,7 +233,7 @@ function del_section($id)
 	$id = decode($id);
 	$this->sectionmodel->del($id);
 	$status = 1;
-	$message = $this->tpl->set_message('delete','section');
+	$message = $this->tpl->set_message('delete','Form');
 	$array = array('status'=>$status,'message'=>$message);
 	echo json_encode($array);
 }
