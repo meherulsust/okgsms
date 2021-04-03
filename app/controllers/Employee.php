@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$login['username']       	= $this->input->post('username');
             $login['password']      	= $this->hash_password($this->input->post('password') ?$this->input->post('password') : 123456 );
 			$login['id_admin_group']	= $this->input->post('id_admin_group');
-			$login['firstname']			= $this->input->post('name');
+			$login['full_name']			= $this->input->post('name');
 			$login['email']				= $this->input->post('email');
 			$login['mobile']		    = $this->input->post('mobile_no');
 
@@ -186,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			$login['username']       	= $this->input->post('username');
 			$login['id_admin_group']	= $this->input->post('id_admin_group');
-			$login['firstname']			= $this->input->post('name');
+			$login['full_name']			= $this->input->post('name');
 			$login['email']				= $this->input->post('email');
 			$login['mobile']		    = $this->input->post('mobile_no');
 			if($this->input->post('password') !=''){
@@ -279,8 +279,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$row = $this->employeemodel->get_record($id);
 		$this->employeemodel->del($id);	
 		$status = 1;
-		//unlink($this->upload_dir()."employee_images/".$row['photo']);
-		//unlink($this->upload_dir()."employee_cv/".$row['cv_upload']);
+		unlink($this->upload_dir()."employee_images/".$row['photo']);
+		unlink($this->upload_dir()."employee_cv/".$row['cv']);
 		$message = $this->tpl->set_message('delete','Employee');
 		$array = array('status'=>$status,'message'=>$message);
 		echo json_encode($array);

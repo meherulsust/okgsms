@@ -24,7 +24,7 @@
 			<tr class="teaching_stuff">
 				<td>Username :</td>
 				<td>
-					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username'); ?> " autocomplete="new_username"/>
+					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username'); ?>" autocomplete="new-username"/>
 					<span class='error'>* <?php echo form_error('username'); ?></span>
 				</td>
 			</tr>
@@ -32,7 +32,7 @@
 			<tr class="teaching_stuff">
 				<td>Password :</td>
 				<td>
-					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>" autocomplete="new_pass"/>
+					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>" autocomplete="new-password"/>
 				</td>
 			</tr>
 			<tr class="teaching_stuff">
@@ -173,6 +173,7 @@
 
 <script>
 $(document).ready(function(){
+	$('.teaching_stuff').hide();
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
 			 $('.teaching_stuff').hide();

@@ -173,6 +173,7 @@
 
 <script>
 $(document).ready(function(){
+	$('.teaching_stuff').hide();
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
 			 $('.teaching_stuff').hide();

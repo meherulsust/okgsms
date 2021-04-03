@@ -36,7 +36,7 @@ class Api extends MT_Controller {
         
         if ($user) {
             $user['user_id'] = $user['id'];
-            $user['name'] = $user['firstname'] . '' . $user['lastname'];
+            $user['name'] = $user['full_name'] . '' . $user['full_name'];
         
             $user['status'] = 'success';
             $user['message'] = 'Login Successful.';

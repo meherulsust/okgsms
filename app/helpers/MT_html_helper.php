@@ -40,9 +40,9 @@
 			 $selected = is_array($selected)? $selected: array($selected); 	 
 			 foreach($opts as $val){
 			  if( in_array($val['id'],$selected))
-			  $html .= "<option  selected value=".$val['id'].">".$val['firstname']." ".$val['lastname']."</option>";
+			  $html .= "<option  selected value=".$val['id'].">".$val['full_name']."</option>";
 			  else
-			  $html .= "<option  value=".$val['id'].">".$val['firstname']." ".$val['lastname']."</option>"; 
+			  $html .= "<option  value=".$val['id'].">".$val['full_name']."</option>"; 
 		}
 			return $html;
 		}

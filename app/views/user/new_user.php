@@ -35,17 +35,11 @@
         </td>
       </tr>
       <tr>
-        <td>First Name :</td>
+        <td>Full Name :</td>
         <td>
-          <input name="firstname" type="text" class="form-control" value="<?=set_value('firstname');?>" required />
-          <span class='error'>* <?php echo form_error('firstname'); ?></span>
+          <input name="full_name" type="text" class="form-control" value="<?=set_value('full_name');?>" required />
+          <span class='error'>* <?php echo form_error('full_name'); ?></span>
 
-        </td>
-      </tr>
-      <tr>
-        <td>Last Name :</td>
-        <td>
-          <input name="lastname" type="text" class="form-control" value="<?=set_value('lastname');?>" />
         </td>
       </tr>
       <tr>

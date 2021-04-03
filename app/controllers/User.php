@@ -35,10 +35,10 @@ class User extends MT_Controller
         $this->tpl->set_js(array('jquery.statusmenu'));
         $head = array('page_title'=>'User list','link_title'=>'New User','link_action'=>'user/add');
         if( $this->tenant_id == 0 ){
-            $labels = array('username' => 'Username', 'full_name' => 'Full Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');
+            $labels = array('username' => 'Username', 'full_name' => 'Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');
             $this->assign('grid_action', array('view' => 'view', 'edit' => 'edit'));
         }else{
-            $labels = array('username' => 'Username', 'full_name' => 'Full Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');
+            $labels = array('username' => 'Username', 'full_name' => 'Name', 'email' => 'Email', 'admin_type' => 'Group', 'status' => 'Status');
             $this->assign('grid_action', array('details' => 'details','view' => 'view', 'edit' => 'edit'));
         }
         $this->assign('labels', $labels);
@@ -79,8 +79,7 @@ class User extends MT_Controller
         } else {
             $data['username']       = $this->input->post('username');
             $data['password']       = $this->hash_password($this->input->post('password'));
-            $data['firstname']      = $this->input->post('firstname');
-            $data['lastname']       = $this->input->post('lastname');
+            $data['full_name']      = $this->input->post('full_name');
             $data['email']          = $this->input->post('email');
             $data['mobile']         = $this->input->post('mobile');
             $data['address']        = $this->input->post('address');
@@ -126,7 +125,7 @@ class User extends MT_Controller
                 array('field' => 'username', 'label' => 'Username', 'rules' => 'trim|required|min_length[5]|max_length[20]|callback_duplicate_user_check[' . $user['username'] . ']'),
                 array('field' => 'id_admin_group', 'label' => 'Admin Group', 'rules' => 'required'),
                 array('field' => 'email', 'label' => 'Email', 'rules' => 'trim|required|valid_email|callback_duplicate_email_check[' . $user['email'] . ']'),
-                array('field' => 'firstname', 'label' => 'First Name', 'rules' => 'trim|required'),
+                array('field' => 'full_name', 'label' => 'Full Name', 'rules' => 'trim|required'),
                 array('field' => 'lastname', 'label' => 'Last Name', 'rules' => 'trim'),
                 array('field' => 'address', 'label' => 'Address', 'rules' => 'trim'),
                 array('field' => 'mobile', 'label' => 'Mobile number', 'rules' => 'trim|required'),
@@ -156,7 +155,7 @@ class User extends MT_Controller
                 $this->load->view('user/edit_user',$head);
             } else {
                 $data['username']        = $this->input->post('username');
-                $data['firstname']       = $this->input->post('firstname');
+                $data['full_name']      = $this->input->post('full_name');
                 $data['lastname']        = $this->input->post('lastname');
                 $data['email']           = $this->input->post('email');
                 $data['mobile']          = $this->input->post('mobile');
@@ -271,7 +270,7 @@ class User extends MT_Controller
             array('field' => 'confirm_password', 'label' => 'Confirmation', 'rules' => 'trim|required'),
             array('field' => 'id_admin_group', 'label' => 'Admin Group', 'rules' => 'trim|required'),
             array('field' => 'email', 'label' => 'Email', 'rules' => 'trim|required|valid_email|callback_duplicate_email_check'),
-            array('field' => 'firstname', 'label' => 'First Name', 'rules' => 'trim|required'),
+            array('field' => 'full_name', 'label' => 'Full Name', 'rules' => 'trim|required'),
             array('field' => 'lastname', 'label' => 'Last Name', 'rules' => 'trim'),
             array('field' => 'address', 'label' => 'Address', 'rules' => 'trim'),
             array('field' => 'mobile', 'label' => 'Mobile number', 'rules' => 'trim|required'),

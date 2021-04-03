@@ -23,7 +23,7 @@ class Usermodel extends MT_Model
 
     public function get_list()
     {
-        $this->db->select('ad.id,ad.username, CONCAT(ad.firstname," ",ad.lastname) as full_name,ad.email,ag.title admin_type,t.title as tenant,ad.status', false);
+        $this->db->select('ad.id,ad.username,full_name,ad.email,ag.title admin_type,t.title as tenant,ad.status', false);
         $this->db->from('admins ad');
         $this->db->join('admin_group ag', 'ag.id = ad.id_admin_group', 'left');
         $this->db->join('tenant t', 't.id = ad.tenant_id', 'left');
@@ -65,7 +65,7 @@ class Usermodel extends MT_Model
 
     public function get_admin_details($id)
     {
-        $this->db->select('ad.username,email,mobile,image,address,ad.status,CONCAT(ad.firstname," ",ad.lastname) as full_name,ag.title admin_type', false);
+        $this->db->select('ad.username,email,mobile,image,address,ad.status,ad.full_name,ag.title admin_type', false);
         $this->db->from('admins ad');
         $this->db->join('admin_group ag', 'ag.id = ad.id_admin_group', 'left');
         $this->db->where('ad.id', $id);

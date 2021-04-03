@@ -55,7 +55,7 @@ class Loginmodel extends MT_Model
         $userid = $this->session->userdata('admin_userid');
         $username = $this->session->userdata('admin_username');
         $admin_group_id = $this->session->userdata('admin_group_id');
-        $this->db->select('a.id,id_admin_group, a.username, a.firstname,ag.title admin_type,a.lastname,a.email,a.address, a.mobile,a.status');
+        $this->db->select('a.id,id_admin_group, a.username, a.full_name,ag.title admin_type,a.lastname,a.email,a.address, a.mobile,a.status');
         $this->db->from('admins a');
         if($tenant_id !='0'){
             $this->db->join('tenant t', 't.id = a.tenant_id', 'left');

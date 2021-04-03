@@ -45,7 +45,7 @@
               <i><img
                   src="<?php echo $upload_url; ?>user_image/<?php echo ($this->session->userdata('image')) ? $this->session->userdata('image') : 'default.png'; ?>"
                   class="img-circle" width="15" alt="User Image" /></i>
-              <span><?= $userdata['firstname'] . ' ' . $userdata['lastname']; ?> <i class="caret"></i></span>
+              <span><?= $userdata['full_name']; ?> <i class="caret"></i></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -54,7 +54,7 @@
                   src="<?= $upload_url; ?>user_image/<?php echo ($this->session->userdata('image')) ? $this->session->userdata('image') : 'default.png'; ?>"
                   class="img-circle" alt="User Image" />
                 <p>
-                  <?php echo $userdata['firstname'] . ' ' . $userdata['lastname']; ?>
+                  <?php echo $userdata['full_name'] ; ?>
                   <small><?php echo $userdata['admin_type']; ?></small>
                 </p>
               </li>

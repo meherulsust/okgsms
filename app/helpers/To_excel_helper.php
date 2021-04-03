@@ -22,10 +22,8 @@ $ths = array('Applicant Number','Applicant Start date','Applicant End date','Ref
 'Previous Employment End date','Previous Employment Employer','Previous Employment City','Previous Employment Country','Previous Employment Work',	
 'Previous Company Industry','Previous Employment Desigination',	'Training Start Date','Training End Date','Training','Training Topic','Training Insituate',
 'Training  Country','Training Location','Training  Year','Training Duration','Training Units','Communication Start Date','Communication End date',
-'Applicant Mail ID/Email ID');//nirjhar___11-oct-2012
+'Applicant Mail ID/Email ID');
 
- //   $ths = array('User ID','firstname-Adreess','Experience','Education','Age','E Salary','Mobile',''); 
-	//$data = '';
 
      if(sizeof($result_rows) == -1) 
 		{
