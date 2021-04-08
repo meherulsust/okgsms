@@ -23,6 +23,7 @@
 		parent::__construct();
 		// get subdomain
 		$subdomain = explode('.', $_SERVER['HTTP_HOST'], 2); 
+		echo $subdomain;
 		$this->subdomain = $subdomain[0];
 		//$this->output->enable_profiler(TRUE);
  		$this->load->library('template','','tpl');
