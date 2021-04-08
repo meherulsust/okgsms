@@ -83,5 +83,32 @@ class Optionmodel extends MT_Model
  		return $this->get_assoc(); 
  	}
 
+    function class_options()
+ 	{
+ 		$this->db->select('id,title');
+ 		$this->db->from('class');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}
+
+    function section_options()
+ 	{
+ 		$this->db->select('id,title');
+ 		$this->db->from('section');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}
+     
+     function student_type_options()
+ 	{
+ 		$this->db->select('id,title');
+ 		$this->db->from('student_type');
+		$this->db->where('status','ACTIVE');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}  
+
 
 }

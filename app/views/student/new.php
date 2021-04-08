@@ -46,7 +46,7 @@
 				<td>
 				<select class="form-control" name="id_admin_group" id ="id_admin_group">
 					<option value="">---- Select Group ----</option>
-					<?php echo html_options($admin_group_options, set_value('id_admin_group','4')); ?>
+					<?php echo html_options($admin_group_options, set_value('id_admin_group')); ?>
 				</select>
 				<span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
 				</td>

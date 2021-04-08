@@ -10,43 +10,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -----------------------------------------------------
 | COPYRIGHT             : Md.Meherul Islam
 | -----------------------------------------------------
-| WEBSITE				:			
+| WEBSITE				:http://aimictacademy.com/		
 | -----------------------------------------------------
 */
- class Employee extends MT_Controller
+ class Student extends MT_Controller
  {
  	 function __construct()
  	 {
  	 	parent::__construct();
 		
- 	 	$this->load->model(array('employeemodel'));
+ 	 	$this->load->model(array('studentmodel'));
 		$this->tpl->set_css(array('datepicker/datepicker'));
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
-		$this->tpl->set_page_title('Employee List');
+		$this->tpl->set_page_title('Student List');
 		$status_options = array('Active'=>'Active','Inactive'=>'Inactive');
 		$religion_options = $this->optionmodel->religion_options();	
 		$blood_group_options = $this->optionmodel->blood_group_options();
 		$gender_options = array('Male'=>'Male','Female'=>'Female','Others'=>'Others'); 		
 		$this->assign('gender_options',$gender_options);
-		$category_options = array('1'=>'Teaching Stuff','2'=>'Non-Teaching Stuff'); 
-		$admin_group_options = $this->optionmodel->group_option(); // get admin group list
-        $this->assign('admin_group_options', $admin_group_options);
-		$this->assign('category_options',$category_options);
+		$class_options = $this->optionmodel->class_options();; 		
+		$this->assign('class_options',$class_options);
+		$section_options = $this->optionmodel->section_options();; 		
+		$this->assign('section_options',$section_options);
+		$student_type_options = $this->optionmodel->student_type_options();; 		
+		$this->assign('student_type_options',$student_type_options);
 		$this->assign('religion_options',$religion_options);
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);
     }
   	function index($sort_type='asc',$sort_on='id')
   	{
-		$data['username'] = $this->input->post('username');
+		$data['id_no'] = $this->input->post('id_no');
         $data['mobile_no'] = $this->input->post('mobile_no');
         $this->load->library('search');
         $search_data = $this->search->data_search($data);
 		$this->tpl->set_js(array('jquery.statusmenu'));
-		$head = array('page_title'=>'Employee List','link_title'=>'New Employee','link_action'=>'Employee/add');
-  	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Mobile','status'=>'Status');
+		$head = array('page_title'=>'Student List','link_title'=>'New Student','link_action'=>'Student/add');
+  	    $labels=array('id_no'=>'Student No','name'=>'Full Name','class'=>'Class','section'=>'Section','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
-		$config['total_rows'] = $this->employeemodel->count_list($search_data);
+		$config['total_rows'] = $this->studentmodel->count_list($search_data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on']=$sort_on;
@@ -57,9 +59,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
 		}
 		$this->set_pagination($config);
-  		$teachers=$this->employeemodel->get_list($search_data);
+  		$teachers=$this->studentmodel->get_list($search_data);
   		$this->assign('records',$teachers);
-  		$this->load->view('employee/list',$head);
+  		$this->load->view('student/list',$head);
   	}
 	
 	
@@ -68,23 +70,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$id = decode($id);
 		if($id=='')
 		{
-			redirect('Employee');
+			redirect('Student');
 		}
-		$head = array('page_title'=>'New Employee','link_title'=>'Employee List','link_action'=>'Employee/index');
-		$row=$this->employeemodel->get_record($id);							// get record
+		$head = array('page_title'=>'New Student','link_title'=>'Student List','link_action'=>'Student/index');
+		$row=$this->studentmodel->get_record($id);							// get record
 		$this->assign($row); 
-		$this->load->view('employee/view',$head);
+		$this->load->view('student/view',$head);
 	}
 	
   	function add()
   	{
-		$head = array('page_title'=>'New Employee','link_title'=>'Employee List','link_action'=>'Employee/index');
+		$head = array('page_title'=>'New Student','link_title'=>'Student List','link_action'=>'Student/index');
 		$this->form_validation->set_rules($this->validate());
 		$this->validation_error_msg(); 
 
 		if ($this->form_validation->run() == FALSE)
 		{			
-			$this->load->view('employee/new',$head);			
+			$this->load->view('student/new',$head);			
 		}
 		else
 		{
@@ -136,32 +138,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				
 				if($this->upload->display_errors()){
-					$head = array('page_title'=>'Add Employee','link_title'=>'Employee List','link_action'=>'Employee/index');
+					$head = array('page_title'=>'Add Student','link_title'=>'Student List','link_action'=>'Student/index');
 					$this->assign($upload_error);
-					$this->load->view('employee/add',$head);	
+					$this->load->view('student/add',$head);	
 				}
 				else{
 					if($data['category_id']=='1'){
-						$result = $this->employeemodel->add_user($login);
+						$result = $this->studentmodel->add_user($login);
 						$data['admin_id'] = $result; 
-						$this->employeemodel->add($data);
+						$this->studentmodel->add($data);
 					}else{
-						$this->employeemodel->add($data);
+						$this->studentmodel->add($data);
 					}
-					$this->session->set_flashdata('message', $this->tpl->set_message('add', 'Employee'));
-					redirect('Employee');	
+					$this->session->set_flashdata('message', $this->tpl->set_message('add', 'Student'));
+					redirect('Student');	
 				}
 			
 			}else{
 				if($data['category_id']=='1'){
-					$result = $this->employeemodel->add_user($login);
+					$result = $this->studentmodel->add_user($login);
 					$data['admin_id'] = $result; 
-					$this->employeemodel->add($data);
+					$this->studentmodel->add($data);
 				}else{
-					$this->employeemodel->add($data);
+					$this->studentmodel->add($data);
 				}
-				$this->session->set_flashdata('message',$this->tpl->set_message('add','Employee'));
-				redirect('Employee');
+				$this->session->set_flashdata('message',$this->tpl->set_message('add','Student'));
+				redirect('Student');
 				 		
 			}
 			
@@ -171,8 +173,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function edit($id)
 	{
 		$id = decode($id);
-		$head = array('page_title'=>'Edit Employee','link_title'=>'Employee List','link_action'=>'Employee/index');
-		$row=$this->employeemodel->get_record($id);							// get record
+		$head = array('page_title'=>'Edit Student','link_title'=>'Student List','link_action'=>'Student/index');
+		$row=$this->studentmodel->get_record($id);							// get record
 		$this->form_validation->set_rules($this->validate($row));
 		$this->validation_error_msg(); 		
 		$admin_id = $row['admin_id'];
@@ -180,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->load->view('employee/edit',$head);
+			$this->load->view('student/edit',$head);
 		}
 		else
 		{
@@ -239,29 +241,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				
 				if($this->upload->display_errors()){
-					$head = array('page_title'=>'Edit Employee','link_title'=>'Employee List','link_action'=>'Employee/index');
+					$head = array('page_title'=>'Edit Student','link_title'=>'Student List','link_action'=>'Student/index');
 					$this->assign($upload_error);
-					$this->load->view('employee/edit',$head);	
+					$this->load->view('student/edit',$head);	
 				}
 				else{
 					if($data['category_id']=='1'){
-						$this->employeemodel->edit_user($admin_id,$login);
-						$this->employeemodel->edit($id,$data);
+						$this->studentmodel->edit_user($admin_id,$login);
+						$this->studentmodel->edit($id,$data);
 					}else{
-						$this->employeemodel->edit($id,$data);
+						$this->studentmodel->edit($id,$data);
 					}
-					$this->session->set_flashdata('message', $this->tpl->set_message('edit', 'Employee'));
-					redirect('Employee');	
+					$this->session->set_flashdata('message', $this->tpl->set_message('edit', 'Student'));
+					redirect('Student');	
 				}
 			
 			}else{
 				if($data['category_id']=='1'){
-					$this->employeemodel->edit_user($admin_id,$login);
-					$this->employeemodel->edit($id,$data);
+					$this->studentmodel->edit_user($admin_id,$login);
+					$this->studentmodel->edit($id,$data);
 				}else{
-					$this->employeemodel->edit($id,$data);
+					$this->studentmodel->edit($id,$data);
 				}
-				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Employee'));
+				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Student'));
 				redirect('Employee');
 				 		
 			}
@@ -270,14 +272,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function set_status($id,$val)
 	{
-		echo $this->status_change($id,$val,'employeemodel','change_status'); //model name 'usermdoel' method name 'change_status'
+		echo $this->status_change($id,$val,'studentmodel','change_status'); //model name 'usermdoel' method name 'change_status'
 	}
 
 	function del($id)
 	{
 		$id = decode($id);
-		$row = $this->employeemodel->get_record($id);
-		$this->employeemodel->del($id);	
+		$row = $this->studentmodel->get_record($id);
+		$this->studentmodel->del($id);	
 		$status = 1;
 		unlink($this->upload_dir()."employee_images/".$row['photo']);
 		unlink($this->upload_dir()."employee_cv/".$row['cv']);

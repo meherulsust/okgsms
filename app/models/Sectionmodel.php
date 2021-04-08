@@ -22,21 +22,25 @@
  		
  	}
  	 	 	
- 	function get_list()
+ 	function get_list($id)
  	{ 		
 		$this->db->select('se.*,vl.title as version,cl.title as class, se.status as custom_set_status');		
  	 	$this->db->from('section se');
 		$this->db->join('version_list vl','vl.id = se.version_id','left');
 		$this->db->join('class cl','cl.id = se.class_id','left');
+		$this->db->where('se.class_id',$id);
 		$rs=$this->db->get(); 	    
 		$section=$rs->result_array(); 	    
 		return $section;
  	}
  	
- 	function count_list()
+ 	function count_list($id)
  	{
- 		$this->db->select("count(id) num");
-		$this->db->from('section');
+ 		$this->db->select("count(se.id) num");
+		 $this->db->from('section se');
+		 $this->db->join('version_list vl','vl.id = se.version_id','left');
+		 $this->db->join('class cl','cl.id = se.class_id','left');
+		 $this->db->where('se.class_id',$id);
  		return $this->get_one();
  	}
  	

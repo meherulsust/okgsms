@@ -148,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$labels=array('title'=>'Form','version'=>'Version','class'=>'Class','room_number'=>'Room Number','custom_set_status'=>'Status');
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$this->assign('labels',$labels);
-		$config['total_rows'] = $this->sectionmodel->count_list();
+		$config['total_rows'] = $this->sectionmodel->count_list($id);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on']='id';
@@ -159,7 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('grid_action',array('edit'=>'edit_section'));	
 		}
 		$this->set_pagination($config);
-		$section=$this->sectionmodel->get_list();
+		$section=$this->sectionmodel->get_list($id);
 		$this->assign('records',$section);		
 		$this->load->view('class/view',$head);
 	}

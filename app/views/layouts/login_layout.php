@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link href="<?=isset($tenant_info['favicon']) ? $upload_url.'logo/'.$tenant_info['favicon']: $upload_url.'logo/default_favicon.ico'; ?>" rel="shortcut icon" width="16"/>
-  <title><?= isset($tenant_info['title'])?$tenant_info['title']:'AIID' ?> Admin Panel</title>
+  <link href="<?=isset($tenant_info['favicon']) ? $upload_url.'logo/'.$tenant_info['favicon']: $upload_url.'logo/favicon.png'; ?>" rel="shortcut icon" width="16"/>
+  <title><?= isset($tenant_info['title'])?$tenant_info['title']:'OKGS' ?> Admin Panel</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <link href="<?php echo $css_url; ?>bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="<?php echo $css_url; ?>font-awesome.min.css" rel="stylesheet" type="text/css" />

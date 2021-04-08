@@ -20,7 +20,7 @@
  	 	 	
  	function get_list($data)
  	{ 		
-		$this->db->select('em.*,a.username,password,id_admin_group',false);		
+		$this->db->select('em.*,a.username,a.password,id_admin_group',false);		
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
 		if($data['username'] !='')

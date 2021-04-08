@@ -1,0 +1,107 @@
+<?php
+/*
+| -----------------------------------------------------
+| AUTHOR	:Md.Meherul Islam
+| -----------------------------------------------------
+| EMAIL		:meherulsust@gmail.com
+| -----------------------------------------------------
+| COPYRIGHT :aimictacademy
+| -----------------------------------------------------
+| WEBSITE	:http://aimictacademy.com/			
+| -----------------------------------------------------
+*/
+ class Studentmodel extends MT_Model
+ {
+ 	function __construct()
+ 	{
+ 		parent::__construct();
+ 		
+ 	}
+ 	 	 	
+ 	function get_list($data)
+ 	{ 		
+		$this->db->select('sl.*,c.title as class,se.title as section',false);		
+ 	 	$this->db->from('student_list sl');
+		$this->db->join('admins a', 'a.id =sl.created_by', 'left');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+		$this->db->join('section se', 'se.id =sl.section_id', 'left');
+		$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
+		$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
+		$this->db->join('religion re', 're.id =sl.religion_id', 'left');
+		if($data['id_no'] !='')
+			{
+				$this->db->where('sl.id_no',$data['id_no']);
+			}
+		if($data['mobile_no'] !='')
+			{
+				$this->db->where('sl.mobile_no',$data['mobile_no']);
+			}
+		$rs=$this->db->get(); 	    
+		$teachers=$rs->result_array(); 	    
+		return $teachers;
+ 	}
+	
+	function count_list($data)
+ 	{
+ 		$this->db->select('sl.id');	
+		$this->db->from('student_list sl');
+		$this->db->join('admins a', 'a.id =sl.created_by', 'left');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+		$this->db->join('section se', 'se.id =sl.section_id', 'left');
+		$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
+		$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
+		$this->db->join('religion re', 're.id =sl.religion_id', 'left');
+		if($data['id_no'] !='')
+			{
+				$this->db->where('sl.id_no',$data['id_no']);
+			}
+		if($data['mobile_no'] !='')
+			{
+				$this->db->where('sl.mobile_no',$data['mobile_no']);
+			}
+		$rs=$this->db->get();	    
+		$teachers=$rs->num_rows();		
+ 		return $teachers;
+ 	}
+ 	
+ 	
+	function add($data)
+ 	{ 		
+		$this->db->insert('student_list',$data);
+ 		return $this->db->insert_id();
+ 	}
+	 
+	
+ 	function edit($id='',$data)
+ 	{
+ 		return $this->db->update('student_list',$data,array('id'=>$id));
+ 	}
+
+ 	function get_record($id)
+ 	{
+		$this->db->select('sl.*,c.title as class,se.title as section',false);		
+		$this->db->from('student_list sl');
+	  	$this->db->join('admins a', 'a.id =sl.created_by', 'left');
+	  	$this->db->join('class c', 'c.id =sl.class_id', 'left');
+	 	 $this->db->join('section se', 'se.id =sl.section_id', 'left');
+	  	$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
+	  	$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
+	  	$this->db->join('religion re', 're.id =sl.religion_id', 'left');	
+ 		$this->db->where('sl.id',$id);
+ 		return $this->get_row();
+ 	}
+	
+ 	function change_status($id,$val)
+ 	{
+ 	   $this->db->where('id',$id);
+ 	   $this->db->update('student_list',array('status'=>strtoupper($val)));	
+ 	}
+ 	
+ 	function del($id)
+ 	{
+		$this->db->delete('student_list',array('id'=>$id)); 		
+ 	}
+		
+ 	
+ }
+ 
