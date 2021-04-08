@@ -48,7 +48,7 @@ class Login extends MT_Controller
             }
             if (!empty($user)) {
                 if (!empty($home)) {
-                    echo $this->subdomain;
+                    echo $this->subdomain;exit;
                     if($this->subdomain !='' AND $user['id_admin_group']!=1){
                         $status = 1; // tenant admin
                         $this->session_set();
