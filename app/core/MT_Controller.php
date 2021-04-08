@@ -24,7 +24,6 @@
 		// get subdomain
 		$subdomain = explode('.', $_SERVER['HTTP_HOST'], 2); 
 		$this->subdomain = $subdomain[0];
-		echo $subdomain[0];
 		//$this->output->enable_profiler(TRUE);
  		$this->load->library('template','','tpl');
  		$this->load->helper(array('text','date'));
