@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   	function index($sort_type='desc',$sort_on='id')
 	
   	{
-  	    $labels=array('name'=>'School Name','establish_date'=>'Establish Date');
+  	    $labels=array('name'=>'School Name','address1'=>'Address','description'=>'Description','establish_date'=>'Establish Date');
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->schoolmodel->count_list(); 
 		$config['uri_segment'] = 6;

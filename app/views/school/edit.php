@@ -41,7 +41,12 @@
 			<tr>				
 				<td>Logo :</td>
 				<td>
-					<input name="logo" type="file" class='form-control'/> [Size (200 X 200)]
+					<input name="logo" type="file" class='form-control'/>
+					<?php
+					if(!empty($logo)) : ?>
+						<img src="<?=$upload_url.'logo/'.$logo ;?>"  width="120">
+					<?php endif; ?>  
+					[Size (220 X 50)]
 					<span class='error'></span> <?php if(!empty($upload_error)) echo $upload_error; ?>
 				</td>
 			</tr>
