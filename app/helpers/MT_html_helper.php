@@ -235,3 +235,21 @@
  		
 	 }
 
+	if ( ! function_exists('current_datetime_bd')){
+		function current_datetime_bd()
+		{
+			$timezone = "Asia/Dhaka";
+			if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);	
+			return date("Y-m-d h:i:s");
+		}
+	}
+
+	if ( ! function_exists('current_date_bd')){
+		function current_date_bd()
+		{
+			$timezone = "Asia/Dhaka";
+			if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);	
+			return date("Y-m-d");
+		}
+	}
+

@@ -130,21 +130,21 @@
 			<tr>				
 				<td>Employee Picture :</td>
 				<td>
-					<input name="photo" type="file" class='form-control'/> [Size (300 X 300)]
+					<input name="photo" type="file" class='form-control'/> [jpeg,png Size (300 X 300)]
 					<span class='error'> <?=(isset($error_photo))? $error_photo :''; ?></span>
 				</td>
 			</tr>
 			<tr>				
 				<td>Uplaod CV :</td>
 				<td>
-					<input name="cv" type="file" class='form-control'/> [Max Size (3M)]
+					<input name="cv" type="file" class='form-control'/> [docs,pdf Max Size (3M)]
 					<span class='error'> <?=(isset($error_cv))? $error_cv :''; ?></span>
 				</td>
 			</tr>
 			<tr>
 				<td>Joining  Date :</td>
 				<td>
-					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date'); ?>" required autocomplete="off"/>
+					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date',current_date_bd()); ?>" required autocomplete="off"/>
 					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
 					<span class="error">* <?php echo form_error('join_date'); ?></span>
 				</td>
@@ -179,12 +179,12 @@
 
 <script>
 $(document).ready(function(){
+	
 	$('.teaching_stuff').hide();
-	if($('#category_id').val() == '2') {
-			 $('.teaching_stuff').hide();
-		}else{
-			 $('.teaching_stuff').show();
+	if($('#category_id').val() == '1') {
+		$('.teaching_stuff').show();
 	}
+			
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
 			 $('.teaching_stuff').hide();

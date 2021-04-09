@@ -180,11 +180,11 @@
 <script>
 $(document).ready(function(){
 	$('.teaching_stuff').hide();
-	if($('#category_id').val() == '2') {
-			 $('.teaching_stuff').hide();
-		}else{
-			 $('.teaching_stuff').show();
+	
+	if($('#category_id').val() == '1') {
+		$('.teaching_stuff').show();
 	}
+
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
 			 $('.teaching_stuff').hide();
