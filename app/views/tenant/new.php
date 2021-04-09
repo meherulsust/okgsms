@@ -41,16 +41,6 @@
         </td>
       </tr>
       <tr>
-          <td>Country Name:</td>
-          <td>
-            <select class="form-control" name="country_id">
-              <option value="">---- Select Country ----</option>
-              <?php echo html_options($country_options, set_value('country_id')); ?>
-            </select>
-            <span class='error'>* <?php echo form_error('country_id'); ?></span>
-          </td>
-      </tr>
-      <tr>
         <td>Status :</td>
         <td>
           <select class="form-control" name="status" required>

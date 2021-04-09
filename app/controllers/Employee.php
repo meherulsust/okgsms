@@ -95,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$login['email']				= $this->input->post('email');
 			$login['mobile']		    = $this->input->post('mobile_no');
 
+			$data['email']				= $this->input->post('email');
 			$data['name']			    = $this->input->post('name');
 			$data['category_id']		= $this->input->post('category_id');
 			$data['designation']		= $this->input->post('designation');
@@ -192,6 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			if($this->input->post('password') !=''){
 				$login['password']      	= $this->hash_password($this->input->post('password'));
 			}
+			$data['email']				= $this->input->post('email');
 			$data['name']			    = $this->input->post('name');
 			$data['category_id']		= $this->input->post('category_id');
 			$data['designation']		= $this->input->post('designation');
@@ -288,7 +290,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	private function validate($row=''){
         $config1 = array(
-			array('field'=>'name','label'=>'Name','rules'=>'trim|required|min_length[5]|max_length[20]'),
+			array('field'=>'name','label'=>'Name','rules'=>'trim|required|min_length[5]|max_length[40]'),
 			array('field'=>'category_id','label'=>'Category','rules'=>'trim|required'),
 			array('field'=>'designation','label'=>'Designation','rules'=>'trim|required'),  
 			array('field'=>'dob','label'=>'Date of Birth','rules'=>'trim|required'),  
@@ -307,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		if(!empty($row)){
 			$config2 = array(
-				array('field'=>'username','label'=>'Username','rules'=>'trim|required|min_length[4]|max_length[20]|callback_duplicate_teacher_check[' . $row['username'] . ']'),
+				array('field'=>'username','label'=>'Username','rules'=>'trim|required|min_length[4]|max_length[40]|callback_duplicate_teacher_check[' . $row['username'] . ']'),
 				array('field'=>'email','label'=>'Email','rules'=>'trim|required|valid_email|callback_duplicate_email_check[' . $row['email'] . ']'),
 				array('field'=>'password','label'=>'Password','rules'=>'trim'),
 				array('field'=>'id_admin_group','label'=>'Group','rules'=>'trim'),
@@ -336,7 +338,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	function duplicate_email_check($str,$param='')
     {
-		$query = $this->db->query("SELECT id FROM sms_admins where email='$str' AND email<>'$param'");
+		$query = $this->db->query("SELECT id FROM sms_employee where email='$str' AND email<>'$param'");
        if($query->num_rows()>0)
        {
           $this->form_validation->set_message('duplicate_email_check', "%s <span style='color:green;'>$str</span> already exists");

@@ -180,13 +180,19 @@
 <script>
 $(document).ready(function(){
 	$('.teaching_stuff').hide();
+	if($('#category_id').val() == '2') {
+			 $('.teaching_stuff').hide();
+		}else{
+			 $('.teaching_stuff').show();
+	}
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
 			 $('.teaching_stuff').hide();
 		}else{
 			 $('.teaching_stuff').show();
 		}
-	});
+	}); 
+	
 	$('.calander').datepicker({
 		format: 'yyyy-mm-dd',
 		autoclose: true

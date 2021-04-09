@@ -23,15 +23,13 @@ class Tenant extends MT_Controller
 		$this->tpl->set_page_title('Tenant');
 		$status_option = array('Active' => 'Active', 'Pending' => 'Pending','Inactive' => 'Inactive');
 		$this->assign('status_options', $status_option);
-		$country_options = $this->optionmodel->country_option(); // get tenant list
-        $this->assign('country_options', $country_options);
  	 }
 	 
 	public function index($sort_type = 'desc', $sort_on = 'id')
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tenant List','link_title'=>'New Tenant','link_action'=>'Tenant/add');
-		$labels = array('country' => 'Country','title' => 'Tenant Name','subdomain'=>'Subdomain','email' => 'Email','contact_number' => 'Contact Number','status' => 'Status');
+		$labels = array('title' => 'Tenant Name','subdomain'=>'Subdomain','email' => 'Email','contact_number' => 'Contact Number','status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->tenantmodel->count_list();
 		$config['uri_segment'] = 6;
@@ -58,7 +56,6 @@ class Tenant extends MT_Controller
 				$data['contact_number'] = $this->input->post('contact_number');
 				$data['status']		    = $this->input->post('status');
 				$data['email'] 	 		= $this->input->post('email');
-				$data['country_id'] 	= $this->input->post('country_id');
 				$data['created_at']	    = $this->current_date();
 				$data['created_by'] 	= $this->session->userdata('admin_userid');
 				$this->tenantmodel->add($data);
@@ -85,7 +82,6 @@ class Tenant extends MT_Controller
 				$data['contact_number'] = $this->input->post('contact_number');
 				$data['status']		    = $this->input->post('status');
 				$data['email'] 	 		= $this->input->post('email');
-				$data['country_id'] 	= $this->input->post('country_id');
 				$data['updated_at']	    = $this->current_date();
 				$data['updated_by'] 	= $this->session->userdata('admin_userid');
 				$this->tenantmodel->edit($id,$data);
@@ -212,8 +208,7 @@ class Tenant extends MT_Controller
 				array('field'=>'email','label'=>'email','rules'=>'trim|required'),
 				array('field'=>'contact_number','label'=>'Contact number','rules'=>'trim|required'),
 				array('field'=>'status','label'=>'Status','rules'=>'trim|required'),
-				array('field'=>'subdomain','label'=>'Subdomain','rules'=>'trim|required'),
-				array('field'=>'country_id','label'=>'Country','rules'=>'trim|required')			
+				array('field'=>'subdomain','label'=>'Subdomain','rules'=>'trim|required')		
         );
         return $config;
     }

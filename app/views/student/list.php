@@ -1,7 +1,7 @@
 <form id="ajax_submit" role="form" action="<?=$site_url.$active_controller.'/'.$this->method;?>" method="post">
 	<div class="box box-primary">	
         <div class="box-header">
-            <i class="fa fa-search"></i><h3 class="box-title">Search Employee</h3>
+            <i class="fa fa-search"></i><h3 class="box-title">Search Student</h3>
         </div>	
         <table class="search_form_table">
             <tr>                

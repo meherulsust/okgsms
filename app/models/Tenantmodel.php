@@ -22,9 +22,9 @@ class Tenantmodel extends MT_Model
    
     public function get_list()
     {
-        $this->db->select('te.*,cr.country');
+        $this->db->select('te.*');
         $this->db->from('tenant te');
-        $this->db->join('country cr', 'cr.id = te.country_id', 'left');
+     
         $rs = $this->db->get();
         return $rs->result_array();
     }
