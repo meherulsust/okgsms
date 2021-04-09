@@ -23,6 +23,7 @@
 		$this->db->select('em.*,a.username,a.password,id_admin_group',false);		
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
+		$this->db->join('subject su', 'su.id =em.subject_id', 'left');
 		if($data['username'] !='')
 		{
 			$this->db->where('a.username',$data['username']);
@@ -41,6 +42,7 @@
  		$this->db->select('em.id');	
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
+		$this->db->join('subject su', 'su.id =em.subject_id', 'left');
 		if($data['username'] !='')
 		{
 			$this->db->where('a.username',$data['username']);
@@ -81,8 +83,9 @@
 
  	function get_record($id)
  	{
-		$this->db->select('em.*,a.username,a.id_admin_group,a.email',false);	
+		$this->db->select('em.*,a.username,a.id_admin_group,su.title as relevant_subject',false);	
 		$this->db->from('employee em');
+		$this->db->join('subject su', 'su.id =em.subject_id', 'left');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');	
  		$this->db->where('em.id',$id);
  		return $this->get_row();

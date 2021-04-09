@@ -63,7 +63,11 @@
 			<tr class="teaching_stuff">
 				<td>Relevant Subject :</td>
 				<td>
-					<input name="relevant_subject" id="relevant_subject" type="text" class="form-control" value="<?=set_value('relevant_subject',$relevant_subject); ?>" />
+				<select class="form-control" name="subject_id" id ="subject_id">
+					<option value="">---- Select Relevant Subject ----</option>
+					<?php echo html_options($subject_options, set_value('subject_id',$subject_id)); ?>
+				</select>
+				<span class='error'>* <?php echo form_error('subject_id'); ?></span>
 				</td>
 			</tr>
 			<tr>
