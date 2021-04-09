@@ -80,10 +80,10 @@
       </section>
     </aside>
     <aside class="right-side">
-      <!-- <div class="loading">
+      <div class="loading"><!--For loader-->
         <div class="overlay"></div>
         <div class="loading-img"></div>
-      </div> -->
+      </div>
       <section class="content">
         <?php echo $content_for_layout; ?>
       </section>

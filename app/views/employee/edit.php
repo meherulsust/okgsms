@@ -27,7 +27,7 @@
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
-			<tr class="teaching_stuff">
+			<tr class="teaching_staff">
 				<td>Username :</td>
 				<td>
 					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username',$username); ?>" />
@@ -35,13 +35,13 @@
 				</td>
 			</tr>
 			
-			<tr class="teaching_stuff">
+			<tr class="teaching_staff">
 				<td>Password :</td>
 				<td>
 					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>"/>
 				</td>
 			</tr>
-			<tr class="teaching_stuff">
+			<tr class="teaching_staff">
 				<td>Group :</td>
 				<td>
 				<select class="form-control" name="id_admin_group" id ="id_admin_group">
@@ -60,7 +60,7 @@
 					
 				</td>
 			</tr>
-			<tr class="teaching_stuff">
+			<tr class="teaching_staff">
 				<td>Relevant Subject :</td>
 				<td>
 				<select class="form-control" name="subject_id" id ="subject_id">
@@ -110,7 +110,7 @@
 				</td>
 			</tr>
 			
-			<tr class="teaching_stuff">
+			<tr class="teaching_staff">
 				<td>Email :</td>
 				<td>
 					<input name="email" type="text" class="form-control" value="<?=set_value('email',$email); ?>" />     
@@ -183,17 +183,17 @@
 
 <script>
 $(document).ready(function(){
-	$('.teaching_stuff').hide();
+	$('.teaching_staff').hide();
 	
 	if($('#category_id').val() == '1') {
-		$('.teaching_stuff').show();
+		$('.teaching_staff').show();
 	}
 
 	$('#category_id').change(function(){
 		if($('#category_id').val() == '2') {
-			 $('.teaching_stuff').hide();
+			 $('.teaching_staff').hide();
 		}else{
-			 $('.teaching_stuff').show();
+			 $('.teaching_staff').show();
 		}
 	}); 
 	

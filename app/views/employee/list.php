@@ -5,10 +5,13 @@
         </div>	
         <table class="search_form_table">
             <tr>                
-                <td>Username :</td>
+                <td>Employee Type :</td>
                 <td>
-                    <input name="username" class="form-control" type="text" value="<?= set_value('username'); ?>"/>                               
-                </td>
+					<select name='category_id' class='form-control' id="category_id">
+						<option value="" >---- Select Category ----</option>
+						<?php echo html_options($category_options,set_value('category_id')); ?>
+					</select>
+				</td>
                 <td>Mobile No:</td>
                 <td>
                     <input name="mobile_no" type="text" class="form-control small"   value="<?= set_value('mobile_no'); ?>"/>

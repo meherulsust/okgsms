@@ -24,11 +24,11 @@
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
 		$this->db->join('subject su', 'su.id =em.subject_id', 'left');
-		if($data['username'] !='')
+		if(isset($data['category_id']) && ($data['category_id'] !=''))
 		{
-			$this->db->where('a.username',$data['username']);
+			$this->db->where('em.category_id',$data['category_id']);
 		}
-		if($data['mobile_no'] !='')
+		if(isset($data['mobile_no']) && ($data['mobile_no'] !=''))
 		{
 			$this->db->where('em.mobile_no',$data['mobile_no']);
 		}
@@ -43,11 +43,11 @@
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
 		$this->db->join('subject su', 'su.id =em.subject_id', 'left');
-		if($data['username'] !='')
+		if(isset($data['category_id']) && ($data['category_id'] !=''))
 		{
-			$this->db->where('a.username',$data['username']);
+			$this->db->where('em.category_id',$data['category_id']);
 		}
-		if($data['mobile_no'] !='')
+		if(isset($data['mobile_no']) && ($data['mobile_no'] !=''))
 		{
 			$this->db->where('em.mobile_no',$data['mobile_no']);
 		}

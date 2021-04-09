@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$blood_group_options = $this->optionmodel->blood_group_options();
 		$gender_options = array('Male'=>'Male','Female'=>'Female','Others'=>'Others'); 		
 		$this->assign('gender_options',$gender_options);
-		$category_options = array('1'=>'Teaching Stuff','2'=>'Non-Teaching Stuff'); 
+		$category_options = array('1'=>'Teaching Staff','2'=>'Non-Teaching Staff'); 
 		$admin_group_options = $this->optionmodel->group_option(); // get admin group list
 		$subject_options = $this->optionmodel->subject_options();
 		$this->assign('subject_options', $subject_options);	
@@ -40,15 +40,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
   	function index($sort_type='asc',$sort_on='id')
   	{
-		$data['username'] = $this->input->post('username');
-        $data['mobile_no'] = $this->input->post('mobile_no');
-        $this->load->library('search');
-        $search_data = $this->search->data_search($data);
+		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Employee List','link_title'=>'New Employee','link_action'=>'Employee/add');
   	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
-		$config['total_rows'] = $this->employeemodel->count_list($search_data);
+		$config['total_rows'] = $this->employeemodel->count_list($data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on']=$sort_on;
@@ -59,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
 		}
 		$this->set_pagination($config);
-  		$teachers=$this->employeemodel->get_list($search_data);
+  		$teachers=$this->employeemodel->get_list($data);
   		$this->assign('records',$teachers);
   		$this->load->view('employee/list',$head);
   	}
