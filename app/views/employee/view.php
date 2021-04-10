@@ -51,6 +51,12 @@
 			</td>
 		</tr>
 		<tr>
+			<td>Birthday. :</td>
+			<td>
+				<?php echo $dob; ?>
+			</td>
+		</tr>
+		<tr>
 			<td>Address :</td>
 			<td>
 				<?php echo $address; ?>
@@ -63,7 +69,13 @@
 				<a href="<?= $upload_url.'employee_cv/'.$cv ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> Download </button></a>
 			</td>
 		</tr>
-		<?php endif;?>	
+		<?php endif;?>
+		<tr>
+			<td>Status. :</td>
+			<td>
+				<?php echo $status; ?>
+			</td>
+		</tr>	
 		<tr>
 			<td></td>
 			<td>

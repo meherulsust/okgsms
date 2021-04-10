@@ -91,11 +91,10 @@
 			<tr>
 				<td>Blood group :</td>
 				<td>
-					<select name='blood_group_id' class='form-control' required>
+					<select name='blood_group_id' class='form-control'>
 					<option value="" >---- Select Blood group ----</option>
 					<?php echo html_options($blood_group_options,set_value('blood_group_id',$blood_group_id)); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('blood_group_id'); ?> </span>
 				</td>
 			</tr>
 			

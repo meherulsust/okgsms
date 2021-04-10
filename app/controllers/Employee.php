@@ -294,7 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'designation','label'=>'Designation','rules'=>'trim|required'),  
 			array('field'=>'dob','label'=>'Date of Birth','rules'=>'trim|required'),  
 			array('field'=>'gender','label'=>'Gender','rules'=>'trim|required'),  
-			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim|required'),  
+			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim'),  
 			array('field'=>'religion_id','label'=>'Religion','rules'=>'trim'),  
 			array('field'=>'address','label'=>'Address','rules'=>'trim'),  
 			array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required'),  
