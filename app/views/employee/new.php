@@ -95,7 +95,6 @@
 					<option value="" >---- Select Blood group ----</option>
 					<?php echo html_options($blood_group_options,set_value('blood_group_id')); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('blood_group_id'); ?> </span>
 				</td>
 			</tr>
 			
