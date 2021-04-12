@@ -11,34 +11,54 @@
 	<form class="ajax_submit" role="form" action="<?=$site_url.$active_controller?>/add" method="post" enctype="multipart/form-data">
 		<table class="form_table">
 			<tr>
-				<td>Category :</td>
+				<td>Student Type :</td>
 				<td>
-					<select name='category_id' class='form-control' id="category_id" required>
-						<option value="" >---- Select Category ----</option>
-						<?php echo html_options($category_options,set_value('category_id')); ?>
+					<select name='student_type_id' class='form-control' id="student_type_id" required>
+						<option value="" >---- Select Student Type ----</option>
+						<?php echo html_options($student_type_options,set_value('student_type_id')); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('category_id'); ?> </span>
+					<span class='error'>* <?php echo form_error('student_type_id'); ?> </span>
 				</td>
 			</tr>
 			<tr>
 				<td>Name :</td>
 				<td>
-					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" />
+					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" autocomplete="off" />
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
-			<tr class="teaching_staff">
-				<td>Username :</td>
+			<tr>
+				<td>Class :</td>
 				<td>
-					<input name="username" type="text" class="form-control" id="username" value="<?=set_value('username'); ?>" autocomplete="new-username"/>
-					<span class='error'>* <?php echo form_error('username'); ?></span>
+					<select name='class_id' class='form-control' id="class_id" required>
+						<option value="" >---- Select class ----</option>
+						<?php echo html_options($class_options,set_value('class_id')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('class_id'); ?> </span>
+				</td>
+				<input type="hidden" name="class_code" id="class_code" />
+			</tr>
+			<tr>
+				<td>Form:</td>
+				<td>
+					<select name='section_id' class='form-control' id="section_id" required>
+						<option value="" >---- Select Form ----</option>
+						<?php echo html_options($section_options,set_value('section_id')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('section_id'); ?> </span>
 				</td>
 			</tr>
 			
-			<tr class="teaching_staff">
-				<td>Password :</td>
+			<tr>
+				<td>Student ID :</td>
 				<td>
-					<input name="password" type="password" id="password" class="form-control" value="<?=set_value('password'); ?>" autocomplete="new-password"/>
+					<input name="id_no" type="text" id="id_no" class="form-control" value="<?=set_value('id_no'); ?>" readonly/>
+				</td>
+			</tr>
+			<tr>
+				<td>Admission Roll :</td>
+				<td>
+					<input name="admission_roll" type="text" id="admission_roll" class="form-control" value="<?=set_value('admission_roll'); ?>" readonly/>
 				</td>
 			</tr>
 			<tr class="teaching_staff">
@@ -178,19 +198,60 @@
 </div>
 
 <script>
-$(document).ready(function(){
-	$('.teaching_staff').hide();
-	$('#category_id').change(function(){
-		if($('#category_id').val() == '2') {
-			 $('.teaching_staff').hide();
-		}else{
-			 $('.teaching_staff').show();
-		}
-	}); 
-	
-	$('.calander').datepicker({
-		format: 'yyyy-mm-dd',
-		autoclose: true
-	});	
-}); 
+    $(document).ready(function () {
+      $('#class_id').selectChain({
+          target: $('#section_id'),
+          value: 'title',
+          url: '<?php echo site_url(); ?>student/get_section',
+          type: 'post',
+          data: {'class_id': 'class_id'}
+      });
+	 
+	  $("#class_id").change(function() {				
+			var classID = $(this).val();
+			var currentDate = new Date();
+  			var currentYear = currentDate.getFullYear();
+			var defaultRoll   = '001';
+
+			$.ajax({
+				type: "POST",
+				url: '<?php echo $site_url;?>student/class_details',
+				data: 'class_id='+classID,
+				cache: false, 
+				success: function(response){
+					var obj  = jQuery.parseJSON(response);
+					$('#class_code').val(obj.code);
+					}
+			});   
+		
+			$.ajax({
+				type: "POST",
+				url: '<?php echo $site_url;?>student/student_details',
+				data: 'class_id='+classID,
+				cache: false, 
+				success: function(response){
+				
+					var obj = jQuery.parseJSON(response);
+					
+					
+					if(obj == "")
+					{
+						var defaultCode   	     = $('#class_code').val();
+						var defaultStudentID 	 = currentYear + defaultCode + defaultRoll;
+						var defaultAdmissionRoll = defaultCode + defaultRoll;
+						
+						$('#id_no').val(defaultStudentID);	
+						$('#admission_roll').val(defaultAdmissionRoll);	
+					}else{
+						var newStudentID          = parseInt(obj.id_no) + 1;
+						var newAdmissionRoll    = parseInt(obj.admission_roll) + 1;
+						
+						$('#id_no').val(newStudentID);
+						$('#admission_roll').val(newAdmissionRoll);	
+					}
+				}
+			}); 
+			return false;				
+		});
+    });
 </script>

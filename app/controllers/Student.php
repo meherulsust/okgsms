@@ -37,6 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('religion_options',$religion_options);
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);
+		$this->tpl->set_js(array('select-chain'));
     }
   	function index($sort_type='asc',$sort_on='id')
   	{
@@ -360,6 +361,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        return true;
 
   	}
+
+	function get_section()
+	  {
+		  $class_id = $this->input->post('class_id');
+		  $rs = array(array('id' => '', 'title' => '--- Select Form ---'));
+		  $section = array_merge($rs, $this->studentmodel->get_section_by($class_id));
+		  $this->output->set_output(json_encode($section));
+	  }	
+	  
+	function student_details()
+	{
+		$class_id = $this->input->post('class_id');
+		$details = $this->studentmodel->get_student_details($class_id);
+		echo json_encode($details);	
+	}
+
+	function class_details()
+	{
+		$class_id = $this->input->post('class_id');
+		$details = $this->studentmodel->get_class_details($class_id);
+		echo json_encode($details);	
+	}
 
 	
  }

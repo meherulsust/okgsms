@@ -90,6 +90,7 @@
  		$this->db->where('sl.id',$id);
  		return $this->get_row();
  	}
+
 	
  	function change_status($id,$val)
  	{
@@ -101,7 +102,36 @@
  	{
 		$this->db->delete('student_list',array('id'=>$id)); 		
  	}
-		
+
+	function get_section_by($class_id)
+ 	{
+ 		$this->db->select('id, title');
+		$this->db->from('section');
+		$this->db->where('class_id',$class_id);
+ 		$this->db->order_by('id','asc');
+ 		$rs = $this->db->get(); 				
+		return $rs->result_array();
+ 	} 
+
+	 function get_student_details($id)
+	 {
+		$this->db->select('c.id,c.code,sl.id_no,sl.admission_roll,sl.created_at,sl.session');
+		 $this->db->from('class c');
+		 $this->db->join('student_list sl','sl.class_id=c.id','left');
+		 $this->db->where('c.id',$id);
+		 $this->db->where("sl.session =",current_year());
+		 $this->db->order_by('sl.id_no','DESC');
+		 return $this->get_row();
+	 } 
+
+	 function get_class_details($id)
+	 {
+		$this->db->select('c.id,c.code');
+		$this->db->from('class c');
+		$this->db->where('c.id',$id);
+		return $this->get_row();
+	 } 
+			
  	
  }
  

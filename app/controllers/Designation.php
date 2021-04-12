@@ -12,13 +12,13 @@
 | WEBSITE                  :
 | -----------------------------------------------------
  */
-class Subject extends MT_Controller
+class Designation extends MT_Controller
 {
   	function __construct()
  	{ 	 	
  	 	parent::__construct();
- 	 	$this->load->model(array('subjectmodel'));
-		$this->tpl->set_page_title('Subject');
+ 	 	$this->load->model(array('designationmodel'));
+		$this->tpl->set_page_title('Designation');
 		$status_option = array('Active' => 'Active','Inactive' => 'Inactive');
 		$this->assign('status_options', $status_option);
  	 }
@@ -26,36 +26,37 @@ class Subject extends MT_Controller
 	public function index($sort_type = 'desc', $sort_on = 'id')
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
-		$head = array('page_title'=>'Subject List','link_title'=>'New Subject','link_action'=>'Subject/add');
-		$labels = array('title' => 'Title','status' => 'Status');
+		$head = array('page_title'=>'Designation List','link_title'=>'New Designation','link_action'=>'Designation/add');
+		$labels = array('title' => 'Title','description' => 'Description','status' => 'Status');
 		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->subjectmodel->count_list();
+		$config['total_rows'] = $this->designationmodel->count_list();
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
-		$this->assign('grid_action', array('edit' => 'edit','view' => 'view'));
+		$this->assign('grid_action', array('edit' => 'edit','view' => 'view','del' => 'del'));
 		$this->set_pagination($config);
-		$list = $this->subjectmodel->get_list(); // get data list
+		$list = $this->designationmodel->get_list(); // get data list
 		$this->assign('records', $list);
-		$this->load->view('subject/list',$head);
+		$this->load->view('designation/list',$head);
 	}
 
 	public function add()
 	{
-		$head = array('page_title'=>'New Subject','link_title'=>'Subject List','link_action'=>'Subject/index');
+		$head = array('page_title'=>'New Designation','link_title'=>'Designation List','link_action'=>'Designation/index');
 		$this->form_validation->set_rules($this->validate());
 		$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
 		if($this->form_validation->run() == FALSE){
-			$this->load->view('subject/new',$head);	
+			$this->load->view('designation/new',$head);	
 		}else{
 				$data['title'] 			= $this->input->post('title');
+				$data['description'] 	= $this->input->post('description');
 				$data['status']		    = $this->input->post('status');
 				$data['created_at']	    = $this->current_date();
 				$data['created_by'] 	= $this->session->userdata('admin_userid');
-				$this->subjectmodel->add($data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Subject'));
-				redirect('Subject'); 		
+				$this->designationmodel->add($data);
+				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Designation'));
+				redirect('Designation'); 		
 				 			
 		}
 	}
@@ -63,21 +64,22 @@ class Subject extends MT_Controller
 	public function edit($id='')
 	{
 		$id = decode($id);
-		$row = $this->subjectmodel->get_record($id);
-		$head = array('page_title'=>'Edit Subject','link_title'=>'Subject List','link_action'=>'Subject/index');
+		$row = $this->designationmodel->get_record($id);
+		$head = array('page_title'=>'Edit Designation','link_title'=>'Designation List','link_action'=>'Designation/index');
 		$this->assign($row);	
 		if (!empty($row)) {
 			$this->form_validation->set_rules($this->validate());
 			$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
 			if($this->form_validation->run() == FALSE){
-				$this->load->view('subject/edit',$head);	
+				$this->load->view('designation/edit',$head);	
 			}else{
 				$data['title'] 			= $this->input->post('title');
+				$data['description'] 	= $this->input->post('description');
 				$data['status']		    = $this->input->post('status');
 				$data['updated_by'] 	= $this->session->userdata('admin_userid');
-				$this->subjectmodel->edit($id,$data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Subject'));
-				redirect('Subject'); 		
+				$this->designationmodel->edit($id,$data);
+				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Designation'));
+				redirect('Designation'); 		
 				
 								
 			}
@@ -90,13 +92,13 @@ class Subject extends MT_Controller
     {
         $id = decode($id);
         if ($id == '') {
-            redirect('Subject');
+            redirect('Designation');
         }
-		$country = $this->subjectmodel->get_record($id); // get record
+		$country = $this->designationmodel->get_record($id); // get record
         if ($country) {
-			$head = array('page_title'=>'View Subject information','link_title'=>'Subject List','link_action'=>'Subject/index');
+			$head = array('page_title'=>'View Designation information','link_title'=>'Designation List','link_action'=>'Designation/index');
             $this->assign($country);
-            $this->load->view('subject/view',$head);
+            $this->load->view('designation/view',$head);
         } else {
             $this->view_404();
         }
@@ -105,23 +107,24 @@ class Subject extends MT_Controller
 	function del($id)
 	{	
 		$id = decode($id);
-		$this->subjectmodel->del($id);
+		$this->designationmodel->del($id);
 		$status = 1;
-		$message = $this->tpl->set_message('delete','Subject');
+		$message = $this->tpl->set_message('delete','Designation');
 		$array = array('status'=>$status,'message'=>$message);
 		echo json_encode($array);
 	}
 	
 	public function set_status($id, $val)
     {
-        echo $this->status_change($id, $val, 'subjectmodel', 'change_status'); //model name 'usermdoel' method name 'change_status'
+        echo $this->status_change($id, $val, 'designationmodel', 'change_status'); //model name 'usermdoel' method name 'change_status'
 	}
 
 	
 	private function validate(){
         $config = array(
-				array('field'=>'title','label'=>'Subject Name','rules'=>'trim|required'),
-				array('field'=>'status','label'=>'Status','rules'=>'trim|required')		
+				array('field'=>'title','label'=>'Designation Name','rules'=>'trim|required'),
+				array('field'=>'status','label'=>'Status','rules'=>'trim|required'),
+				array('field'=>'description','label'=>'Description','rules'=>'trim')		
         );
         return $config;
     }

@@ -253,3 +253,13 @@
 		}
 	}
 
+	if ( ! function_exists('current_year')){
+		function current_year()
+		{
+			$timezone = "Asia/Dhaka";
+			if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);	
+			return date("Y");
+		}
+	}
+
+

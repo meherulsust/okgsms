@@ -1,0 +1,1 @@
+ALTER TABLE `sms_student_list` CHANGE `session` `year` YEAR NOT NULL DEFAULT (YEAR(CURDATE()))

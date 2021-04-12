@@ -114,7 +114,16 @@ class Optionmodel extends MT_Model
  	{
  		$this->db->select('id,title');
  		$this->db->from('subject');
-		$this->db->where('status','ACTIVE');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}
+     
+    function designation_options()
+ 	{
+ 		$this->db->select('id,title');
+ 		$this->db->from('designation');
+		$this->db->where('status','Active');
 		$this->db->order_by('id','asc');
  		return $this->get_assoc(); 
  	}  
