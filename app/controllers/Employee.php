@@ -31,7 +31,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$category_options = array('1'=>'Teaching Staff','2'=>'Non-Teaching Staff'); 
 		$admin_group_options = $this->optionmodel->group_option(); // get admin group list
 		$subject_options = $this->optionmodel->subject_options();
-		$this->assign('subject_options', $subject_options);	
+		$this->assign('subject_options', $subject_options);
+		$designation_options = $this->optionmodel->designation_options();
+		$this->assign('designation_options', $designation_options);	
         $this->assign('admin_group_options', $admin_group_options);
 		$this->assign('category_options',$category_options);
 		$this->assign('religion_options',$religion_options);
@@ -97,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['email']				= $this->input->post('email');
 			$data['name']			    = $this->input->post('name');
 			$data['category_id']		= $this->input->post('category_id');
-			$data['designation']		= $this->input->post('designation');
+			$data['designation_id']		= $this->input->post('designation_id');
 			$data['dob']				= $this->input->post('dob');
 			$data['gender']				= $this->input->post('gender');
 			$data['blood_group_id']		= $this->input->post('blood_group_id');
@@ -195,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['email']				= $this->input->post('email');
 			$data['name']			    = $this->input->post('name');
 			$data['category_id']		= $this->input->post('category_id');
-			$data['designation']		= $this->input->post('designation');
+			$data['designation_id']		= $this->input->post('designation_id');
 			$data['dob']				= $this->input->post('dob');
 			$data['gender']				= $this->input->post('gender');
 			$data['blood_group_id']		= $this->input->post('blood_group_id');
@@ -291,7 +293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $config1 = array(
 			array('field'=>'name','label'=>'Name','rules'=>'trim|required|min_length[5]|max_length[40]'),
 			array('field'=>'category_id','label'=>'Category','rules'=>'trim|required'),
-			array('field'=>'designation','label'=>'Designation','rules'=>'trim|required'),  
+			array('field'=>'designation_id','label'=>'Designation','rules'=>'trim|required'),  
 			array('field'=>'dob','label'=>'Date of Birth','rules'=>'trim|required'),  
 			array('field'=>'gender','label'=>'Gender','rules'=>'trim|required'),  
 			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim'),  

@@ -51,13 +51,14 @@
 				<span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
 				</td>
 			</tr>
-					
 			<tr>
-				<td>Designation:</td>
+				<td>Designation :</td>
 				<td>
-					<input name="designation" type="text" class="form-control" value="<?=set_value('designation'); ?>" required />
-					<span class='error'>* <?php echo form_error('designation'); ?></span>
-					
+					<select name='designation_id' class='form-control'>
+					<option value="" >---- Select Designation ----</option>
+					<?php echo html_options($designation_options,set_value('designation_options')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('designation_id'); ?></span>
 				</td>
 			</tr>
 			<tr class="teaching_staff">
