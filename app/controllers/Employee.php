@@ -40,12 +40,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);
     }
-  	function index($sort_type='asc',$sort_on='id')
+  	function index($sort_type='asc',$sort_on='serial')
   	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Employee List','link_title'=>'New Employee','link_action'=>'Employee/add');
-  	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Mobile','status'=>'Status');
+  	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Personal Mobile','official_number'=>'Official Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->employeemodel->count_list($data);
 		$config['uri_segment'] = 6;
@@ -104,6 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['gender']				= $this->input->post('gender');
 			$data['blood_group_id']		= $this->input->post('blood_group_id');
 			$data['mobile_no']			= $this->input->post('mobile_no');
+			$data['official_number']	= $this->input->post('official_number');
 			$data['address']			= $this->input->post('address');
 			$data['religion_id']		= $this->input->post('religion_id');
 			$data['serial']				= $this->input->post('serial');
@@ -202,6 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['gender']				= $this->input->post('gender');
 			$data['blood_group_id']		= $this->input->post('blood_group_id');
 			$data['mobile_no']			= $this->input->post('mobile_no');
+			$data['official_number']	= $this->input->post('official_number');
 			$data['address']			= $this->input->post('address');
 			$data['religion_id']		= $this->input->post('religion_id');
 			$data['serial']				= $this->input->post('serial');
@@ -305,7 +307,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'cv_upload','label'=>'Upload CV','rules'=>'trim'),
 			array('field'=>'relevant_subject','label'=>'Relevant Subject','rules'=>'trim'),
 			array('field'=>'serial','label'=>'Serial','rules'=>'trim'),
-			array('field'=>'join_date','label'=>'Join Date','rules'=>'trim'), 		
+			array('field'=>'official_number','label'=>'Official number','rules'=>'trim'),
+			array('field'=>'join_date','label'=>'Join Date','rules'=>'trim') 		
         );
 
 		if(!empty($row)){

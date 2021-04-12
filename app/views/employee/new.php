@@ -27,6 +27,13 @@
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
+			<tr>
+				<td>Order. :</td>
+				<td>
+					<input name="serial" type="text" class="form-control" value="<?=set_value('serial'); ?>" required>
+					<span class='error'>* <?php echo form_error('serial'); ?></span>					
+				</td>
+			</tr>
 			<tr class="teaching_staff">
 				<td>Username :</td>
 				<td>
@@ -118,10 +125,16 @@
 				</td>
 			</tr>	
 			<tr>
-				<td>Mobile No. :</td>
+				<td>Personal Mobile No. :</td>
 				<td>
 					<input name="mobile_no" type="text" class="form-control" value="<?=set_value('mobile_no'); ?>" required>
 					<span class='error'>* <?php echo form_error('mobile_no'); ?></span>					
+				</td>
+			</tr>
+			<tr>
+				<td>Official Mobile No. :</td>
+				<td>
+					<input name="official_number" type="text" class="form-control" value="<?=set_value('official_number'); ?>" >		
 				</td>
 			</tr>
 			<tr>
@@ -151,13 +164,6 @@
 					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date',current_date_bd()); ?>" required autocomplete="off"/>
 					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
 					<span class="error">* <?php echo form_error('join_date'); ?></span>
-				</td>
-			</tr>
-			<tr>
-				<td>Order. :</td>
-				<td>
-					<input name="serial" type="text" class="form-control" value="<?=set_value('serial'); ?>" required>
-					<span class='error'>* <?php echo form_error('serial'); ?></span>					
 				</td>
 			</tr>
 			<tr>

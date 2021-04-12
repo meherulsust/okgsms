@@ -45,9 +45,15 @@
 			</td>
 		</tr>	
 		<tr>
-			<td>Mobile No. :</td>
+			<td>Personal Mobile No. :</td>
 			<td>
 				<?php echo $mobile_no; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>Official Mobile No. :</td>
+			<td>
+				<?php echo $official_number; ?>
 			</td>
 		</tr>
 		<tr>

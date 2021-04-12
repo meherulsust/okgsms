@@ -125,6 +125,12 @@
 				</td>
 			</tr>
 			<tr>
+				<td>Official Mobile No. :</td>
+				<td>
+					<input name="official_number" type="text" class="form-control" value="<?=set_value('official_number',$official_number); ?>" >		
+				</td>
+			</tr>
+			<tr>
 				<td>Address :</td>
 				<td>
 					<textarea name="address" class="form-control" required><?php echo set_value('address',$address); ?> </textarea>
