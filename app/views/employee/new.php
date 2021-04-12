@@ -63,7 +63,7 @@
 				<td>
 					<select name='designation_id' class='form-control'>
 					<option value="" >---- Select Designation ----</option>
-					<?php echo html_options($designation_options,set_value('designation_options')); ?>
+					<?php echo html_options($designation_options,set_value('designation_id')); ?>
 					</select>
 					<span class='error'>* <?php echo form_error('designation_id'); ?></span>
 				</td>

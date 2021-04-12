@@ -146,5 +146,16 @@
     </tbody>
   </table>
 </div>
+<div class="row">
+  <div class="col-xs-6">
+    
+  </div>
+  <div class="col-xs-6">
+    <div class="dataTables_paginate paging_bootstrap">
+      <ul class="pagination">
+        <?php $this->tpl->pagination();?>
+      </ul>
+    </div>
+  </div>
 
 </div>

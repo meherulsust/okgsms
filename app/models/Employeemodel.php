@@ -20,7 +20,7 @@
  	 	 	
  	function get_list($data)
  	{ 		
-		$this->db->select('em.*,a.username,a.password,id_admin_group,de.title as designation',false);		
+		$this->db->select('em.*,a.username,a.password,id_admin_group,de.title as designation,su.title as relevant_subject',false);		
  	 	$this->db->from('employee em');
 		$this->db->join('admins a', 'a.id =em.admin_id', 'left');
 		$this->db->join('subject su', 'su.id =em.subject_id', 'left');

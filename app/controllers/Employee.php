@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Employee List','link_title'=>'New Employee','link_action'=>'Employee/add');
-  	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Personal Mobile','official_number'=>'Official Mobile','status'=>'Status');
+  	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','relevant_subject'=>'Relevant Subject','mobile_no'=>'Personal Mobile','official_number'=>'Official Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
 		if($this->session->userdata('admin_userid')==1){
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit','del'=>'del'));
