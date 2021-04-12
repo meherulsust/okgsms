@@ -197,7 +197,7 @@
  		}
  		else
  		{
-			$config['per_page']=50;
+			$config['per_page']=100;
  		}
  		$data['rec_per_page'] = $config['per_page'];
 		$config['num_links'] = 2;

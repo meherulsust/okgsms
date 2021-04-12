@@ -47,16 +47,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$head = array('page_title'=>'Employee List','link_title'=>'New Employee','link_action'=>'Employee/add');
   	    $labels=array('name'=>'Full Name','username'=>'Username','designation'=>'Designation','gender'=>'Gender','mobile_no'=>'Personal Mobile','official_number'=>'Official Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
-		$config['total_rows'] = $this->employeemodel->count_list($data);
-		$config['uri_segment'] = 6;
-		$config['select_value'] = $this->input->post('rec_per_page');
-		$config['sort_on']=$sort_on;
-		$config['sort_type']=$sort_type;
 		if($this->session->userdata('admin_userid')==1){
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit','del'=>'del'));
 		}else{
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
 		}
+		$config['total_rows'] = $this->employeemodel->count_list($data);
+		$config['uri_segment'] = 6;
+		$config['select_value'] = $this->input->post('rec_per_page');
+		$config['sort_on']=$sort_on;
+		$config['sort_type']=$sort_type;
 		$this->set_pagination($config);
   		$teachers=$this->employeemodel->get_list($data);
   		$this->assign('records',$teachers);

@@ -1,4 +1,21 @@
 <div class="table-responsive">
+<div class="row">
+  <div class="col-xs-6">
+    <div id="example2_info" class="dataTables_info">
+      &nbsp;&nbsp;&nbsp;&nbsp;<span>Page <strong><?=$cur_page?>/<?=$total_page?></strong></span> | <span>View
+        <select name="rec_per_page" id='rec_per_page'>
+          <?php echo html_options(array(5 => 5, 10 => 10, 30 => 30, 50 => 50, 100 => 100, 200 => 200), $rec_per_page); ?>
+        </select>
+        per page | Total <strong><?=$total_record;?> </strong> records found.</span>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <div class="dataTables_paginate paging_bootstrap">
+      <ul class="pagination">
+        <?php $this->tpl->pagination();?>
+      </ul>
+    </div>
+  </div>
   <table id="example2" class="table table-bordered table-hover">
     <thead>
       <tr>
@@ -129,21 +146,5 @@
     </tbody>
   </table>
 </div>
-<div class="row">
-  <div class="col-xs-6">
-    <div id="example2_info" class="dataTables_info">
-      &nbsp;&nbsp;&nbsp;&nbsp;<span>Page <strong><?=$cur_page?>/<?=$total_page?></strong></span> | <span>View
-        <select name="rec_per_page" id='rec_per_page'>
-          <?php echo html_options(array(5 => 5, 10 => 10, 30 => 30, 50 => 50, 100 => 100, 200 => 200), $rec_per_page); ?>
-        </select>
-        per page | Total <strong><?=$total_record;?> </strong> records found.</span>
-    </div>
-  </div>
-  <div class="col-xs-6">
-    <div class="dataTables_paginate paging_bootstrap">
-      <ul class="pagination">
-        <?php $this->tpl->pagination();?>
-      </ul>
-    </div>
-  </div>
+
 </div>
