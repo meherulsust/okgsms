@@ -91,50 +91,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		else
 		{
-			$login['username']       	= $this->input->post('username');
-            $login['password']      	= $this->hash_password($this->input->post('password') ?$this->input->post('password') : 123456 );
-			$login['id_admin_group']	= $this->input->post('id_admin_group');
-			$login['full_name']			= $this->input->post('name');
-			$login['email']				= $this->input->post('email');
-			$login['mobile']		    = $this->input->post('mobile_no');
+			
+			$data['student_type_id']	  = $this->input->post('student_type_id');
+			$data['full_name']			  = $this->input->post('name');
+			$data['password']      		  = $this->hash_password('123456');
+			$data['admission_date']	      = $this->input->post('admission_date');
+			$data['class_id']		      = $this->input->post('class_id');
+			$data['section_id']			  = $this->input->post('section_id');
+			$data['id_no']				  = $this->input->post('id_no');
+			$data['dob']				  = $this->input->post('dob');
+			$data['birth_certificate_no'] = $this->input->post('birth_certificate_no');
+			$data['is_siblings']		  = $this->input->post('is_siblings');
+			$data['father_nid']		  	  = $this->input->post('father_nid');
+			$data['mother_nid']		      = $this->input->post('mother_nid');
+			$data['siblings_class_id']	  = $this->input->post('siblings_class_id');
+			$data['siblings_section_id']  = $this->input->post('siblings_section_id');
+			$data['siblings_id'] 		  = $this->input->post('siblings_id');
+			$data['mobile_no']			  = $this->input->post('mobile_no');
+			$data['religion_id']		  = $this->input->post('religion_id');
+			$data['blood_group_id']		  = $this->input->post('blood_group_id');
+			$data['status']				  = $this->input->post('status');
+			$data['gender']	  			  = $this->input->post('gender');
+			$data['description']		  = $this->input->post('description');
+			$data['session']		  	  = $this->input->post('session');
+			$data['created_at']  	      = $this->current_date();
+			$data['created_by']  		  = $this->session->userdata('admin_userid');
 
-			$data['name']			    = $this->input->post('name');
-			$data['category_id']		= $this->input->post('category_id');
-			$data['designation']		= $this->input->post('designation');
-			$data['dob']				= $this->input->post('dob');
-			$data['gender']				= $this->input->post('gender');
-			$data['blood_group_id']		= $this->input->post('blood_group_id');
-			$data['mobile_no']			= $this->input->post('mobile_no');
-			$data['address']			= $this->input->post('address');
-			$data['religion_id']		= $this->input->post('religion_id');
-			$data['serial']				= $this->input->post('serial');
-			$data['status']				= $this->input->post('status');
-			$data['relevant_subject']	= $this->input->post('relevant_subject');
-			$data['join_date']			= $this->input->post('join_date');
-			$data['created_at']  	    = $this->current_date();
-			$data['created_by']  		= $this->session->userdata('admin_userid');
-
-			if(trim($_FILES["photo"]["name"])!='' OR  $_FILES["cv"]["name"] !='') 
+			if(trim($_FILES["photo"]["name"])!='') 
 			{
 				if(trim($_FILES["photo"]["name"]) != '' ){
 					$ext = explode(".", $_FILES["photo"]["name"]);
 					$file_ext = end($ext);
 					$image_name = rand(100000, 999999) . '_' . rand(100000, 999999) . '.' . $file_ext;			
-					if ($this->upload_images('photo',$image_name,'employee_images')) { // field_name, iamge_name ,folder_name
+					if ($this->upload_images('photo',$image_name,'student_images')) { // field_name, iamge_name ,folder_name
 						$data['photo'] = $image_name;
 					}else{
 						$upload_error['error_photo'] =  $this->upload->display_errors(); 			
-					} 
-				}
-				
-				if(trim($_FILES["cv"]["name"]) != '' ){
-					$ext = explode(".", $_FILES["cv"]["name"]);
-					$file_ext = end($ext);
-					$image_name = rand(100000, 999999) . '_' . rand(100000, 999999) . '.' . $file_ext;			
-					if ($this->upload_images('cv',$image_name,'employee_cv')) { // field_name, iamge_name ,folder_name
-						$data['cv'] = $image_name;
-					}else{
-						$upload_error['error_cv'] =  $this->upload->display_errors(); 			
 					} 
 				}
 				
@@ -144,25 +136,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$this->load->view('student/add',$head);	
 				}
 				else{
-					if($data['category_id']=='1'){
-						$result = $this->studentmodel->add_user($login);
-						$data['admin_id'] = $result; 
-						$this->studentmodel->add($data);
-					}else{
-						$this->studentmodel->add($data);
-					}
+					$this->studentmodel->add($data);
 					$this->session->set_flashdata('message', $this->tpl->set_message('add', 'Student'));
 					redirect('Student');	
 				}
 			
 			}else{
-				if($data['category_id']=='1'){
-					$result = $this->studentmodel->add_user($login);
-					$data['admin_id'] = $result; 
-					$this->studentmodel->add($data);
-				}else{
-					$this->studentmodel->add($data);
-				}
+				$this->studentmodel->add($data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('add','Student'));
 				redirect('Student');
 				 		
@@ -217,10 +197,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$ext = explode(".", $_FILES["photo"]["name"]);
 					$file_ext = end($ext);
 					$image_name = rand(100000, 999999) . '_' . rand(100000, 999999) . '.' . $file_ext;			
-					if ($this->upload_images('photo',$image_name,'employee_images')) { // field_name, iamge_name ,folder_name
+					if ($this->upload_images('photo',$image_name,'student_images')) { // field_name, iamge_name ,folder_name
 						$data['photo'] = $image_name;
 						if ($row['photo'] != '') {
-							unlink($this->upload_dir() . "employee_images/" . $row['photo']);
+							unlink($this->upload_dir() . "student_images/" . $row['photo']);
 						}
 					}else{
 						$upload_error['error_photo'] =  $this->upload->display_errors(); 			
@@ -282,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$row = $this->studentmodel->get_record($id);
 		$this->studentmodel->del($id);	
 		$status = 1;
-		unlink($this->upload_dir()."employee_images/".$row['photo']);
+		unlink($this->upload_dir()."student_images/".$row['photo']);
 		unlink($this->upload_dir()."employee_cv/".$row['cv']);
 		$message = $this->tpl->set_message('delete','Employee');
 		$array = array('status'=>$status,'message'=>$message);
@@ -291,47 +271,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	private function validate($row=''){
         $config1 = array(
-			array('field'=>'name','label'=>'Name','rules'=>'trim|required|min_length[5]|max_length[20]'),
-			array('field'=>'category_id','label'=>'Category','rules'=>'trim|required'),
-			array('field'=>'designation','label'=>'Designation','rules'=>'trim|required'),  
+			array('field'=>'student_type_id','label'=>'Student type','rules'=>'trim|required'),
+			array('field'=>'full_name','label'=>'Full Name','rules'=>'trim|required'),  
 			array('field'=>'dob','label'=>'Date of Birth','rules'=>'trim|required'),  
 			array('field'=>'gender','label'=>'Gender','rules'=>'trim|required'),  
-			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim|required'),  
-			array('field'=>'religion_id','label'=>'Religion','rules'=>'trim'),  
-			array('field'=>'address','label'=>'Address','rules'=>'trim'),  
+			array('field'=>'religion_id','label'=>'Religion','rules'=>'trim|required'),  
 			array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required'),  
 			array('field'=>'status','label'=>'Status','rules'=>'trim|required'),
-			array('field'=>'photo','label'=>'Photo','rules'=>'trim'),
-			array('field'=>'cv_upload','label'=>'Upload CV','rules'=>'trim'),
-			array('field'=>'relevant_subject','label'=>'Relevant Subject','rules'=>'trim'),
+			array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
+			array('field'=>'id_no','label'=>'Student No','rules'=>'trim|required'),
+			array('field'=>'section_id','label'=>'Form','rules'=>'trim|required'),
+			array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required'),
+			array('field'=>'admission_roll','label'=>'Admission roll','rules'=>'trim|required'),
+			array('field'=>'admission_date','label'=>'Admission date','rules'=>'trim|required'),
+			array('field'=>'session','label'=>'Admission session','rules'=>'trim|required'),
+			array('field'=>'is_siblins','label'=>'Siblins','rules'=>'trim|required'),
+
+
+
 			array('field'=>'serial','label'=>'Serial','rules'=>'trim'),
-			array('field'=>'join_date','label'=>'Join Date','rules'=>'trim'), 		
+			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim'),
+			array('field'=>'description','label'=>'Description','rules'=>'trim'),
+			array('field'=>'photo','label'=>'Photo','rules'=>'trim'),    		
         );
-
-		if(!empty($row)){
-			$config2 = array(
-				array('field'=>'username','label'=>'Username','rules'=>'trim|required|min_length[4]|max_length[20]|callback_duplicate_teacher_check[' . $row['username'] . ']'),
-				array('field'=>'email','label'=>'Email','rules'=>'trim|required|valid_email|callback_duplicate_email_check[' . $row['email'] . ']'),
-				array('field'=>'password','label'=>'Password','rules'=>'trim'),
-				array('field'=>'id_admin_group','label'=>'Group','rules'=>'trim'),
-			);
-		}else{
-			$config2 = array(
-				array('field'=>'username','label'=>'Username','rules'=>'trim|required|min_length[4]|max_length[20]|callback_duplicate_teacher_check'),
-				array('field'=>'email','label'=>'Email','rules'=>'trim|required|valid_email|callback_duplicate_email_check'),
-				array('field'=>'password','label'=>'Password','rules'=>'trim'),
-				array('field'=>'id_admin_group','label'=>'Group','rules'=>'trim'),
-			);
-	
-		}
-
-		if($this->input->post('category_id')==1){
-			$config = array_merge($config1,$config2);
-		}else{
-			$config = $config1;
-		}
 		
-        return $config;
+		$config2 = array(
+			array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required'),
+			array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required'),
+		);
+
+		$config3 = array(
+			array('field'=>'siblings_class_id','label'=>'Siblings Class','rules'=>'trim|required'),
+			array('field'=>'siblings_section_id','label'=>'Siblings Form','rules'=>'trim|required'),
+			array('field'=>'siblings_id','label'=>'Siblins Name','rules'=>'trim|required'),
+		);
+	
+        return $config1;
     }
 
 	

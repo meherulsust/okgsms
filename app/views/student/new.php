@@ -11,6 +11,21 @@
 	<form class="ajax_submit" role="form" action="<?=$site_url.$active_controller?>/add" method="post" enctype="multipart/form-data">
 		<table class="form_table">
 			<tr>
+				<td>Admission  Date :</td>
+				<td>
+					<input type="text" class="form-control calander"  name="admission_date" value="<?=set_value('admission_date',current_date_bd()); ?>" required autocomplete="off"/>
+					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
+					<span class="error">* <?php echo form_error('admission_date'); ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Session :</td>
+				<td>
+					<input type="text" class="form-control"  name="session" value="<?=set_value('session',current_year()); ?>" required autocomplete="off"/>
+					<span class="error">* <?php echo form_error('session'); ?></span>
+				</td>
+			</tr>
+			<tr>
 				<td>Student Type :</td>
 				<td>
 					<select name='student_type_id' class='form-control' id="student_type_id" required>
@@ -23,7 +38,7 @@
 			<tr>
 				<td>Name :</td>
 				<td>
-					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" autocomplete="off" />
+					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" autocomplete="off" required/>
 					<span class='error'>* <?php echo form_error('name'); ?></span>
 				</td>
 			</tr>
@@ -31,7 +46,7 @@
 				<td>Class :</td>
 				<td>
 					<select name='class_id' class='form-control' id="class_id" required>
-						<option value="" >---- Select class ----</option>
+						<option value="" >---- Select Class ----</option>
 						<?php echo html_options($class_options,set_value('class_id')); ?>
 					</select>
 					<span class='error'>* <?php echo form_error('class_id'); ?> </span>
@@ -61,29 +76,64 @@
 					<input name="admission_roll" type="text" id="admission_roll" class="form-control" value="<?=set_value('admission_roll'); ?>" readonly/>
 				</td>
 			</tr>
-			<tr class="teaching_staff">
-				<td>Group :</td>
-				<td>
-				<select class="form-control" name="id_admin_group" id ="id_admin_group">
-					<option value="">---- Select Group ----</option>
-					<?php echo html_options($admin_group_options, set_value('id_admin_group')); ?>
-				</select>
-				<span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
-				</td>
-			</tr>
-					
 			<tr>
-				<td>Designation:</td>
+				<td>Birth Certificate No :</td>
 				<td>
-					<input name="designation" type="text" class="form-control" value="<?=set_value('designation'); ?>" required />
-					<span class='error'>* <?php echo form_error('designation'); ?></span>
-					
+					<input name="birth_certificate_no" id="birth_certificate_no" type="text" class="form-control" value="<?=set_value('birth_certificate_no'); ?>" required/>
+					<span class='error'>* <?php echo form_error('birth_certificate_no'); ?> </span>
 				</td>
 			</tr>
-			<tr class="teaching_staff">
-				<td>Relevant Subject :</td>
+			<tr>
+                <td>Has Siblings :</td>
+                <td>
+                    <input id="m1" style="width:20px;" class="form-control has_siblins" type="radio" name="has_siblins" value="yes" <?php echo set_value('has_siblins') ?> /> Yes
+                    <input id ="m2" style="width:20px;margin-left:20px;" class="form-control has_siblins" type="radio" name="has_siblins" value="no" <?php echo set_value('has_siblins') ?> checked/> No
+                    <span class='error' style="margin-left:193px;">* <?php echo form_error('has_siblins'); ?></span>	
+                </td>
+            </tr>
+			<tr class="has_siblins_no">
+				<td>Father NID No :</td>
 				<td>
-					<input name="relevant_subject" id="relevant_subject" type="text" class="form-control" value="<?=set_value('relevant_subject'); ?>" />
+					<input name="father_nid_no" id="father_nid_no" type="text" class="form-control" value="<?=set_value('father_nid_no'); ?>" required/>
+					<span class='error'>* <?php echo form_error('father_nid_no'); ?> </span>
+				</td>
+			</tr>
+			<tr class="has_siblins_no">
+				<td>Mother NID No :</td>
+				<td>
+					<input name="mother_nid_no" id="mother_nid_no" type="text" class="form-control" value="<?=set_value('mother_nid_no'); ?>" required/>
+					<span class='error'>* <?php echo form_error('mother_nid_no'); ?> </span>
+				</td>
+			</tr>
+			<tr class="has_siblins_yes">
+				<td>Siblings Class :</td>
+				<td>
+					<select name='siblins_class_id' class='form-control' id="siblins_class_id" required>
+						<option value="" >---- Select Siblings Class ----</option>
+						<?php echo html_options($class_options,set_value('siblins_class_id')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('siblins_class_id'); ?> </span>
+				</td>
+				<input type="hidden" name="class_code" id="class_code" />
+			</tr>
+			<tr  class="has_siblins_yes">
+				<td>Siblings Form:</td>
+				<td>
+					<select name='siblins_section_id' class='form-control' id="siblins_section_id" required>
+						<option value="" >---- Select Siblings Form ----</option>
+						<?php echo html_options($section_options,set_value('siblins_section_id')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('siblins_section_id'); ?> </span>
+				</td>
+			</tr>
+			<tr class="has_siblins_yes">
+				<td>Siblings :</td>
+				<td>
+				<select class="form-control" name="siblins" id ="siblins">
+					<option value="">---- Select Siblings ----</option>
+					<?php echo html_options($admin_group_options, set_value('siblins')); ?>
+				</select>
+				<span class='error'>* <?php echo form_error('siblins'); ?></span>
 				</td>
 			</tr>
 			<tr>
@@ -107,11 +157,10 @@
 			<tr>
 				<td>Blood group :</td>
 				<td>
-					<select name='blood_group_id' class='form-control' required>
+					<select name='blood_group_id' class='form-control'>
 					<option value="" >---- Select Blood group ----</option>
 					<?php echo html_options($blood_group_options,set_value('blood_group_id')); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('blood_group_id'); ?> </span>
 				</td>
 			</tr>
 			
@@ -125,65 +174,33 @@
 					<span class='error'>* <?php echo form_error('religion_id'); ?> </span>
 				</td>
 			</tr>
-			
-			<tr class="teaching_staff">
-				<td>Email :</td>
-				<td>
-					<input name="email" type="text" class="form-control" value="<?=set_value('email'); ?>" />     
-					<span class='error'>* <?php echo form_error('email'); ?></span>   					
-				</td>
-			</tr>	
 			<tr>
 				<td>Mobile No. :</td>
 				<td>
 					<input name="mobile_no" type="text" class="form-control" value="<?=set_value('mobile_no'); ?>" required>
-					<span class='error'>* <?php echo form_error('mobile_no'); ?></span>					
-				</td>
-			</tr>
-			<tr>
-				<td>Address :</td>
-				<td>
-					<textarea name="address" class="form-control" required><?php echo set_value('address'); ?> </textarea>
-					<span class='error'>* <?php echo form_error('address'); ?></span>
+					<span class='error'>* <?php echo form_error('mobile_no'); ?> [ Will use for sms sending ]</span>					
 				</td>
 			</tr>
 			<tr>				
-				<td>Employee Picture :</td>
+				<td>Photo :</td>
 				<td>
-					<input name="photo" type="file" class='form-control'/> [Size (300 X 300)]
-					<span class='error'> <?=(isset($error_photo))? $error_photo :''; ?></span>
-				</td>
-			</tr>
-			<tr>				
-				<td>Uplaod CV :</td>
-				<td>
-					<input name="cv" type="file" class='form-control'/> [Max Size (3M)]
-					<span class='error'> <?=(isset($error_cv))? $error_cv :''; ?></span>
-				</td>
-			</tr>
-			<tr>
-				<td>Joining  Date :</td>
-				<td>
-					<input type="text" class="form-control calander"  name="join_date" value="<?=set_value('join_date'); ?>" required autocomplete="off"/>
-					<span class="add-on"><span class="glyphicon glyphicon-calendar"></span>
-					<span class="error">* <?php echo form_error('join_date'); ?></span>
-				</td>
-			</tr>
-			<tr>
-				<td>Order. :</td>
-				<td>
-					<input name="serial" type="text" class="form-control" value="<?=set_value('serial'); ?>" required>
-					<span class='error'>* <?php echo form_error('serial'); ?></span>					
+					<input name="photo" type="file" class='form-control'/> 
+					<span class='error'> <?=(isset($error_photo))? $error_photo :''; ?>[Size (300 X 300)]</span>
 				</td>
 			</tr>
 			<tr>
 				<td>Status :</td>
 				<td>
 					<select name='status' class='form-control' required>
-					<option value="" >---- Select Status ----</option>
 					<?php echo html_options($status_options,set_value('status')); ?>
 					</select>
 					<span class='error'>* <?php echo form_error('status'); ?> </span>
+				</td>
+			</tr>
+			<tr>
+				<td>Special Note :</td>
+				<td>
+					<textarea name="description" class="form-control" required><?php echo set_value('description'); ?> </textarea>
 				</td>
 			</tr>
 			<tr>
@@ -199,6 +216,12 @@
 
 <script>
     $(document).ready(function () {
+
+		$('.calander').datepicker({
+			format: 'yyyy-mm-dd',
+			autoclose: true
+		});	
+
       $('#class_id').selectChain({
           target: $('#section_id'),
           value: 'title',
@@ -244,7 +267,7 @@
 						$('#admission_roll').val(defaultAdmissionRoll);	
 					}else{
 						var newStudentID          = parseInt(obj.id_no) + 1;
-						var newAdmissionRoll    = parseInt(obj.admission_roll) + 1;
+						var newAdmissionRoll      = parseInt(obj.admission_roll) + 1;
 						
 						$('#id_no').val(newStudentID);
 						$('#admission_roll').val(newAdmissionRoll);	
@@ -253,5 +276,28 @@
 			}); 
 			return false;				
 		});
+
+		$('.has_siblins_yes').hide();
+		
+		$(".has_siblins").change(function() {
+			var has_siblins = $("input[name='has_siblins']:checked").val();
+			if(has_siblins =='yes'){
+				$('.has_siblins_yes').show();
+				$('.has_siblins_no').hide();
+			}else if(has_siblins =='no'){
+				$('.has_siblins_yes').hide();
+				$('.has_siblins_no').show();
+			}
+		});
+
+		$('#siblins_class_id').selectChain({
+          target: $('#siblins_section_id'),
+          value: 'title',
+          url: '<?php echo site_url(); ?>student/get_section',
+          type: 'post',
+          data: {'class_id': 'siblins_class_id'}
+      });
+
+
     });
 </script>
