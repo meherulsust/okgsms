@@ -130,6 +130,16 @@
 		$this->db->from('class c');
 		$this->db->where('c.id',$id);
 		return $this->get_row();
+	 }
+	 
+	 function get_student_by($id)
+	 {
+		$this->db->select('id,full_name as title');
+		$this->db->from('student_list');
+		$this->db->where('id',$id);
+		$this->db->order_by('id','asc');
+ 		$rs = $this->db->get(); 				
+		return $rs->result_array();
 	 } 
 			
  	

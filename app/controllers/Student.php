@@ -34,6 +34,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('section_options',$section_options);
 		$student_type_options = $this->optionmodel->student_type_options();; 		
 		$this->assign('student_type_options',$student_type_options);
+		$student_options = $this->optionmodel->student_options();; 		
+		$this->assign('student_options',$student_options);
 		$this->assign('religion_options',$religion_options);
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);
@@ -47,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $search_data = $this->search->data_search($data);
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Student List','link_title'=>'New Student','link_action'=>'Student/add');
-  	    $labels=array('id_no'=>'Student No','name'=>'Full Name','class'=>'Class','section'=>'Section','mobile_no'=>'Mobile','status'=>'Status');
+  	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Section','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->studentmodel->count_list($search_data);
 		$config['uri_segment'] = 6;
@@ -93,20 +95,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			
 			$data['student_type_id']	  = $this->input->post('student_type_id');
-			$data['full_name']			  = $this->input->post('name');
+			$data['full_name']			  = $this->input->post('full_name');
 			$data['password']      		  = $this->hash_password('123456');
 			$data['admission_date']	      = $this->input->post('admission_date');
 			$data['class_id']		      = $this->input->post('class_id');
 			$data['section_id']			  = $this->input->post('section_id');
 			$data['id_no']				  = $this->input->post('id_no');
+			$data['admission_roll']		  = $this->input->post('admission_roll');
 			$data['dob']				  = $this->input->post('dob');
 			$data['birth_certificate_no'] = $this->input->post('birth_certificate_no');
-			$data['is_siblings']		  = $this->input->post('is_siblings');
+			$data['has_sibling']		  = $this->input->post('has_sibling');
 			$data['father_nid']		  	  = $this->input->post('father_nid');
 			$data['mother_nid']		      = $this->input->post('mother_nid');
-			$data['siblings_class_id']	  = $this->input->post('siblings_class_id');
-			$data['siblings_section_id']  = $this->input->post('siblings_section_id');
-			$data['siblings_id'] 		  = $this->input->post('siblings_id');
+			$data['sibling_class_id']	  = $this->input->post('sibling_class_id');
+			$data['sibling_section_id']   = $this->input->post('sibling_section_id');
+			$data['sibling_id'] 		  = $this->input->post('sibling_id');
 			$data['mobile_no']			  = $this->input->post('mobile_no');
 			$data['religion_id']		  = $this->input->post('religion_id');
 			$data['blood_group_id']		  = $this->input->post('blood_group_id');
@@ -158,7 +161,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$row=$this->studentmodel->get_record($id);							// get record
 		$this->form_validation->set_rules($this->validate($row));
 		$this->validation_error_msg(); 		
-		$admin_id = $row['admin_id'];
 		$this->assign($row);  
 		
 		if ($this->form_validation->run() == FALSE)
@@ -167,29 +169,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		else
 		{
-			$login['username']       	= $this->input->post('username');
-			$login['id_admin_group']	= $this->input->post('id_admin_group');
-			$login['full_name']			= $this->input->post('name');
-			$login['email']				= $this->input->post('email');
-			$login['mobile']		    = $this->input->post('mobile_no');
-			if($this->input->post('password') !=''){
-				$login['password']      	= $this->hash_password($this->input->post('password'));
-			}
-			$data['name']			    = $this->input->post('name');
-			$data['category_id']		= $this->input->post('category_id');
-			$data['designation']		= $this->input->post('designation');
-			$data['dob']				= $this->input->post('dob');
-			$data['gender']				= $this->input->post('gender');
-			$data['blood_group_id']		= $this->input->post('blood_group_id');
-			$data['mobile_no']			= $this->input->post('mobile_no');
-			$data['address']			= $this->input->post('address');
-			$data['religion_id']		= $this->input->post('religion_id');
-			$data['serial']				= $this->input->post('serial');
-			$data['status']				= $this->input->post('status');
-			$data['relevant_subject']	= $this->input->post('relevant_subject');
-			$data['join_date']			= $this->input->post('join_date');
-			$data['created_at']  	    = $this->current_date();
-			$data['updated_by']  		= $this->session->userdata('admin_userid');
+			$data['student_type_id']	  = $this->input->post('student_type_id');
+			$data['full_name']			  = $this->input->post('full_name');
+			$data['admission_date']	      = $this->input->post('admission_date');
+			$data['class_id']		      = $this->input->post('class_id');
+			$data['section_id']			  = $this->input->post('section_id');
+			$data['id_no']				  = $this->input->post('id_no');
+			$data['admission_roll']		  = $this->input->post('admission_roll');
+			$data['dob']				  = $this->input->post('dob');
+			$data['birth_certificate_no'] = $this->input->post('birth_certificate_no');
+			$data['has_sibling']		  = $this->input->post('has_sibling');
+			$data['father_nid']		  	  = $this->input->post('father_nid');
+			$data['mother_nid']		      = $this->input->post('mother_nid');
+			$data['sibling_class_id']	  = $this->input->post('sibling_class_id');
+			$data['sibling_section_id']   = $this->input->post('sibling_section_id');
+			$data['sibling_id'] 		  = $this->input->post('sibling_id');
+			$data['mobile_no']			  = $this->input->post('mobile_no');
+			$data['religion_id']		  = $this->input->post('religion_id');
+			$data['blood_group_id']		  = $this->input->post('blood_group_id');
+			$data['status']				  = $this->input->post('status');
+			$data['gender']	  			  = $this->input->post('gender');
+			$data['description']		  = $this->input->post('description');
+			$data['session']		  	  = $this->input->post('session');
+			$data['created_at']  	      = $this->current_date();
+			$data['created_by']  		  = $this->session->userdata('admin_userid');
+
 			
 			if(trim($_FILES["photo"]["name"])!='' OR  $_FILES["cv"]["name"] !='') 
 			{
@@ -207,19 +211,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					} 
 				}
 				
-				if(trim($_FILES["cv"]["name"]) != '' ){
-					$ext = explode(".", $_FILES["cv"]["name"]);
-					$file_ext = end($ext);
-					$image_name = rand(100000, 999999) . '_' . rand(100000, 999999) . '.' . $file_ext;			
-					if ($this->upload_images('cv',$image_name,'employee_cv')) { // field_name, iamge_name ,folder_name
-						$data['cv'] = $image_name;
-						if ($row['cv'] != '') {
-							unlink($this->upload_dir() . "employee_cv/" . $row['cv']);
-						}
-					}else{
-						$upload_error['error_cv'] =  $this->upload->display_errors(); 			
-					} 
-				}
 				
 				if($this->upload->display_errors()){
 					$head = array('page_title'=>'Edit Student','link_title'=>'Student List','link_action'=>'Student/index');
@@ -227,25 +218,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$this->load->view('student/edit',$head);	
 				}
 				else{
-					if($data['category_id']=='1'){
-						$this->studentmodel->edit_user($admin_id,$login);
-						$this->studentmodel->edit($id,$data);
-					}else{
-						$this->studentmodel->edit($id,$data);
-					}
+					$this->studentmodel->edit($id,$data);
 					$this->session->set_flashdata('message', $this->tpl->set_message('edit', 'Student'));
 					redirect('Student');	
 				}
 			
 			}else{
-				if($data['category_id']=='1'){
-					$this->studentmodel->edit_user($admin_id,$login);
-					$this->studentmodel->edit($id,$data);
-				}else{
-					$this->studentmodel->edit($id,$data);
-				}
+				$this->studentmodel->edit($id,$data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Student'));
-				redirect('Employee');
+				redirect('Student');
 				 		
 			}
 		}
@@ -263,8 +244,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->studentmodel->del($id);	
 		$status = 1;
 		unlink($this->upload_dir()."student_images/".$row['photo']);
-		unlink($this->upload_dir()."employee_cv/".$row['cv']);
-		$message = $this->tpl->set_message('delete','Employee');
 		$array = array('status'=>$status,'message'=>$message);
 		echo json_encode($array);
 	}
@@ -281,14 +260,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
 			array('field'=>'id_no','label'=>'Student No','rules'=>'trim|required'),
 			array('field'=>'section_id','label'=>'Form','rules'=>'trim|required'),
-			array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required'),
 			array('field'=>'admission_roll','label'=>'Admission roll','rules'=>'trim|required'),
 			array('field'=>'admission_date','label'=>'Admission date','rules'=>'trim|required'),
 			array('field'=>'session','label'=>'Admission session','rules'=>'trim|required'),
-			array('field'=>'is_siblins','label'=>'Siblins','rules'=>'trim|required'),
-
-
-
+			array('field'=>'has_sibling','label'=>'Siblins','rules'=>'trim|required'),
 			array('field'=>'serial','label'=>'Serial','rules'=>'trim'),
 			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim'),
 			array('field'=>'description','label'=>'Description','rules'=>'trim'),
@@ -301,12 +276,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		);
 
 		$config3 = array(
-			array('field'=>'siblings_class_id','label'=>'Siblings Class','rules'=>'trim|required'),
-			array('field'=>'siblings_section_id','label'=>'Siblings Form','rules'=>'trim|required'),
-			array('field'=>'siblings_id','label'=>'Siblins Name','rules'=>'trim|required'),
+			array('field'=>'sibling_class_id','label'=>'Sibling Class','rules'=>'trim|required'),
+			array('field'=>'sibling_section_id','label'=>'Sibling Form','rules'=>'trim|required'),
+			array('field'=>'sibling_id','label'=>'Siblins Name','rules'=>'trim|required'),
 		);
+		if(!empty($row)){
+			$config4 = array(
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required||callback_duplicate_student_check[' . $row['birth_certificate_no'] . ']'),
+			);
+		}else{
+			$config4 = array(
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required||callback_duplicate_student_check'),
+			);	
+		}
+		
+
+		if($this->input->post('category_id')=='no'){
+			$config = array_merge($config1,$config2);
+		}else if($this->input->post('category_id')=='yes'){
+			$config = array_merge($config1,$config3);
+		}else{
+			$config	 = $config1;
+		}
 	
-        return $config1;
+        return $config;
     }
 
 	
@@ -323,14 +316,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        return true;
 	}
 
-	// validation function for checking username duplicacy 
+	// validation function for checking student duplicacy 
 
-	function duplicate_teacher_check($str,$param='')
+	function duplicate_student_check($str,$param='')
   	{
-      $query = $this->db->query("SELECT id FROM sms_admins where username='$str' AND username<>'$param'");
+      $query = $this->db->query("SELECT id FROM sms_student_list where 	birth_certificate_no='$str' AND 	birth_certificate_no<>'$param'");
        if($query->num_rows()>0)
        {
-          $this->form_validation->set_message('duplicate_teacher_check', "%s <span style='color:green;'>$str</span> already exists");
+          $this->form_validation->set_message('duplicate_student_check', "%s <span style='color:red;'>$str</span> already exists");
 		 	 	 return false;
        }
        return true;
@@ -338,12 +331,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   	}
 
 	function get_section()
-	  {
-		  $class_id = $this->input->post('class_id');
-		  $rs = array(array('id' => '', 'title' => '--- Select Form ---'));
-		  $section = array_merge($rs, $this->studentmodel->get_section_by($class_id));
-		  $this->output->set_output(json_encode($section));
-	  }	
+	{
+		$class_id = $this->input->post('class_id');
+		$rs = array(array('id' => '', 'title' => '--- Select Form ---'));
+		$section = array_merge($rs, $this->studentmodel->get_section_by($class_id));
+		$this->output->set_output(json_encode($section));
+	}
+	
+	function get_student()
+	{
+		$student_id = $this->input->post('student_id');
+		$rs = array(array('id' => '', 'title' => '--- Select Siblings ---'));
+		$student = array_merge($rs, $this->studentmodel->get_student_by($student_id));
+		$this->output->set_output(json_encode($student));
+	}	
+	  
 	  
 	function student_details()
 	{

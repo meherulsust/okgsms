@@ -126,7 +126,16 @@ class Optionmodel extends MT_Model
 		$this->db->where('status','Active');
 		$this->db->order_by('id','asc');
  		return $this->get_assoc(); 
- 	}  
+ 	}
+    
+    function student_options()
+ 	{
+ 		$this->db->select('id,full_name title');
+ 		$this->db->from('student_list');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}   
 
 
 }

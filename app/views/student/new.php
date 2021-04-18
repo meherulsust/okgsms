@@ -38,8 +38,8 @@
 			<tr>
 				<td>Name :</td>
 				<td>
-					<input name="name" type="text" class="form-control" value="<?=set_value('name'); ?>" autocomplete="off" required/>
-					<span class='error'>* <?php echo form_error('name'); ?></span>
+					<input name="full_name" type="text" class="form-control" value="<?=set_value('full_name'); ?>" autocomplete="off" required/>
+					<span class='error'>* <?php echo form_error('full_name'); ?></span>
 				</td>
 			</tr>
 			<tr>
@@ -86,54 +86,54 @@
 			<tr>
                 <td>Has Siblings :</td>
                 <td>
-                    <input id="m1" style="width:20px;" class="form-control has_siblins" type="radio" name="has_siblins" value="yes" <?php echo set_value('has_siblins') ?> /> Yes
-                    <input id ="m2" style="width:20px;margin-left:20px;" class="form-control has_siblins" type="radio" name="has_siblins" value="no" <?php echo set_value('has_siblins') ?> checked/> No
-                    <span class='error' style="margin-left:193px;">* <?php echo form_error('has_siblins'); ?></span>	
+                    <input id="m1" style="width:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="yes" <?php echo set_value('has_sibling') ?> /> Yes
+                    <input id ="m2" style="width:20px;margin-left:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="no" <?php echo set_value('has_sibling') ?> checked/> No
+                    <span class='error' style="margin-left:193px;">* <?php echo form_error('has_sibling'); ?></span>	
                 </td>
             </tr>
-			<tr class="has_siblins_no">
+			<tr class="has_sibling_no">
 				<td>Father NID No :</td>
 				<td>
-					<input name="father_nid_no" id="father_nid_no" type="text" class="form-control" value="<?=set_value('father_nid_no'); ?>" required/>
-					<span class='error'>* <?php echo form_error('father_nid_no'); ?> </span>
+					<input name="father_nid" id="father_nid" type="text" class="form-control" value="<?=set_value('father_nid'); ?>" />
+					<span class='error'>* <?php echo form_error('father_nid'); ?> </span>
 				</td>
 			</tr>
-			<tr class="has_siblins_no">
+			<tr class="has_sibling_no">
 				<td>Mother NID No :</td>
 				<td>
-					<input name="mother_nid_no" id="mother_nid_no" type="text" class="form-control" value="<?=set_value('mother_nid_no'); ?>" required/>
-					<span class='error'>* <?php echo form_error('mother_nid_no'); ?> </span>
+					<input name="mother_nid" id="mother_nid" type="text" class="form-control" value="<?=set_value('mother_nid'); ?>" />
+					<span class='error'>* <?php echo form_error('mother_nid'); ?> </span>
 				</td>
 			</tr>
-			<tr class="has_siblins_yes">
+			<tr class="has_sibling_yes">
 				<td>Siblings Class :</td>
 				<td>
-					<select name='siblins_class_id' class='form-control' id="siblins_class_id" required>
+					<select name='sibling_class_id' class='form-control' id="sibling_class_id">
 						<option value="" >---- Select Siblings Class ----</option>
-						<?php echo html_options($class_options,set_value('siblins_class_id')); ?>
+						<?php echo html_options($class_options,set_value('sibling_class_id')); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('siblins_class_id'); ?> </span>
+					<span class='error'>* <?php echo form_error('sibling_class_id'); ?> </span>
 				</td>
 				<input type="hidden" name="class_code" id="class_code" />
 			</tr>
-			<tr  class="has_siblins_yes">
+			<tr  class="has_sibling_yes">
 				<td>Siblings Form:</td>
 				<td>
-					<select name='siblins_section_id' class='form-control' id="siblins_section_id" required>
+					<select name='sibling_section_id' class='form-control' id="sibling_section_id">
 						<option value="" >---- Select Siblings Form ----</option>
-						<?php echo html_options($section_options,set_value('siblins_section_id')); ?>
+						<?php echo html_options($section_options,set_value('sibling_section_id')); ?>
 					</select>
-					<span class='error'>* <?php echo form_error('siblins_section_id'); ?> </span>
+					<span class='error'>* <?php echo form_error('sibling_section_id'); ?> </span>
 				</td>
 			</tr>
-			<tr class="has_siblins_yes">
+			<tr class="has_sibling_yes">
 				<td>Siblings :</td>
 				<td>
-				<select class="form-control" name="siblins" id ="siblins">
+				<select class="form-control" name="sibling_id" id ="sibling_id">
 					<option value="">---- Select Siblings ----</option>
-					<?php echo html_options($admin_group_options, set_value('siblins')); ?>
+					<?php echo html_options($student_options, set_value('sibling_id')); ?>
 				</select>
-				<span class='error'>* <?php echo form_error('siblins'); ?></span>
+				<span class='error'>* <?php echo form_error('sibling_id'); ?></span>
 				</td>
 			</tr>
 			<tr>
@@ -277,26 +277,34 @@
 			return false;				
 		});
 
-		$('.has_siblins_yes').hide();
+		$('.has_sibling_yes').hide();
 		
-		$(".has_siblins").change(function() {
-			var has_siblins = $("input[name='has_siblins']:checked").val();
-			if(has_siblins =='yes'){
-				$('.has_siblins_yes').show();
-				$('.has_siblins_no').hide();
-			}else if(has_siblins =='no'){
-				$('.has_siblins_yes').hide();
-				$('.has_siblins_no').show();
+		$(".has_sibling").change(function() {
+			var has_sibling = $("input[name='has_sibling']:checked").val();
+			if(has_sibling =='yes'){
+				$('.has_sibling_yes').show();
+				$('.has_sibling_no').hide();
+			}else if(has_sibling =='no'){
+				$('.has_sibling_yes').hide();
+				$('.has_sibling_no').show();
 			}
 		});
 
-		$('#siblins_class_id').selectChain({
-          target: $('#siblins_section_id'),
+		$('#sibling_class_id').selectChain({
+          target: $('#sibling_section_id'),
           value: 'title',
           url: '<?php echo site_url(); ?>student/get_section',
           type: 'post',
-          data: {'class_id': 'siblins_class_id'}
-      });
+          data: {'class_id': 'sibling_class_id'}
+      	});
+
+		$('#sibling_section_id').selectChain({
+          target: $('#sibling_id'),
+          value: 'title',
+          url: '<?php echo site_url(); ?>student/get_student',
+          type: 'post',
+          data: {'student_id': 'sibling_id'}
+      	}); 
 
 
     });
