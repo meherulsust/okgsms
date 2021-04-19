@@ -11,9 +11,9 @@
     </div>	
 	<table class="form_table">
 		<tr>
-			<td width="1%">Name :</td>
+			<td>Name :</td>
 			<td>
-				<?php echo $name; ?>
+				<?php echo $full_name; ?>
 			</td>
 		</tr>
 		<?php if(!empty($photo)):?>
@@ -27,21 +27,21 @@
 		</tr>
 		<?php endif;?>
 		<tr>
-			<td>Designation :</td>
+			<td>Class :</td>
 			<td>
-				<?php echo $designation; ?>
+				<?php echo $class; ?>
 			</td>
 		</tr>
 		<tr>
-			<td>Relevant Subject :</td>
+			<td>Form :</td>
 			<td>
-				<?php echo $relevant_subject; ?>
+				<?php echo $section; ?>
 			</td>
 		</tr>	
 		<tr>
-			<td>Email :</td>
+			<td>Student ID :</td>
 			<td>
-				<?php echo $email; ?>				
+				<?php echo $id_no; ?>				
 			</td>
 		</tr>	
 		<tr>
@@ -49,21 +49,7 @@
 			<td>
 				<?php echo $mobile_no; ?>
 			</td>
-		</tr>
-		<tr>
-			<td>Address :</td>
-			<td>
-				<?php echo $address; ?>
-			</td>
-		</tr>
-		<?php if(!empty($cv)):?>
-		<tr>
-			<td>CV File :</td>
-			<td>
-				<a href="<?= $upload_url.'employee_cv/'.$cv ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> Download </button></a>
-			</td>
-		</tr>
-		<?php endif;?>	
+		</tr>	
 		<tr>
 			<td></td>
 			<td>

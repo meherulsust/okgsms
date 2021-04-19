@@ -229,6 +229,25 @@
           type: 'post',
           data: {'class_id': 'class_id'}
       });
+
+	  $("#class_id").change(function() {				
+			var classID = $(this).val();
+			var currentDate = new Date();
+  			var currentYear = currentDate.getFullYear();
+			var defaultRoll   = '001';
+
+			$.ajax({
+				type: "POST",
+				url: '<?php echo $site_url;?>student/class_details',
+				data: 'class_id='+classID,
+				cache: false, 
+				success: function(response){
+					var obj  = jQuery.parseJSON(response);
+					$('#class_code').val(obj.code);
+					}
+			});   
+			return false;				
+		});
 	 
 	  $("#class_id").change(function() {				
 			var classID = $(this).val();
