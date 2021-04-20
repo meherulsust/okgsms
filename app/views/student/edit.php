@@ -29,7 +29,6 @@
 				<td>Student Type :</td>
 				<td>
 					<select name='student_type_id' class='form-control' id="student_type_id" required>
-						<option value="" >---- Select Student Type ----</option>
 						<?php echo html_options($student_type_options,set_value('student_type_id',$student_type_id)); ?>
 					</select>
 					<span class='error'>* <?php echo form_error('student_type_id'); ?> </span>
@@ -79,8 +78,8 @@
 			<tr>
 				<td>Class Roll :</td>
 				<td>
-					<input name="class_roll" type="text" id="classs_roll" class="form-control" value="<?=set_value('class_roll',$class_roll); ?>" required />
-					<span class='error'>* <?php echo form_error('classs_roll'); ?> </span>
+					<input name="class_roll" type="text" id="class_roll" class="form-control" value="<?=set_value('class_roll',$class_roll); ?>" required />
+					<span class='error'>* <?php echo form_error('class_roll'); ?> </span>
 				</td>
 			</tr>
 			<tr>
@@ -102,14 +101,14 @@
 				<td>Father NID No :</td>
 				<td>
 					<input name="father_nid" id="father_nid" type="text" class="form-control" value="<?=set_value('father_nid',$father_nid); ?>" />
-					<span class='error'>* <?php echo form_error('father_nid'); ?> </span>
+					<span class='error'><?php echo form_error('father_nid'); ?> </span>
 				</td>
 			</tr>
 			<tr class="has_sibling_no">
 				<td>Mother NID No :</td>
 				<td>
 					<input name="mother_nid" id="mother_nid" type="text" class="form-control" value="<?=set_value('mother_nid',$mother_nid); ?>" />
-					<span class='error'>* <?php echo form_error('mother_nid'); ?> </span>
+					<span class='error'> <?php echo form_error('mother_nid'); ?> </span>
 				</td>
 			</tr>
 			<tr class="has_sibling_yes">
@@ -236,6 +235,7 @@
           type: 'post',
           data: {'class_id': 'class_id'}
       });
+
 	 
 	  $("#class_id").change(function() {				
 			var classID = $(this).val();
@@ -249,8 +249,8 @@
 				data: 'class_id='+classID,
 				cache: false, 
 				success: function(response){
-					var obj  = jQuery.parseJSON(response);
-					$('#class_code').val(obj.code);
+						var obj  = jQuery.parseJSON(response);
+						$('#class_code').val(obj.code);
 					}
 			});   
 		
@@ -260,24 +260,24 @@
 				data: 'class_id='+classID,
 				cache: false, 
 				success: function(response){
-				
 					var obj = jQuery.parseJSON(response);
-					
-					
-					if(obj == "")
+					if(obj == null)
 					{
 						var defaultCode   	     = $('#class_code').val();
 						var defaultStudentID 	 = currentYear + defaultCode + defaultRoll;
 						var defaultAdmissionRoll = defaultCode + defaultRoll;
 						
 						$('#id_no').val(defaultStudentID);	
-						$('#admission_roll').val(defaultAdmissionRoll);	
+						$('#admission_roll').val(defaultAdmissionRoll);
+						$('#class_roll').val(defaultRoll);		
 					}else{
 						var newStudentID          = parseInt(obj.id_no) + 1;
 						var newAdmissionRoll      = parseInt(obj.admission_roll) + 1;
+						var newClassRoll      	  = parseInt(obj.class_roll) + 1;
 						
 						$('#id_no').val(newStudentID);
 						$('#admission_roll').val(newAdmissionRoll);	
+						$('#class_roll').val(newClassRoll);	
 					}
 				}
 			}); 
@@ -310,9 +310,7 @@
           value: 'title',
           url: '<?php echo site_url(); ?>student/get_student',
           type: 'post',
-          data: {'student_id': 'sibling_id'}
+          data: {'student_id': 'sibling_section_id'}
       	}); 
-
-
     });
 </script>

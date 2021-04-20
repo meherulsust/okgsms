@@ -259,9 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'religion_id','label'=>'Religion','rules'=>'trim|required'),  
 			array('field'=>'status','label'=>'Status','rules'=>'trim|required'),
 			array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
-			array('field'=>'id_no','label'=>'Student No','rules'=>'trim|required'),
 			array('field'=>'section_id','label'=>'Form','rules'=>'trim|required'),
-			array('field'=>'admission_roll','label'=>'Admission roll','rules'=>'trim|required'),
 			array('field'=>'admission_date','label'=>'Admission date','rules'=>'trim|required'),
 			array('field'=>'session','label'=>'Admission session','rules'=>'trim|required'),
 			array('field'=>'has_sibling','label'=>'Siblins','rules'=>'trim|required'),
@@ -274,13 +272,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if($this->input->post('has_sibling')=='no'){
 			if(!empty($row)){
 				$config2 = array(
-					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required|callback_duplicate_father_nid['.$row['father_nid'].']'),
-					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required|callback_duplicate_mother_nid['.$row['mother_nid'].']'),
+					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|callback_duplicate_father_nid['.$row['father_nid'].']'),
+					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|callback_duplicate_mother_nid['.$row['mother_nid'].']'),
 				);
 			}else{
 				$config2 = array(
-					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required|callback_duplicate_father_nid'),
-					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required|callback_duplicate_mother_nid'),
+					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|callback_duplicate_father_nid'),
+					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|callback_duplicate_mother_nid'),
 				);	
 			}
 		}else{
@@ -296,12 +294,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required|callback_duplicate_student_check['.$row['birth_certificate_no'].']'),
 				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no['.$row['mobile_no'].']'),
 				array('field'=>'class_roll','label'=>'Class Roll','rules'=>'trim|required|callback_duplicate_class_roll['.$row['class_roll'].']'),
+				array('field'=>'id_no','label'=>'Student ID','rules'=>'trim|required|callback_duplicate_id_no['.$row['id_no'].']'),
+				array('field'=>'admission_roll','label'=>'Admission roll','rules'=>'trim|required|callback_duplicate_admission_roll['.$row['admission_roll'].']'),
 			);
 		}else{
 			$config3 = array(
 				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required|callback_duplicate_student_check'),
 				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no'),
 				array('field'=>'class_roll','label'=>'Class roll','rules'=>'trim|required|callback_duplicate_class_roll'),
+				array('field'=>'id_no','label'=>'Student ID','rules'=>'trim|required|callback_duplicate_id_no'),
+				array('field'=>'admission_roll','label'=>'Admission roll','rules'=>'trim|required|callback_duplicate_admission_roll'),
 			);	
 		}
 		
@@ -378,6 +380,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        return true;
 
   	}
+
+	//check duplicate Student ID for validation
+
+	function duplicate_id_no($str,$param='')
+	{
+		$query = $this->db->query("SELECT id FROM sms_student_list where id_no='$str' AND id_no<>'$param'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_id_no', "%s <span style='color:green;'>$str</span> already exists");
+			return false;
+		}
+		return true;
+	}
+
+	//check duplicate admission Number for validation
+
+	function duplicate_admission_roll($str,$param='')
+	{
+		$query = $this->db->query("SELECT id FROM sms_student_list where admission_roll='$str' AND admission_roll<>'$param'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_admission_roll', "%s <span style='color:green;'>$str</span> already exists");
+			return false;
+		}
+		return true;
+	}
 
 	function get_section()
 	{

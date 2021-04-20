@@ -83,7 +83,7 @@
 		$this->db->from('student_list sl');
 	  	$this->db->join('admins a', 'a.id =sl.created_by', 'left');
 	  	$this->db->join('class c', 'c.id =sl.class_id', 'left');
-	 	 $this->db->join('section se', 'se.id =sl.section_id', 'left');
+	 	$this->db->join('section se', 'se.id =sl.section_id', 'left');
 	  	$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
 	  	$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
 	  	$this->db->join('religion re', 're.id =sl.religion_id', 'left');	
@@ -115,13 +115,13 @@
 
 	 function get_student_details($id)
 	 {
-		$this->db->select('c.id,c.code,sl.id_no,sl.admission_roll,sl.created_at,sl.session');
-		 $this->db->from('class c');
-		 $this->db->join('student_list sl','sl.class_id=c.id','left');
-		 $this->db->where('c.id',$id);
-		 $this->db->where("sl.session =",current_year());
-		 $this->db->order_by('sl.id_no','DESC');
-		 return $this->get_row();
+		$this->db->select('id,id_no,admission_roll,created_at,session,class_roll');
+		$this->db->from('student_list');
+		$this->db->where('class_id',$id);
+		$this->db->where("session =",current_year());
+		$this->db->order_by('id','DESC');
+		$rs = $this->db->get(); 				
+		return $rs->row();
 	 } 
 
 	 function get_class_details($id)
@@ -129,7 +129,8 @@
 		$this->db->select('c.id,c.code');
 		$this->db->from('class c');
 		$this->db->where('c.id',$id);
-		return $this->get_row();
+		$rs = $this->db->get(); 				
+		return $rs->row();
 	 }
 	 
 	 function get_student_by($id)
