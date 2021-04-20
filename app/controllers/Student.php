@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $search_data = $this->search->data_search($data);
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Student List','link_title'=>'New Student','link_action'=>'Student/add');
-  	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Section','mobile_no'=>'Mobile','status'=>'Status');
+  	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Section','class_roll'=>'Roll','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->studentmodel->count_list($search_data);
 		$config['uri_segment'] = 6;
@@ -102,6 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['section_id']			  = $this->input->post('section_id');
 			$data['id_no']				  = $this->input->post('id_no');
 			$data['admission_roll']		  = $this->input->post('admission_roll');
+			$data['class_roll']		  	  = $this->input->post('class_roll');
 			$data['dob']				  = $this->input->post('dob');
 			$data['birth_certificate_no'] = $this->input->post('birth_certificate_no');
 			$data['has_sibling']		  = $this->input->post('has_sibling');
@@ -176,6 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['section_id']			  = $this->input->post('section_id');
 			$data['id_no']				  = $this->input->post('id_no');
 			$data['admission_roll']		  = $this->input->post('admission_roll');
+			$data['class_roll']		  	  = $this->input->post('class_roll');
 			$data['dob']				  = $this->input->post('dob');
 			$data['birth_certificate_no'] = $this->input->post('birth_certificate_no');
 			$data['has_sibling']		  = $this->input->post('has_sibling');
@@ -255,7 +257,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'dob','label'=>'Date of Birth','rules'=>'trim|required'),  
 			array('field'=>'gender','label'=>'Gender','rules'=>'trim|required'),  
 			array('field'=>'religion_id','label'=>'Religion','rules'=>'trim|required'),  
-			array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required'),  
 			array('field'=>'status','label'=>'Status','rules'=>'trim|required'),
 			array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
 			array('field'=>'id_no','label'=>'Student No','rules'=>'trim|required'),
@@ -270,61 +271,109 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'photo','label'=>'Photo','rules'=>'trim'),    		
         );
 		
-		$config2 = array(
-			array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required'),
-			array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required'),
-		);
+		if($this->input->post('has_sibling')=='no'){
+			if(!empty($row)){
+				$config2 = array(
+					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required|callback_duplicate_father_nid['.$row['father_nid'].']'),
+					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required|callback_duplicate_mother_nid['.$row['mother_nid'].']'),
+				);
+			}else{
+				$config2 = array(
+					array('field'=>'father_nid','label'=>'Father NID','rules'=>'trim|required|callback_duplicate_father_nid'),
+					array('field'=>'mother_nid','label'=>'Mother NID','rules'=>'trim|required|callback_duplicate_mother_nid'),
+				);	
+			}
+		}else{
+			$config2 = array(
+				array('field'=>'sibling_class_id','label'=>'Sibling Class','rules'=>'trim|required'),
+				array('field'=>'sibling_section_id','label'=>'Sibling Form','rules'=>'trim|required'),
+				array('field'=>'sibling_id','label'=>'Siblins Name','rules'=>'trim|required'),
+			);
+		}
 
-		$config3 = array(
-			array('field'=>'sibling_class_id','label'=>'Sibling Class','rules'=>'trim|required'),
-			array('field'=>'sibling_section_id','label'=>'Sibling Form','rules'=>'trim|required'),
-			array('field'=>'sibling_id','label'=>'Siblins Name','rules'=>'trim|required'),
-		);
 		if(!empty($row)){
-			$config4 = array(
-				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required||callback_duplicate_student_check[' . $row['birth_certificate_no'] . ']'),
+			$config3 = array(
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required|callback_duplicate_student_check['.$row['birth_certificate_no'].']'),
+				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no['.$row['mobile_no'].']'),
+				array('field'=>'class_roll','label'=>'Class Roll','rules'=>'trim|required|callback_duplicate_class_roll['.$row['class_roll'].']'),
 			);
 		}else{
-			$config4 = array(
-				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required||callback_duplicate_student_check'),
+			$config3 = array(
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|required|callback_duplicate_student_check'),
+				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no'),
+				array('field'=>'class_roll','label'=>'Class roll','rules'=>'trim|required|callback_duplicate_class_roll'),
 			);	
 		}
 		
 
-		if($this->input->post('category_id')=='no'){
-			$config = array_merge($config1,$config2);
-		}else if($this->input->post('category_id')=='yes'){
-			$config = array_merge($config1,$config3);
-		}else{
-			$config	 = $config1;
-		}
+		$config = array_merge($config1,$config2,$config3);
 	
         return $config;
     }
 
 	
- 	//check duplicate email for validation
+ 	//check duplicate mobile for validation
 	
-	function duplicate_email_check($str,$param='')
+	function duplicate_mobile_no($str,$param='')
     {
-		$query = $this->db->query("SELECT id FROM sms_admins where email='$str' AND email<>'$param'");
+		$query = $this->db->query("SELECT id FROM sms_student_list where mobile_no='$str' AND mobile_no<>'$param'");
        if($query->num_rows()>0)
        {
-          $this->form_validation->set_message('duplicate_email_check', "%s <span style='color:green;'>$str</span> already exists");
-		 	 	 return false;
+          $this->form_validation->set_message('duplicate_mobile_no', "%s <span style='color:green;'>$str</span> already exists");
+		  return false;
        }
        return true;
+	}
+
+	//check duplicate Father NID for validation
+	
+	function duplicate_father_nid($str,$param='')
+    {
+		$query = $this->db->query("SELECT id FROM sms_student_list where father_nid='$str' AND father_nid<>'$param'");
+       if($query->num_rows()>0)
+       {
+          $this->form_validation->set_message('duplicate_father_nid', "%s <span style='color:green;'>$str</span> already exists");
+		  return false;
+       }
+       return true;
+	}
+
+	//check duplicate Mother NID for validation
+	
+	function duplicate_mother_nid($str,$param='')
+	{
+		$query = $this->db->query("SELECT id FROM sms_student_list where mother_nid='$str' AND mother_nid<>'$param'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_mother_nid', "%s <span style='color:green;'>$str</span> already exists");
+			return false;
+		}
+		return true;
+	}
+
+	//check duplicate Class Roll for validation
+	
+	function duplicate_class_roll($str,$param='')
+	{
+		$class_id = $this->input->post('class_id');
+		$query = $this->db->query("SELECT id FROM sms_student_list where class_roll='$str' AND class_id='$class_id' AND class_roll<>'$param'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_class_roll', "%s <span style='color:green;'>$str</span> already exists");
+			return false;
+		}
+		return true;
 	}
 
 	// validation function for checking student duplicacy 
 
 	function duplicate_student_check($str,$param='')
   	{
-      $query = $this->db->query("SELECT id FROM sms_student_list where 	birth_certificate_no='$str' AND 	birth_certificate_no<>'$param'");
+		$query = $this->db->query("SELECT id FROM sms_student_list where 	birth_certificate_no='$str' AND 	birth_certificate_no<>'$param'");
        if($query->num_rows()>0)
        {
-          $this->form_validation->set_message('duplicate_student_check', "%s <span style='color:red;'>$str</span> already exists");
-		 	 	 return false;
+          $this->form_validation->set_message('duplicate_student_check', "%s <span style='color:green;'>$str</span> already exists");
+		  return false;
        }
        return true;
 

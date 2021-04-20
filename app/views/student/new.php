@@ -77,6 +77,13 @@
 				</td>
 			</tr>
 			<tr>
+				<td>Class Roll :</td>
+				<td>
+					<input name="class_roll" type="text" id="class_roll" class="form-control" value="<?=set_value('class_roll'); ?>" required />
+					<span class='error'>* <?php echo form_error('class_roll'); ?> </span>
+				</td>
+			</tr>
+			<tr>
 				<td>Birth Certificate No :</td>
 				<td>
 					<input name="birth_certificate_no" id="birth_certificate_no" type="text" class="form-control" value="<?=set_value('birth_certificate_no'); ?>" required/>
