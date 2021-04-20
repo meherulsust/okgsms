@@ -20,9 +20,9 @@
 		<tr>
 			<td>Photo :</td>
 			<td>
-			<img src="<?= (!empty($photo)) ? $upload_url.'employee_images/'.$photo : $upload_url.'user_image/'.'default.png';?>"
+			<img src="<?= (!empty($photo)) ? $upload_url.'student_images/'.$photo : $upload_url.'user_image/'.'default.png';?>"
                 alt="User profile picture" class="profile-user-img">  
-				<br/><a href="<?= $upload_url.'employee_images/'.$photo ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> View </button></a></td>
+				<br/><a href="<?= $upload_url.'student_images/'.$photo ?>"><button class="btn btn-primary btn-xs" type="button"><i class='fa fa-download'></i> View </button></a></td>
 			</td>
 		</tr>
 		<?php endif;?>
