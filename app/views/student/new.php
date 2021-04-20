@@ -135,7 +135,7 @@
 			<tr class="has_sibling_yes">
 				<td>Siblings :</td>
 				<td>
-				<select class="form-control" name="sibling_id" id ="sibling_id">
+				<select class="form-control chosen" name="sibling_id" id ="sibling_id">
 					<option value="">---- Select Siblings ----</option>
 					<?php echo html_options($student_options, set_value('sibling_id')); ?>
 				</select>
@@ -222,6 +222,8 @@
 
 <script>
     $(document).ready(function () {
+
+		$(".chosen").chosen();
 
 		$('.calander').datepicker({
 			format: 'yyyy-mm-dd',
@@ -310,9 +312,7 @@
           value: 'title',
           url: '<?php echo site_url(); ?>student/get_student',
           type: 'post',
-          data: {'student_id': 'sibling_section_id'}
+          data: {'section_id': 'sibling_section_id'}
       	}); 
-
-
     });
 </script>

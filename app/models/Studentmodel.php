@@ -133,11 +133,11 @@
 		return $rs->row();
 	 }
 	 
-	 function get_student_by($id)
+	 function get_student_by($section_id)
 	 {
 		$this->db->select('id,full_name as title');
 		$this->db->from('student_list');
-		$this->db->where('id',$id);
+		$this->db->where('section_id',$section_id);
 		$this->db->order_by('id','asc');
  		$rs = $this->db->get(); 				
 		return $rs->result_array();

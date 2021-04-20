@@ -417,9 +417,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	function get_student()
 	{
-		$student_id = $this->input->post('student_id');
+		$section_id = $this->input->post('section_id');
 		$rs = array(array('id' => '', 'title' => '--- Select Siblings ---'));
-		$student = array_merge($rs, $this->studentmodel->get_student_by($student_id));
+		$student = array_merge($rs, $this->studentmodel->get_student_by($section_id));
 		$this->output->set_output(json_encode($student));
 	}	
 	  

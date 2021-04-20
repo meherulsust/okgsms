@@ -310,7 +310,7 @@
           value: 'title',
           url: '<?php echo site_url(); ?>student/get_student',
           type: 'post',
-          data: {'student_id': 'sibling_section_id'}
+          data: {'section_id': 'sibling_section_id'}
       	}); 
     });
 </script>
