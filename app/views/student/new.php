@@ -135,7 +135,7 @@
 			<tr class="has_sibling_yes">
 				<td>Siblings :</td>
 				<td>
-				<select class="form-control chosen" name="sibling_id" id ="sibling_id">
+				<select class="form-control" name="sibling_id" id ="sibling_id">
 					<option value="">---- Select Siblings ----</option>
 					<?php echo html_options($student_options, set_value('sibling_id')); ?>
 				</select>
