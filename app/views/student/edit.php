@@ -66,13 +66,15 @@
 			<tr>
 				<td>Student ID :</td>
 				<td>
-					<input name="id_no" type="text" id="id_no" class="form-control" value="<?=set_value('id_no',$id_no); ?>" readonly/>
+					<input name="id_no" type="text" id="id_no" class="form-control" value="<?=set_value('id_no',$id_no); ?>" /><span class='error'> <?php echo form_error('id_no'); ?> </span>
+
 				</td>
 			</tr>
 			<tr>
 				<td>Admission Roll :</td>
 				<td>
-					<input name="admission_roll" type="text" id="admission_roll" class="form-control" value="<?=set_value('admission_roll',$admission_roll); ?>" readonly/>
+					<input name="admission_roll" type="text" id="admission_roll" class="form-control" value="<?=set_value('admission_roll',$admission_roll); ?>" />
+					<span class='error'> <?php echo form_error('admission_roll'); ?> </span>
 				</td>
 			</tr>
 			<tr>
@@ -80,13 +82,6 @@
 				<td>
 					<input name="class_roll" type="text" id="class_roll" class="form-control" value="<?=set_value('class_roll',$class_roll); ?>" required />
 					<span class='error'>* <?php echo form_error('class_roll'); ?> </span>
-				</td>
-			</tr>
-			<tr>
-				<td>Birth Certificate No :</td>
-				<td>
-					<input name="birth_certificate_no" id="birth_certificate_no" type="text" class="form-control" value="<?=set_value('birth_certificate_no',$birth_certificate_no); ?>" required/>
-					<span class='error'>* <?php echo form_error('birth_certificate_no'); ?> </span>
 				</td>
 			</tr>
 			<tr>
@@ -140,6 +135,13 @@
 					<?php echo html_options($student_options, set_value('sibling_id',$sibling_id)); ?>
 				</select>
 				<span class='error'>* <?php echo form_error('sibling_id'); ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Birth Certificate No :</td>
+				<td>
+					<input name="birth_certificate_no" id="birth_certificate_no" type="number" class="form-control" value="<?=set_value('birth_certificate_no',$birth_certificate_no); ?>" max="17"/>
+					<span class='error'><?php echo form_error('birth_certificate_no'); ?> </span>
 				</td>
 			</tr>
 			<tr>
