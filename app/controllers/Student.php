@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $this->load->library('search');
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Student List','link_title'=>'New Student','link_action'=>'Student/add');
-  	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Section','class_roll'=>'Roll','mobile_no'=>'Mobile','status'=>'Status');
+  	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Form','class_roll'=>'Roll','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
 		$config['total_rows'] = $this->studentmodel->count_list($data);
 		$config['uri_segment'] = 6;
