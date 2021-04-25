@@ -87,8 +87,8 @@
 			<tr>
                 <td>Has Siblings :</td>
                 <td>
-                    <input id="m1" style="width:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="yes" <?php echo set_value('has_sibling') ?> /> Yes
-                    <input id ="m2" style="width:20px;margin-left:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="no" <?php echo set_value('has_sibling',$has_sibling) ?> checked/> No
+                    <input id="m1" style="width:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="yes" <?php echo set_value('has_sibling', $has_sibling) == 'yes' ? "checked" : ""; ?> /> Yes
+                    <input id ="m2" style="width:20px;margin-left:20px;" class="form-control has_sibling" type="radio" name="has_sibling" value="no" <?php echo set_value('has_sibling', $has_sibling) == 'no' ? "checked" : ""; ?> /> No
                     <span class='error' style="margin-left:193px;">* <?php echo form_error('has_sibling'); ?></span>	
                 </td>
             </tr>
@@ -140,7 +140,7 @@
 			<tr>
 				<td>Birth Certificate No :</td>
 				<td>
-					<input name="birth_certificate_no" id="birth_certificate_no" type="number" class="form-control" value="<?=set_value('birth_certificate_no',$birth_certificate_no); ?>" max="17"/>
+					<input name="birth_certificate_no" id="birth_certificate_no" type="number" class="form-control" value="<?=set_value('birth_certificate_no',$birth_certificate_no); ?>" />
 					<span class='error'><?php echo form_error('birth_certificate_no'); ?> </span>
 				</td>
 			</tr>
@@ -192,7 +192,7 @@
 			<tr>
 				<td>Mobile No Owner :</td>
 				<td>
-					<input name="mobile_no_owner" type="text" class="form-control" value="<?=set_value('mobile_no_owner',$mobile_no_owner); ?>" required>				
+					<input name="mobile_no_owner" type="text" class="form-control" value="<?=set_value('mobile_no_owner',$mobile_no_owner); ?>" >				
 				</td>
 			</tr>
 			<tr>				
@@ -230,6 +230,45 @@
 
 <script>
     $(document).ready(function () {
+
+		$(".chosen").chosen();
+		
+		$('.has_sibling_yes').hide();
+		$('.has_sibling_no').hide();
+		var has_sibling = $("input[name='has_sibling']:checked").val();
+		if(has_sibling =='yes'){
+				$('.has_sibling_yes').show();
+				$('.has_sibling_no').hide();
+			}else if(has_sibling =='no'){
+				$('.has_sibling_yes').hide();
+				$('.has_sibling_no').show();
+			}
+		$(".has_sibling").change(function() {
+			var has_sibling = $("input[name='has_sibling']:checked").val();
+			if(has_sibling =='yes'){
+				$('.has_sibling_yes').show();
+				$('.has_sibling_no').hide();
+			}else if(has_sibling =='no'){
+				$('.has_sibling_yes').hide();
+				$('.has_sibling_no').show();
+			}
+		});
+
+		$('#sibling_class_id').selectChain({
+          target: $('#sibling_section_id'),
+          value: 'title',
+          url: '<?php echo site_url(); ?>student/get_section',
+          type: 'post',
+          data: {'class_id': 'sibling_class_id'}
+      	});
+
+		$('#sibling_section_id').selectChain({
+          target: $('#sibling_id'),
+          value: 'title',
+          url: '<?php echo site_url(); ?>student/get_student',
+          type: 'post',
+          data: {'section_id': 'sibling_section_id'}
+      	}); 
 
 		$('.calander').datepicker({
 			format: 'yyyy-mm-dd',
@@ -291,34 +330,5 @@
 			}); 
 			return false;				
 		});
-
-		$('.has_sibling_yes').hide();
-		
-		$(".has_sibling").change(function() {
-			var has_sibling = $("input[name='has_sibling']:checked").val();
-			if(has_sibling =='yes'){
-				$('.has_sibling_yes').show();
-				$('.has_sibling_no').hide();
-			}else if(has_sibling =='no'){
-				$('.has_sibling_yes').hide();
-				$('.has_sibling_no').show();
-			}
-		});
-
-		$('#sibling_class_id').selectChain({
-          target: $('#sibling_section_id'),
-          value: 'title',
-          url: '<?php echo site_url(); ?>student/get_section',
-          type: 'post',
-          data: {'class_id': 'sibling_class_id'}
-      	});
-
-		$('#sibling_section_id').selectChain({
-          target: $('#sibling_id'),
-          value: 'title',
-          url: '<?php echo site_url(); ?>student/get_student',
-          type: 'post',
-          data: {'section_id': 'sibling_section_id'}
-      	}); 
     });
 </script>

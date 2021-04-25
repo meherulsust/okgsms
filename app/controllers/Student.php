@@ -292,7 +292,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		if(!empty($row)){
 			$config3 = array(
-				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|callback_duplicate_student_check['.$row['birth_certificate_no'].']'),
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|min_length[17]|max_length[17]|callback_duplicate_student_check['.$row['birth_certificate_no'].']'),
 				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no['.$row['mobile_no'].']'),
 				array('field'=>'class_roll','label'=>'Class Roll','rules'=>'trim|required|callback_duplicate_class_roll['.$row['class_roll'].']'),
 				array('field'=>'id_no','label'=>'Student ID','rules'=>'trim|required|callback_duplicate_id_no['.$row['id_no'].']'),
@@ -300,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			);
 		}else{
 			$config3 = array(
-				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|callback_duplicate_student_check'),
+				array('field'=>'birth_certificate_no','label'=>'Birth certificate','rules'=>'trim|min_length[17]|max_length[17]|callback_duplicate_student_check'),
 				array('field'=>'mobile_no','label'=>'Mobile','rules'=>'trim|required|callback_duplicate_mobile_no'),
 				array('field'=>'class_roll','label'=>'Class roll','rules'=>'trim|required|callback_duplicate_class_roll'),
 				array('field'=>'id_no','label'=>'Student ID','rules'=>'trim|required|callback_duplicate_id_no'),
