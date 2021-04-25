@@ -372,7 +372,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function duplicate_student_check($str,$param='')
   	{
-		$query = $this->db->query("SELECT id FROM sms_student_list where 	birth_certificate_no='$str' AND 	birth_certificate_no<>'$param'");
+		$query = $this->db->query("SELECT id FROM sms_student_list where birth_certificate_no='$str' AND 	birth_certificate_no<>'$param' AND birth_certificate_no<>''");
        if($query->num_rows()>0)
        {
           $this->form_validation->set_message('duplicate_student_check', "%s <span style='color:green;'>$str</span> already exists");
