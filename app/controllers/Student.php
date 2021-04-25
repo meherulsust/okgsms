@@ -41,17 +41,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('status_options',$status_options);
 		$this->tpl->set_js(array('select-chain'));
     }
-  	function index($sort_type='asc',$sort_on='id')
+  	function index($sort_type='desc',$sort_on='id')
   	{
-		$data['id_no'] = $this->input->post('id_no');
-        $data['mobile_no'] = $this->input->post('mobile_no');
+		$data = $this->input->post();
         $this->load->library('search');
-        $search_data = $this->search->data_search($data);
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Student List','link_title'=>'New Student','link_action'=>'Student/add');
   	    $labels=array('id_no'=>'Student No','full_name'=>'Full Name','class'=>'Class','section'=>'Section','class_roll'=>'Roll','mobile_no'=>'Mobile','status'=>'Status');
 		$this->assign('labels',$labels);
-		$config['total_rows'] = $this->studentmodel->count_list($search_data);
+		$config['total_rows'] = $this->studentmodel->count_list($data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on']=$sort_on;
@@ -62,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
 		}
 		$this->set_pagination($config);
-  		$teachers=$this->studentmodel->get_list($search_data);
+  		$teachers=$this->studentmodel->get_list($data);
   		$this->assign('records',$teachers);
   		$this->load->view('student/list',$head);
   	}
@@ -112,6 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['sibling_section_id']   = $this->input->post('sibling_section_id');
 			$data['sibling_id'] 		  = $this->input->post('sibling_id');
 			$data['mobile_no']			  = $this->input->post('mobile_no');
+			$data['mobile_no_owner']	  = $this->input->post('mobile_no_owner');
 			$data['religion_id']		  = $this->input->post('religion_id');
 			$data['blood_group_id']		  = $this->input->post('blood_group_id');
 			$data['status']				  = $this->input->post('status');
@@ -187,6 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['sibling_section_id']   = $this->input->post('sibling_section_id');
 			$data['sibling_id'] 		  = $this->input->post('sibling_id');
 			$data['mobile_no']			  = $this->input->post('mobile_no');
+			$data['mobile_no_owner']	  = $this->input->post('mobile_no_owner');
 			$data['religion_id']		  = $this->input->post('religion_id');
 			$data['blood_group_id']		  = $this->input->post('blood_group_id');
 			$data['status']				  = $this->input->post('status');
@@ -266,7 +266,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array('field'=>'serial','label'=>'Serial','rules'=>'trim'),
 			array('field'=>'blood_group_id','label'=>'Blood Group','rules'=>'trim'),
 			array('field'=>'description','label'=>'Description','rules'=>'trim'),
-			array('field'=>'photo','label'=>'Photo','rules'=>'trim'),    		
+			array('field'=>'photo','label'=>'Photo','rules'=>'trim'), 
+			array('field'=>'mobile_no_owner','label'=>'Mobile no owner','rules'=>'trim'), 	
         );
 		
 		if($this->input->post('has_sibling')=='no'){

@@ -189,6 +189,12 @@
 					<span class='error'>* <?php echo form_error('mobile_no'); ?> [ Will use for sms sending ]</span>					
 				</td>
 			</tr>
+			<tr>
+				<td>Mobile No Owner :</td>
+				<td>
+					<input name="mobile_no_owner" type="text" class="form-control" value="<?=set_value('mobile_no_owner',$mobile_no_owner); ?>" required>				
+				</td>
+			</tr>
 			<tr>				
 				<td>Photo :</td>
 				<td>

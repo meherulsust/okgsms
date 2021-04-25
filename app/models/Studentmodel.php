@@ -28,14 +28,22 @@
 		$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
 		$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
 		$this->db->join('religion re', 're.id =sl.religion_id', 'left');
-		if($data['id_no'] !='')
-			{
-				$this->db->where('sl.id_no',$data['id_no']);
-			}
-		if($data['mobile_no'] !='')
-			{
-				$this->db->where('sl.mobile_no',$data['mobile_no']);
-			}
+		if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
 		$rs=$this->db->get(); 	    
 		$teachers=$rs->result_array(); 	    
 		return $teachers;
@@ -51,14 +59,22 @@
 		$this->db->join('student_type st', 'st.id =sl.student_type_id', 'left');
 		$this->db->join('blood_group bg', 'bg.id =sl.blood_group_id', 'left');
 		$this->db->join('religion re', 're.id =sl.religion_id', 'left');
-		if($data['id_no'] !='')
-			{
-				$this->db->where('sl.id_no',$data['id_no']);
-			}
-		if($data['mobile_no'] !='')
-			{
-				$this->db->where('sl.mobile_no',$data['mobile_no']);
-			}
+		if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
 		$rs=$this->db->get();	    
 		$teachers=$rs->num_rows();		
  		return $teachers;

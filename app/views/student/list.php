@@ -14,6 +14,22 @@
                     <input name="mobile_no" type="text" class="form-control small"   value="<?= set_value('mobile_no'); ?>"/>
                 </td>   
             </tr>
+            <tr>                
+                <td>Class:</td>
+                <td>
+                    <select name='class_id' class='form-control' id="class_id">
+						<option value="" >---- Select Class ----</option>
+						<?php echo html_options($class_options,set_value('class_id')); ?>
+					</select>                               
+                </td>
+                <td>Form</td>
+                <td>
+                    <select name='section_id' class='form-control' id="section_id">
+						<option value="" >---- Select Form ----</option>
+						<?php echo html_options($section_options,set_value('section_id')); ?>
+					</select>
+                </td>   
+            </tr>
             <tr>
                 <td colspan="4" align="center">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
@@ -37,7 +53,16 @@
 		<?php $this->load->element('grid_board');?>		
 	</div>
 </form>
-<script type='text/javascript'>
+<script>
+
+$('#class_id').selectChain({
+    target: $('#section_id'),
+    value: 'title',
+    url: '<?php echo site_url(); ?>student/get_section',
+    type: 'post',
+    data: {'class_id': 'class_id'}
+});
+
 $(document).ready(function() {
 	var menuItems=[
 					{title:'<i class="fa fa-check-circle text-success"> Active</i>',value:'Active'},
