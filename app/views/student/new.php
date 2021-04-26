@@ -185,7 +185,7 @@
 			<tr>
 				<td>Mobile No. :</td>
 				<td>
-					<input name="mobile_no" type="text" class="form-control" value="<?=set_value('mobile_no'); ?>" required>
+					<input name="mobile_no" type="text" id="mobile_no" class="form-control" value="<?=set_value('mobile_no'); ?>" required>
 					<span class='error'>* <?php echo form_error('mobile_no'); ?> [ Will use for sms sending ]</span>					
 				</td>
 			</tr>
@@ -283,6 +283,22 @@
           data: {'class_id': 'class_id'}
       });
 
+	  $("#sibling_id").change(function() {
+	  var studentId = $(this).val();
+	  if(studentId == ''){
+	  	studentId = 1;
+	  }
+	  $.ajax({
+				type: "POST",
+				url: '<?php echo $site_url;?>student/student_mobile_no',
+				data: 'id='+studentId,
+				cache: false, 
+				success: function(response){
+						var obj  = jQuery.parseJSON(response);
+						$('#mobile_no').val(obj.mobile_no);
+					}
+			}); 
+		}); 
 	 
 	  $("#class_id").change(function() {				
 			var classID = $(this).val();

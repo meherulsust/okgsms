@@ -148,6 +148,16 @@
 		$rs = $this->db->get(); 				
 		return $rs->row();
 	 }
+
+	 function get_student_mobile_no($id)
+	 {
+		$this->db->select('id,mobile_no');
+		$this->db->from('student_list');
+		$this->db->where('id',$id);
+		$rs = $this->db->get(); 				
+		return $rs->row();
+	 } 
+	 
 	 
 	 function get_student_by($section_id)
 	 {
