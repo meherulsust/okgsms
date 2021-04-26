@@ -38,8 +38,6 @@
             </tr>
         </table>    
     </div>
-</form>	
-<form id="ajax_submit" role="form" action="<?=$site_url.$active_controller;?>" method="post">
 	<div class="box box-primary">	
 		<div class="box-header">
 			<i class="fa fa-table"></i><h3 class="box-title"><?php echo $page_title; ?></h3>
