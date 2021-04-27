@@ -184,7 +184,7 @@
 		$this->db->from('student_list');
 		$this->db->where('section_id',$section_id);
 		$this->db->order_by('id','asc');
-		return $this->get_assoc();
+ 		return $this->get_assoc();
 	} 
 			
  	

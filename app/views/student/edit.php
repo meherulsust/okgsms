@@ -66,7 +66,7 @@
 			<tr>
 				<td>Student ID :</td>
 				<td>
-					<input name="id_no" type="text" id="id_no" class="form-control" value="<?=set_value('id_no',$id_no); ?>" /><span class='error'> <?php echo form_error('id_no'); ?> </span>
+					<input name="id_no" type="text" id="id_no" class="form-control" value="<?=set_value('id_no',$id_no); ?>" readonly /><span class='error'> <?php echo form_error('id_no'); ?> </span>
 
 				</td>
 			</tr>
@@ -301,51 +301,51 @@
 	   }); 
 
 	 
-	  $("#class_id").change(function() {				
-			var classID = $(this).val();
-			var currentDate = new Date();
-  			var currentYear = currentDate.getFullYear();
-			var defaultRoll   = '001';
+	//   $("#class_id").change(function() {				
+	// 		var classID = $(this).val();
+	// 		var currentDate = new Date();
+  	// 		var currentYear = currentDate.getFullYear();
+	// 		var defaultRoll   = '001';
 
-			$.ajax({
-				type: "POST",
-				url: '<?php echo $site_url;?>student/class_details',
-				data: 'class_id='+classID,
-				cache: false, 
-				success: function(response){
-						var obj  = jQuery.parseJSON(response);
-						$('#class_code').val(obj.code);
-					}
-			});   
+	// 		$.ajax({
+	// 			type: "POST",
+	// 			url: '<?php echo $site_url;?>student/class_details',
+	// 			data: 'class_id='+classID,
+	// 			cache: false, 
+	// 			success: function(response){
+	// 					var obj  = jQuery.parseJSON(response);
+	// 					$('#class_code').val(obj.code);
+	// 				}
+	// 		});   
 		
-			$.ajax({
-				type: "POST",
-				url: '<?php echo $site_url;?>student/student_details',
-				data: 'class_id='+classID,
-				cache: false, 
-				success: function(response){
-					var obj = jQuery.parseJSON(response);
-					if(obj == null)
-					{
-						var defaultCode   	     = $('#class_code').val();
-						var defaultStudentID 	 = currentYear + defaultCode + defaultRoll;
-						var defaultAdmissionRoll = defaultCode + defaultRoll;
+	// 		$.ajax({
+	// 			type: "POST",
+	// 			url: '<?php echo $site_url;?>student/student_details',
+	// 			data: 'class_id='+classID,
+	// 			cache: false, 
+	// 			success: function(response){
+	// 				var obj = jQuery.parseJSON(response);
+	// 				if(obj == null)
+	// 				{
+	// 					var defaultCode   	     = $('#class_code').val();
+	// 					var defaultStudentID 	 = currentYear + defaultCode + defaultRoll;
+	// 					var defaultAdmissionRoll = defaultCode + defaultRoll;
 						
-						$('#id_no').val(defaultStudentID);	
-						$('#admission_roll').val(defaultAdmissionRoll);
-						$('#class_roll').val(defaultRoll);		
-					}else{
-						var newStudentID          = parseInt(obj.id_no) + 1;
-						var newAdmissionRoll      = parseInt(obj.admission_roll) + 1;
-						var newClassRoll      	  = parseInt(obj.class_roll) + 1;
+	// 					$('#id_no').val(defaultStudentID);	
+	// 					$('#admission_roll').val(defaultAdmissionRoll);
+	// 					$('#class_roll').val(defaultRoll);		
+	// 				}else{
+	// 					var newStudentID          = parseInt(obj.id_no) + 1;
+	// 					var newAdmissionRoll      = parseInt(obj.admission_roll) + 1;
+	// 					var newClassRoll      	  = parseInt(obj.class_roll) + 1;
 						
-						$('#id_no').val(newStudentID);
-						$('#admission_roll').val(newAdmissionRoll);	
-						$('#class_roll').val(newClassRoll);	
-					}
-				}
-			}); 
-			return false;				
-		});
+	// 					$('#id_no').val(newStudentID);
+	// 					$('#admission_roll').val(newAdmissionRoll);	
+	// 					$('#class_roll').val(newClassRoll);	
+	// 				}
+	// 			}
+	// 		}); 
+	// 		return false;				
+	// 	});
     });
 </script>
