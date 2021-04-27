@@ -28,14 +28,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$blood_group_options = $this->optionmodel->blood_group_options();
 		$gender_options = array('Male'=>'Male','Female'=>'Female','Others'=>'Others'); 		
 		$this->assign('gender_options',$gender_options);
-		$class_options = $this->optionmodel->class_options();; 		
-		$this->assign('class_options',$class_options);
-		$section_options = $this->optionmodel->section_options();; 		
-		$this->assign('section_options',$section_options);
+	
 		$student_type_options = $this->optionmodel->student_type_options();; 		
 		$this->assign('student_type_options',$student_type_options);
-		$student_options = $this->optionmodel->student_options();; 		
+		
+		
+		$class_options = $this->optionmodel->class_options();; 		
+		$this->assign('class_options',$class_options);
+
+		$class_id = $this->input->post('class_id');
+		$section_options = $this->studentmodel->get_section_options_by($class_id); 		
+		$this->assign('section_options',$section_options);
+
+		$section_id = $this->input->post('section_id');
+		$student_options = $this->studentmodel->get_student_options_by($section_id);
 		$this->assign('student_options',$student_options);
+
 		$this->assign('religion_options',$religion_options);
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);

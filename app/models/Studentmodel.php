@@ -119,16 +119,7 @@
 		$this->db->delete('student_list',array('id'=>$id)); 		
  	}
 
-	function get_section_by($class_id)
- 	{
- 		$this->db->select('id, title');
-		$this->db->from('section');
-		$this->db->where('class_id',$class_id);
- 		$this->db->order_by('id','asc');
- 		$rs = $this->db->get(); 				
-		return $rs->result_array();
- 	} 
-
+	
 	 function get_student_details($id)
 	 {
 		$this->db->select('id,id_no,admission_roll,created_at,session,class_roll');
@@ -156,18 +147,45 @@
 		$this->db->where('id',$id);
 		$rs = $this->db->get(); 				
 		return $rs->row();
-	 } 
+	 }
 	 
-	 
-	 function get_student_by($section_id)
-	 {
+	function get_section_by($class_id)
+ 	{
+ 		$this->db->select('id, title');
+		$this->db->from('section');
+		$this->db->where('class_id',$class_id);
+ 		$this->db->order_by('id','asc');
+ 		$rs = $this->db->get(); 				
+		return $rs->result_array();
+ 	}
+
+	function get_section_options_by($class_id)
+ 	{
+ 		$this->db->select('id, title');
+		$this->db->from('section');
+		$this->db->where('class_id',$class_id);
+ 		$this->db->order_by('id','asc');
+ 		return $this->get_assoc();
+ 	}   
+
+	function get_student_by($section_id)
+	{
 		$this->db->select('id,full_name as title');
 		$this->db->from('student_list');
 		$this->db->where('section_id',$section_id);
 		$this->db->order_by('id','asc');
  		$rs = $this->db->get(); 				
 		return $rs->result_array();
-	 } 
+	}
+	
+	function get_student_options_by($section_id)
+	{
+		$this->db->select('id,full_name as title');
+		$this->db->from('student_list');
+		$this->db->where('section_id',$section_id);
+		$this->db->order_by('id','asc');
+		return $this->get_assoc();
+	} 
 			
  	
  }
