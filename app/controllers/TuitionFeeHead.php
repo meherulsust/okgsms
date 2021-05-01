@@ -94,7 +94,7 @@ class TuitionFeeHead extends MT_Controller
         }
 		$country = $this->TuitionFeeHeadModel->get_record($id); // get record
         if ($country) {
-			$head = array('page_title'=>'Tuition Fee Head information','link_title'=>'Tuition Fee Head List','link_action'=>'Tuition Fee Head/index');
+			$head = array('page_title'=>'Tuition Fee Head information','link_title'=>'Tuition Fee Head List','link_action'=>'TuitionFeeHead/index');
             $this->assign($country);
             $this->load->view('tuition_fee_head/view',$head);
         } else {

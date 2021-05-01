@@ -135,7 +135,16 @@ class Optionmodel extends MT_Model
 		$this->db->where('status','Active');
 		$this->db->order_by('id','asc');
  		return $this->get_assoc(); 
- 	}   
+ 	}
+     
+    function tutuion_fee_head_options()
+ 	{
+ 		$this->db->select('id, title');
+ 		$this->db->from('tuition_fee_head');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}    
 
 
 }
