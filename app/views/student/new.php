@@ -122,7 +122,7 @@
 				<td>
 					<select name='sibling_section_id' class='form-control' id="sibling_section_id">
 						<option value="" >---- Select Siblings Form ----</option>
-						<?php echo html_options($section_options,set_value('sibling_section_id')); ?>
+						<?php echo html_options($sibling_section_options,set_value('sibling_section_id')); ?>
 					</select>
 					<span class='error'>* <?php echo form_error('sibling_section_id'); ?> </span>
 				</td>
@@ -132,7 +132,7 @@
 				<td>
 				<select class="form-control" name="sibling_id" id ="sibling_id">
 					<option value="">---- Select Siblings ----</option>
-					<?php echo html_options($student_options, set_value('sibling_id')); ?>
+					<?php echo html_options($sibling_options, set_value('sibling_id')); ?>
 				</select>
 				<span class='error'>* <?php echo form_error('sibling_id'); ?></span>
 				</td>

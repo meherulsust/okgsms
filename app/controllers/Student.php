@@ -36,11 +36,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$section_options = $this->studentmodel->get_section_options_by($class_id); 		
 		$this->assign('section_options',$section_options);
 		$section_id = $this->input->post('section_id');
-		$student_options = $this->studentmodel->get_student_options_by($section_id);
-		$this->assign('student_options',$student_options);
+	
 		$this->assign('religion_options',$religion_options);
 		$this->assign('blood_group_options',$blood_group_options);
 		$this->assign('status_options',$status_options);
+
+		$sibling_class_id = $this->input->post('sibling_class_id');
+		$sibling_section_options = $this->studentmodel->get_section_options_by($sibling_class_id); 		
+		$this->assign('sibling_section_options',$sibling_section_options);
+
+		$sibling_section_id = $this->input->post('sibling_section_id');
+		$sibling_options = $this->studentmodel->get_student_options_by($sibling_section_id);
+		$this->assign('sibling_options',$sibling_options);
+
 		$this->tpl->set_js(array('select-chain'));
     }
   	function index($sort_type='desc',$sort_on='id')
@@ -169,8 +177,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			$section_options = $this->studentmodel->get_section_options_by($row['class_id']); 		
 			$this->assign('section_options',$section_options);
-			$student_options = $this->studentmodel->get_student_options_by($row['section_id']);
-			$this->assign('student_options',$student_options);
+			
+			$sibling_section_options = $this->studentmodel->get_section_options_by($row['sibling_class_id']); 		
+			$this->assign('sibling_section_options',$sibling_section_options);
+			$sibling_options = $this->studentmodel->get_student_options_by($row['sibling_section_id']);
+			$this->assign('sibling_options',$sibling_options);
+
 			$this->load->view('student/edit',$head);
 		}
 		else
@@ -366,7 +378,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function duplicate_class_roll($str,$param='')
 	{
 		$class_id = $this->input->post('class_id');
-		$query = $this->db->query("SELECT id FROM sms_student_list where class_roll='$str' AND class_id='$class_id' AND class_roll<>'$param'");
+		$section_id = $this->input->post('section_id');
+		$query = $this->db->query("SELECT id FROM sms_student_list where class_roll='$str' AND class_id='$class_id'AND section_id='$section_id' AND class_roll<>'$param'");
 		if($query->num_rows()>0)
 		{
 			$this->form_validation->set_message('duplicate_class_roll', "%s <span style='color:green;'>$str</span> already exists");
