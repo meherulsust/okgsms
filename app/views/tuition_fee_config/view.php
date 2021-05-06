@@ -23,6 +23,12 @@
 			</td>
 		</tr>
 		<tr>
+			<td width="1%">Class :</td>
+			<td>
+				<?php echo $amount; ?>
+			</td>
+		</tr>
+		<tr>
 			<td>Status :</td>
 			<td>
 				<?php echo $status; ?>
