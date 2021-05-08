@@ -276,13 +276,13 @@ class User extends MT_Controller
             array('field' => 'mobile', 'label' => 'Mobile number', 'rules' => 'trim|required'),
             array('field' => 'status', 'label' => 'status', 'rules' => 'trim|required')
         );
-        $config1 = array(
-            array('field' => 'tenant_id', 'label' => 'tenant', 'rules' => 'trim|required')
-        );
+        // $config1 = array(
+        //     array('field' => 'tenant_id', 'label' => 'tenant', 'rules' => 'trim|required')
+        // );
         
-        if($this->input->post('tenant_id') !=''){
-            $config = array_merge($config,$config1);  
-        }
+        // if($this->input->post('tenant_id') !=''){
+        //     $config = array_merge($config,$config1);  
+        // }
         return $config;
     }
 

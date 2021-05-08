@@ -82,7 +82,7 @@
           <span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
         </td>
       </tr>
-      <tr id ='tenant'>
+      <!-- <tr id ='tenant'>
         <td>Tenant :</td>
         <td>
           <select class="form-control" name="tenant_id">
@@ -91,7 +91,7 @@
           </select>
           <span class='error'>* <?php echo form_error('tenant_id'); ?></span>
         </td>
-      </tr>
+      </tr> -->
       <tr>
         <td>Status :</td>
         <td>

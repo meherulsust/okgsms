@@ -79,7 +79,7 @@
           <span class='error'>* <?php echo form_error('id_admin_group'); ?></span>
         </td>
       </tr>
-      <?php if($this->session->userdata('admin_group_id')==1): ?>
+      <!-- <?php if($this->session->userdata('admin_group_id')==1): ?>
         <tr id="tenant">
           <td>Tenant :</td>
           <td>
@@ -90,7 +90,7 @@
             <span class='error'>* <?php echo form_error('tenant_id'); ?></span>
           </td>
         </tr>
-      <?php endif;?>
+      <?php endif;?> -->
       <tr>
         <td>Status :</td>
         <td>
@@ -119,7 +119,7 @@
       if($('#id_admin_group').val() == '1' || $('#id_admin_group').val() == '2') {
         $('#tenant').hide();
       }else{
-        $('#tenant').show();
+        $('#tenant').hide();
       }
     }); 
   }); 
