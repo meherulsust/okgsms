@@ -57,11 +57,11 @@ class GenerateTuitionFeeModel extends MT_Model
 
     public function get_record($id = '')
     {
-        $this->db->select('tfc.*,tfh.title,c.title as class');
-        $this->db->from('tuition_fee_list tfc');
-        $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
-		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
-        $this->db->where('tfc.id', $id);
+        $this->db->select('tfl.*,tfh.title,c.title as class');
+        $this->db->from('tuition_fee_list tfl');
+        $this->db->join('tuition_fee_head tfh', 'tfh.id =tfl.tuition_fee_head_id', 'left');
+		$this->db->join('class c', 'c.id =tfl.class_id', 'left');
+        $this->db->where('tfl.id', $id);
         return $this->get_row();
     }
 
@@ -76,6 +76,29 @@ class GenerateTuitionFeeModel extends MT_Model
         $this->db->where('id', $id);
         $this->db->update('tuition_fee_list', array('status' => strtoupper($val)));
     }
+
+    function get_invoice_info($id)
+	{
+		$this->db->select('tfl.*,sl.*,a.username');
+        $this->db->from('tuition_fee_list tfl');
+        $this->db->join('student_list sl','sl.id = tfl.student_id','left');
+        $this->db->join('admins a','a.id = tfl.created_by','left');
+		$this->db->where('tfl.id',$id);
+        $rs = $this->get_row();
+        return $rs;
+	}
+
+    function get_invoice_details($id)
+	{
+		$this->db->select('tfd.id,tfd.amount,tfh.id as head_id,tfh.title as head');
+        $this->db->from('tuition_fee_details tfd');
+        $this->db->join('tuition_fee_config tfc','tfc.id = tfd.tuition_fee_config_id','left');
+		$this->db->join('tuition_fee_head tfh','tfh.id = tfd.tuition_fee_head_id','left');	
+ 	 	$this->db->where('tfd.tuition_fee_list_id',$id);
+        $rs = $this->db->get();
+		$result = $rs->result_array();
+        return $result;
+	}
 
     public function getStudentBy($class_id){
         $this->db->select('id,full_name');

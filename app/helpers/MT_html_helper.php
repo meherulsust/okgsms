@@ -262,4 +262,17 @@
 		}
 	}
 
+	function get_settings()
+	{
+		$CI= &get_instance();
+		$CI->load->model('Schoolmodel');
+		$settings 				   = $CI->Schoolmodel->get_settings();		
+		$data['name'] 			   = $settings['name'];
+		$data['address1']		   = $settings['address1'];
+		$data['address2']		   = $settings['address2'];
+		$data['logo']		  	   = $settings['logo'];
+		$data['establish_date']    = $settings['establish_date'];
+		return $data;
+	}
+
 

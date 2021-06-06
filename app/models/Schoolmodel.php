@@ -57,7 +57,14 @@
  		$this->db->where('id',$id);
  		return $this->get_row();
  	}
+
+	function get_settings()
+ 	{
+ 		$this->db->select('*');
+		$this->db->from('school');
+ 		$this->db->where('id',1);
+ 	   	return $this->get_row(); 	   	
+ 	}
+ 
 	
  }
- 
-?>

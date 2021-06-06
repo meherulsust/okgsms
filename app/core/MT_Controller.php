@@ -36,7 +36,9 @@
 		$last = $this->uri->total_segments();
 		$part_url_last = $this->uri->segment($last);
 		$this->tenant_id = $this->session->userdata('tenant_id');
-		$this->assign('tenant_info',$this->tenant_info());			  		
+		$this->assign('tenant_info',$this->tenant_info());
+		$this->settings = get_settings();
+		$this->assign('settings',$this->settings);			  		
 	}
 	 
 	 function tenant_info()

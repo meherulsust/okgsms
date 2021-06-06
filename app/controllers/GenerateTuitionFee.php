@@ -57,7 +57,7 @@ class GenerateTuitionFee extends MT_Controller
 		$amount       					    	= $this->GenerateTuitionFeeModel->getTotalTuitionFeeBy($class_id);
 		$stuendtList       					    = $this->GenerateTuitionFeeModel->getStudentBy($class_id);
 		$tutionFeeConfigList 					= $this->GenerateTuitionFeeModel->getTuitionListBy($class_id);
-
+	
 		if($this->form_validation->run() == FALSE){
 			$this->load->view('tuition_fee_list/new',$head);	
 		}else{	
@@ -73,10 +73,11 @@ class GenerateTuitionFee extends MT_Controller
 					$fee['created_at']	   	= $this->current_date();
 					$fee['created_by'] 	 	= $this->session->userdata('admin_userid');
 					$tuition_id             = $this->GenerateTuitionFeeModel->addFee($fee);
-	
+
 					foreach($tutionFeeConfigList as $val){
 						$fee_detail['tuition_fee_list_id']	   	= $tuition_id;
-						$fee_detail['tuition_fee_config_id']    = $val['tuition_fee_head_id'];
+						$fee_detail['tuition_fee_config_id']    = $val['id'];
+						$fee_detail['tuition_fee_head_id']      = $val['tuition_fee_head_id'];
 						$fee_detail['amount']	   			    = $val['amount'];;
 						$fee_detail['created_at']	   			= $this->current_date();
 						$fee_detail['created_by'] 	 			= $this->session->userdata('admin_userid');
@@ -89,6 +90,48 @@ class GenerateTuitionFee extends MT_Controller
 				redirect('GenerateTuitionFee'); 		
 				 			
 		}
+	
+	}
+
+	public function view($id)
+	{
+		$id = decode($id);
+        $config = array(array('field' => 'paid_amount','label' => 'paid_amount','rules' => 'trim|required|numeric'));
+        $this->form_validation->set_rules($config);
+		$this->validation_error_msg(); 
+		if($this->form_validation->run()== FALSE) 
+		{
+			$data['msg'] = '';
+		}else{
+			$row = $this->GenerateTuitionFeeModel->get_invoice_info($id);
+			if($row['total_due'] >= $this->input->post('paid_amount'))
+			{
+				$history_data['invoice_id'] = $id;	
+				$history_data['paid_amount'] = $this->input->post('paid_amount');	
+				$history_data['created_at'] = $this->current_date();			
+				$history_data['created_by'] = $this->session->userdata('admin_userid');			
+				$history_id = $this->GenerateTuitionFeeModel->insert_payment_history($history_data);
+				if($history_id)
+				{
+					$payment_status = ($row['total_due'] == $this->input->post('paid_amount') ? 'paid' : 'due');
+					$this->GenerateTuitionFeeModel->update_due_payment($id,$payment_status,$this->input->post('paid_amount'));
+					$data['msg'] = '<div class="alert alert-success"><b><i class="fa fa-check-circle"></i></b> Payment has been added successfully.</div>';
+				}else{
+					$data['msg'] = '<div class="alert alert-danger"><b><i class="fa fa-info-circle"></i></b> Payment not added.</div>';
+				}
+			}else{
+				$data['msg'] = '<div class="alert alert-danger"><b><i class="fa fa-info-circle"></i></b> Paid amount must be less then or equal to due amount.</div>';
+			}
+		}
+		$invoice_info = $this->GenerateTuitionFeeModel->get_invoice_info($id);
+		printr($invoice_info);
+		$this->assign($invoice_info);
+		$details = $this->GenerateTuitionFeeModel->get_invoice_details($id);
+		$this->assign('details',$details);
+		//$payment_list = $this->GenerateTuitionFeeModel->get_payment_list($id);
+		printr($details);exit;
+		$this->assign('payment_list',$payment_list);
+		$this->load->view('sales/invoice_details');		
 	}
 
 	public function edit($id='')
@@ -120,21 +163,6 @@ class GenerateTuitionFee extends MT_Controller
 		}	
 	}
 
-	public function view($id = '')
-    {
-        $id = decode($id);
-        if ($id == '') {
-            redirect('GenerateTuitionFee');
-        }
-		$country = $this->GenerateTuitionFeeModel->get_record($id); // get record
-        if ($country) {
-			$head = array('page_title'=>'Tuition Fee config information','link_title'=>'Tuition Fee Config List','link_action'=>'GenerateTuitionFee/index');
-            $this->assign($country);
-            $this->load->view('generate_tuition_fee/view',$head);
-        } else {
-            $this->view_404();
-        }
-	}
 	
 	public function set_status($id, $val)
     {
