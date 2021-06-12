@@ -79,7 +79,7 @@ class GenerateTuitionFeeModel extends MT_Model
 
     function get_invoice_info($id)
 	{
-		$this->db->select('tfl.*,sl.*,a.username');
+		$this->db->select('tfl.*,sl.*,a.username,tfl.status,tfl.id');
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('student_list sl','sl.id = tfl.student_id','left');
         $this->db->join('admins a','a.id = tfl.created_by','left');
@@ -122,6 +122,48 @@ class GenerateTuitionFeeModel extends MT_Model
         $this->db->where('class_id',$class_id);
         $rs = $this->db->get();
         return $rs->row_array();
+    }
+
+    function check_due_history($id){
+        $this->db->select('id');
+        $this->db->from('payment_history_list');
+        $this->db->where('tuition_fee_list_id',$id);
+        $query = $this->db->get();
+        $rs = $query->row_array();
+        return $rs;
+    }
+
+    function get_payment_list($id)
+	{
+		$this->db->select('paid_amount,created_at');
+        $this->db->from('payment_history_list');
+		$this->db->where('tuition_fee_list_id',$id);
+		$this->db->order_by('created_at','asc');
+		$rs = $this->db->get();
+		$result = $rs->result_array();
+        return $result;
+	}
+
+    function update_due_payment($id,$payment_status,$paid_amount)
+	{
+        if($payment_status=='Paid'){
+            $this->db->set('status','Paid');
+        }else{
+            $this->db->set('total_due','total_due - '.$paid_amount,FALSE);
+        }		
+		$this->db->where('id',$id);
+		$this->db->update('tuition_fee_list');
+	}
+
+    function update_invoice($id,$data)
+    {
+        $this->db->update('tuition_fee_list',$data,array('id'=>$id));
+    }
+
+    function insert_payment_history($data)
+    {
+        $this->db->insert('payment_history_list',$data);
+		return $this->db->insert_id();
     }
 
 }

@@ -106,14 +106,14 @@ class GenerateTuitionFee extends MT_Controller
 			$row = $this->GenerateTuitionFeeModel->get_invoice_info($id);
 			if($row['total_due'] >= $this->input->post('paid_amount'))
 			{
-				$history_data['invoice_id'] = $id;	
-				$history_data['paid_amount'] = $this->input->post('paid_amount');	
-				$history_data['created_at'] = $this->current_date();			
-				$history_data['created_by'] = $this->session->userdata('admin_userid');			
+				$history_data['tuition_fee_list_id']  = $id;	
+				$history_data['paid_amount']  		  = $this->input->post('paid_amount');	
+				$history_data['created_at']  		  = $this->current_date();			
+				$history_data['created_by'] 		  = $this->session->userdata('admin_userid');	
 				$history_id = $this->GenerateTuitionFeeModel->insert_payment_history($history_data);
 				if($history_id)
 				{
-					$payment_status = ($row['total_due'] == $this->input->post('paid_amount') ? 'paid' : 'due');
+					$payment_status = ($row['total_due'] == $this->input->post('paid_amount') ? 'Paid' : 'Unpaid');
 					$this->GenerateTuitionFeeModel->update_due_payment($id,$payment_status,$this->input->post('paid_amount'));
 					$data['msg'] = '<div class="alert alert-success"><b><i class="fa fa-check-circle"></i></b> Payment has been added successfully.</div>';
 				}else{
@@ -124,14 +124,13 @@ class GenerateTuitionFee extends MT_Controller
 			}
 		}
 		$invoice_info = $this->GenerateTuitionFeeModel->get_invoice_info($id);
-		printr($invoice_info);
 		$this->assign($invoice_info);
 		$details = $this->GenerateTuitionFeeModel->get_invoice_details($id);
 		$this->assign('details',$details);
-		//$payment_list = $this->GenerateTuitionFeeModel->get_payment_list($id);
-		printr($details);exit;
+		$payment_list = $this->GenerateTuitionFeeModel->get_payment_list($id);
 		$this->assign('payment_list',$payment_list);
-		$this->load->view('sales/invoice_details');		
+		$this->assign($data);
+		$this->load->view('tuition_fee_list/invoice_details');		
 	}
 
 	public function edit($id='')
