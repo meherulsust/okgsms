@@ -69,7 +69,8 @@ class GenerateTuitionFee extends MT_Controller
 		if($this->form_validation->run() == FALSE){
 			$this->load->view('tuition_fee_list/new',$head);	
 		}else{	
-				foreach($stuendtList as $stu){
+			if($amount['amount'] !='')	{
+			foreach($stuendtList as $stu){
 					$fee['student_id']		= $stu['id'];
 					$fee['class_id']	    = $class_id;
 					$fee['total_amount']	= $amount['amount'];
@@ -94,8 +95,12 @@ class GenerateTuitionFee extends MT_Controller
 				
 				}
 				$this->GenerateTuitionFeeModel->addDetail($data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee Config'));
-				redirect('GenerateTuitionFee'); 		
+				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee'));
+				redirect('GenerateTuitionFee');
+			}else{
+				$this->session->set_flashdata('message',$this->tpl->set_message('error','No Tuition Fee Config found for this class'));
+				redirect('GenerateTuitionFee');
+			} 		
 				 			
 		}
 	
@@ -171,16 +176,34 @@ class GenerateTuitionFee extends MT_Controller
 		}	
 	}
 
+	//check duplicate admission Number for validation
+
+	function duplicate_tuition_fee($str,$param='')
+	{
+		$month    = $this->input->post('month');
+		$year     = $this->input->post('year');
+
+		$query = $this->db->query("SELECT id FROM sms_tuition_fee_list where class_id='$str' AND month='$month'AND year='$year'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_tuition_fee', "%s <span style='color:green;'>tuition fee for this month $year </span> already exists");
+			return false;
+		}
+		return true;
+	}
+
 	
 	public function set_status($id, $val)
     {
         echo $this->status_change($id, $val, 'GenerateTuitionFeeModel', 'change_status'); //model name , method name 'change_status'
 	}
 
+
+
 	
 	private function validate(){
         $config = array(
-				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
+				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required|callback_duplicate_tuition_fee'),
 				array('field'=>'year','label'=>'Month','rules'=>'trim|required'),
 				array('field'=>'month','label'=>'Month','rules'=>'trim|required')
         );
