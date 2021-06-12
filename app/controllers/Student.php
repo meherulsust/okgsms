@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	 {
  	 	parent::__construct();
 		
- 	 	$this->load->model(array('studentmodel'));
+ 	 	$this->load->model(array('studentmodel','GenerateTuitionFeeModel'));
 		$this->tpl->set_css(array('datepicker/datepicker'));
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
 		$this->tpl->set_page_title('Student List');
@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$this->tpl->set_js(array('select-chain'));
     }
+	
   	function index($sort_type='desc',$sort_on='id')
   	{
 		$data = $this->input->post();
@@ -65,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$config['sort_on']=$sort_on;
 		$config['sort_type']=$sort_type;
 		if($this->session->userdata('admin_userid')==1){
-		$this->assign('grid_action',array('view'=>'view','edit'=>'edit','del'=>'del'));
+		$this->assign('grid_action',array('payment'=>'payment','view'=>'view','edit'=>'edit'));
 		}else{
 		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
 		}
@@ -268,6 +269,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		echo json_encode($array);
 	}
 
+	public function payment($id,$sort_type='desc',$sort_on='id'){
+		
+		$id = decode($id);
+		$this->tpl->set_js(array('jquery.statusmenu'));
+		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
+		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
+		$this->assign('labels', $labels);
+		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list($id);
+		$config['uri_segment'] = 6;
+		$config['select_value'] = $this->input->post('rec_per_page');
+		$config['sort_on'] = $sort_on;
+		$config['sort_type'] = $sort_type;
+		$this->assign('grid_action', array('view' => 'payment_details'));
+		$this->set_pagination($config);
+		$list = $this->GenerateTuitionFeeModel->get_list($id); // get data list
+		$this->assign('records', $list);
+		$this->load->view('tuition_fee_list/list',$head);
+	}
+
+	public function payment_details($id)
+	{
+		$id = decode($id);
+        $config = array(array('field' => 'paid_amount','label' => 'paid_amount','rules' => 'trim|required|numeric'));
+		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Tuition Fee list ','link_action'=>'GenerateTuitionFee/index');
+        $this->form_validation->set_rules($config);
+		$this->validation_error_msg(); 
+		if($this->form_validation->run()== FALSE) 
+		{
+			$data['msg'] = '';
+		}else{
+			$row = $this->GenerateTuitionFeeModel->get_invoice_info($id);
+			if($row['total_due'] >= $this->input->post('paid_amount'))
+			{
+				$history_data['tuition_fee_list_id']  = $id;	
+				$history_data['paid_amount']  		  = $this->input->post('paid_amount');	
+				$history_data['created_at']  		  = $this->current_date();			
+				$history_data['created_by'] 		  = $this->session->userdata('admin_userid');	
+				$history_id = $this->GenerateTuitionFeeModel->insert_payment_history($history_data);
+				if($history_id)
+				{
+					$payment_status = ($row['total_due'] == $this->input->post('paid_amount') ? 'Paid' : 'Unpaid');
+					$this->GenerateTuitionFeeModel->update_due_payment($id,$payment_status,$this->input->post('paid_amount'));
+					$data['msg'] = '<div class="alert alert-success"><b><i class="fa fa-check-circle"></i></b> Payment has been added successfully.</div>';
+				}else{
+					$data['msg'] = '<div class="alert alert-danger"><b><i class="fa fa-info-circle"></i></b> Payment not added.</div>';
+				}
+			}else{
+				$data['msg'] = '<div class="alert alert-danger"><b><i class="fa fa-info-circle"></i></b> Paid amount must be less then or equal to due amount.</div>';
+			}
+		}
+		$invoice_info = $this->GenerateTuitionFeeModel->get_invoice_info($id);
+		$this->assign($invoice_info);
+		$details = $this->GenerateTuitionFeeModel->get_invoice_details($id);
+		$this->assign('details',$details);
+		$payment_list = $this->GenerateTuitionFeeModel->get_payment_list($id);
+		$this->assign('payment_list',$payment_list);
+		$this->assign($data);
+		$this->load->view('tuition_fee_list/invoice_details',$head);		
+	}
+
 	private function validate($row=''){
         $config1 = array(
 			array('field'=>'student_type_id','label'=>'Student type','rules'=>'trim|required'),
@@ -468,4 +529,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 	
- }
+}

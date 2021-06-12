@@ -20,22 +20,30 @@ class GenerateTuitionFeeModel extends MT_Model
     }
 
    
-    public function get_list()
+    public function get_list($id='')
     {
-        $this->db->select('tfl.*,sl.full_name,sl.id_no,c.title as class');
+        $this->db->select('tfl.*,sl.full_name,sl.id_no,c.title as class,m.title as month,tfl.status as payment_status');
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
+        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
 		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        if(isset($id) && $id!=""){
+            $this->db->where('tfl.student_id',$id);
+        }
         $rs = $this->db->get();
         return $rs->result_array();
     }
 
-    public function count_list()
+    public function count_list($id='')
     {
         $this->db->select("count(tfl.id) num");
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
+        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
 		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        if(isset($id) && $id!=""){
+            $this->db->where('tfl.student_id',$id);
+        }
         return $this->get_one();
     }
 
@@ -146,11 +154,9 @@ class GenerateTuitionFeeModel extends MT_Model
 
     function update_due_payment($id,$payment_status,$paid_amount)
 	{
-        if($payment_status=='Paid'){
-            $this->db->set('status','Paid');
-        }else{
-            $this->db->set('total_due','total_due - '.$paid_amount,FALSE);
-        }		
+        if($payment_status=='Paid')
+        $this->db->set('status','Paid');
+        $this->db->set('total_due','total_due - '.$paid_amount,FALSE);	
 		$this->db->where('id',$id);
 		$this->db->update('tuition_fee_list');
 	}

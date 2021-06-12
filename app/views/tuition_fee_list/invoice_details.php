@@ -15,9 +15,9 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<div class="panel panel-default">
+		<div class="box box-primary">
 			<div class="panel-heading">
-				<i class="fa fa-table"></i>Invoice Details
+				<i class="fa fa-table"></i><?php echo $page_title;?>
 				<div class="box-tools pull-right">
 				    <a class="ajax_link" href="#">
 						<button class="btn btn-primary btn-xs print" type="button"><i class='fa fa-print'></i> Print</button>

@@ -33,14 +33,14 @@ class GenerateTuitionFee extends MT_Controller
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
-		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','total_amount' => 'Total Amount','status' => 'Status');
+		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list();
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
-		$this->assign('grid_action', array('edit' => 'edit','view' => 'view'));
+		$this->assign('grid_action', array('view' => 'view'));
 		$this->set_pagination($config);
 		$list = $this->GenerateTuitionFeeModel->get_list(); // get data list
 		$this->assign('records', $list);
@@ -97,6 +97,7 @@ class GenerateTuitionFee extends MT_Controller
 	{
 		$id = decode($id);
         $config = array(array('field' => 'paid_amount','label' => 'paid_amount','rules' => 'trim|required|numeric'));
+		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Tuition Fee list ','link_action'=>'GenerateTuitionFee/index');
         $this->form_validation->set_rules($config);
 		$this->validation_error_msg(); 
 		if($this->form_validation->run()== FALSE) 
@@ -130,7 +131,7 @@ class GenerateTuitionFee extends MT_Controller
 		$payment_list = $this->GenerateTuitionFeeModel->get_payment_list($id);
 		$this->assign('payment_list',$payment_list);
 		$this->assign($data);
-		$this->load->view('tuition_fee_list/invoice_details');		
+		$this->load->view('tuition_fee_list/invoice_details',$head);		
 	}
 
 	public function edit($id='')

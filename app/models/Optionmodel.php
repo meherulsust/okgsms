@@ -147,22 +147,10 @@ class Optionmodel extends MT_Model
  	}   
      
     function month_option(){
-
-        $month_list = array(
-            '1'=>'January',
-            '2'=>'February',
-            '3'=>'March',
-            '4'=>'April',
-            '5'=>'May',
-            '6'=>'June',
-            '7'=>'July',
-            '8'=>'August',
-            '9'=>'September',
-            '10'=>'October',
-            '11'=>'November',
-            '12'=>'December'
-            );
-            return $month_list;
+        $this->db->select('id, title');
+        $this->db->from('month_list');
+        $this->db->order_by('id','asc');
+        return $this->get_assoc(); 
     }
 
     function year_option(){

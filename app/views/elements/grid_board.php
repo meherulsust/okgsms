@@ -60,12 +60,26 @@
 			}
 		?>
 
-        <td width="100" align="center" class='stat_menu stat_menu_id_<?php echo $row['id'] ?>'>
-          <a href="<?php echo $site_url . $active_controller; ?>/<?php echo $status_link; ?>/<?php echo $row['id'] ?>"
-            class="<?=strtolower($row[$field])?>"><?php echo $status_title; ?> </a>
-        </td>
+    <td width="100" align="center" class='stat_menu stat_menu_id_<?php echo $row['id'] ?>'>
+      <a href="<?php echo $site_url . $active_controller; ?>/<?php echo $status_link; ?>/<?php echo $row['id'] ?>"
+        class="<?=strtolower($row[$field])?>"><?php echo $status_title; ?> </a>
+    </td>
 
-        <?php elseif ($field == 'send_status'):
+      <?php 
+        elseif($field=='payment_status'):
+        if(strtolower($row[$field])=='paid')
+        {
+          $payment_status_title = '<span class="label label-success">'.ucfirst(strtolower($row[$field])).'</span>';
+        }else if(strtolower($row[$field])=='unpaid'){
+          $payment_status_title = '<span class="label label-danger">'.ucfirst(strtolower($row[$field])).'</span>';
+        }else{
+          $payment_status_title = ucfirst(strtolower($row[$field]));
+        }
+      ?>
+      <td width="100" align="center"><?php echo $payment_status_title; ?></td>  
+		 
+
+      <?php elseif ($field == 'send_status'):
 			if (ucfirst($row[$field]) == 'Replyed') {
 			$status_title = '<span class="label label-success">' . ucfirst(strtolower($row[$field])) . '</span>';
 			} else if (ucfirst($row[$field]) == 'Not-replyed') {
@@ -111,10 +125,10 @@
           <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
             title="Click here for view details"><span class="action_btn btn-success"><i
                 class="fa fa-search-plus"></i></span></a>
-          <?php elseif ($gatype === 'details'): ?>
+          <?php elseif ($gatype === 'payment'): ?>
           <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
             title="Click here for view details"><span class="action_btn btn-success"><i
-                class="fa fa-book"></i></span></a>      
+                class="fa fa-money"></i></span></a>      
           <?php elseif ($gatype === 'processview'): ?>
           <!-- only for letter process -->
           <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . $row['process_id']?>"
