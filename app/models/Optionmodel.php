@@ -92,11 +92,13 @@ class Optionmodel extends MT_Model
  		return $this->get_assoc(); 
  	}
 
-    function section_options()
+    function section_options($class_id='')
  	{
  		$this->db->select('id,title');
  		$this->db->from('section');
 		$this->db->where('status','Active');
+        //if(isset($class_id) && $class_id !='')
+        $this->db->where('class_id',$class_id);
 		$this->db->order_by('id','asc');
  		return $this->get_assoc(); 
  	}

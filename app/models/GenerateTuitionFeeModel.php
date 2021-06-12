@@ -20,9 +20,9 @@ class GenerateTuitionFeeModel extends MT_Model
     }
 
    
-    public function get_list($id='')
+    public function get_list($id='',$data=[])
     {
-        $this->db->select('tfl.*,sl.full_name,sl.id_no,c.title as class,m.title as month,tfl.status as payment_status');
+        $this->db->select('tfl.*,sl.full_name,sl.id_no,sl.mobile_no,c.title as class,m.title as month,tfl.status as payment_status');
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
         $this->db->join('month_list m', 'm.id =tfl.month', 'left');
@@ -30,11 +30,27 @@ class GenerateTuitionFeeModel extends MT_Model
         if(isset($id) && $id!=""){
             $this->db->where('tfl.student_id',$id);
         }
+        if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
         $rs = $this->db->get();
         return $rs->result_array();
     }
 
-    public function count_list($id='')
+    public function count_list($id='',$data=[])
     {
         $this->db->select("count(tfl.id) num");
         $this->db->from('tuition_fee_list tfl');
@@ -44,6 +60,22 @@ class GenerateTuitionFeeModel extends MT_Model
         if(isset($id) && $id!=""){
             $this->db->where('tfl.student_id',$id);
         }
+        if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
         return $this->get_one();
     }
 
@@ -87,9 +119,10 @@ class GenerateTuitionFeeModel extends MT_Model
 
     function get_invoice_info($id)
 	{
-		$this->db->select('tfl.*,sl.*,a.username,tfl.status,tfl.id');
+		$this->db->select('tfl.*,sl.*,a.username,tfl.status,tfl.id,m.title as month');
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('student_list sl','sl.id = tfl.student_id','left');
+        $this->db->join('month_list m','m.id = tfl.month','left');
         $this->db->join('admins a','a.id = tfl.created_by','left');
 		$this->db->where('tfl.id',$id);
         $rs = $this->get_row();
@@ -100,7 +133,7 @@ class GenerateTuitionFeeModel extends MT_Model
 	{
 		$this->db->select('tfd.id,tfd.amount,tfh.id as head_id,tfh.title as head');
         $this->db->from('tuition_fee_details tfd');
-        $this->db->join('tuition_fee_config tfc','tfc.id = tfd.tuition_fee_config_id','left');
+        $this->db->join('tuition_fee_config tfc','tfc.id = tfd.tuition_fee_config_id','left');	
 		$this->db->join('tuition_fee_head tfh','tfh.id = tfd.tuition_fee_head_id','left');	
  	 	$this->db->where('tfd.tuition_fee_list_id',$id);
         $rs = $this->db->get();

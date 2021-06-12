@@ -19,30 +19,38 @@ class GenerateTuitionFee extends MT_Controller
  	 	parent::__construct();
  	 	$this->load->model(array('GenerateTuitionFeeModel'));
 		$this->tpl->set_page_title('Generate Tuition Fee');
+
 		$month_option = $this->optionmodel->month_option(); 
 		$this->assign('month_option', $month_option);
 		$year_option = $this->optionmodel->year_option(); 
 		$this->assign('year_option', $year_option);
-		$class_options = $this->optionmodel->class_options(); 		
+
+		$class_options = $this->optionmodel->class_options();; 		
 		$this->assign('class_options',$class_options);
+		$class_id = $this->input->post('class_id');
+		$section_options = $this->optionmodel->section_options($class_id); 		
+		$this->assign('section_options',$section_options);
+
 		$this->tpl->set_css(array('datepicker/datepicker'));
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
+		$this->tpl->set_js(array('select-chain'));
  	}
 	 
 	public function index($sort_type = 'desc', $sort_on = 'id')
 	{
+		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
-		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
+		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','mobile_no'=>'Mobile','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
 		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list();
+		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list($id='',$data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
 		$this->assign('grid_action', array('view' => 'view'));
 		$this->set_pagination($config);
-		$list = $this->GenerateTuitionFeeModel->get_list(); // get data list
+		$list = $this->GenerateTuitionFeeModel->get_list($id='',$data); // get data list
 		$this->assign('records', $list);
 		$this->load->view('tuition_fee_list/list',$head);
 	}

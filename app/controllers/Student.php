@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	 	$this->load->model(array('studentmodel','GenerateTuitionFeeModel'));
 		$this->tpl->set_css(array('datepicker/datepicker'));
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
+		$this->tpl->set_js(array('select-chain'));
 		$this->tpl->set_page_title('Student List');
 		$status_options = array('Active'=>'Active','Inactive'=>'Inactive');
 		$religion_options = $this->optionmodel->religion_options();	
@@ -49,7 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$sibling_options = $this->studentmodel->get_student_options_by($sibling_section_id);
 		$this->assign('sibling_options',$sibling_options);
 
-		$this->tpl->set_js(array('select-chain'));
     }
 	
   	function index($sort_type='desc',$sort_on='id')
@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if($this->session->userdata('admin_userid')==1){
 		$this->assign('grid_action',array('payment'=>'payment','view'=>'view','edit'=>'edit'));
 		}else{
-		$this->assign('grid_action',array('view'=>'view','edit'=>'edit'));	
+		$this->assign('grid_action',array('payment'=>'payment','view'=>'view','edit'=>'edit'));	
 		}
 		$this->set_pagination($config);
   		$teachers=$this->studentmodel->get_list($data);
@@ -273,7 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		$id = decode($id);
 		$this->tpl->set_js(array('jquery.statusmenu'));
-		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
+		$head = array('page_title'=>'Payment List','link_title'=>'Student List','link_action'=>'Student/index');
 		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list($id);
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->set_pagination($config);
 		$list = $this->GenerateTuitionFeeModel->get_list($id); // get data list
 		$this->assign('records', $list);
-		$this->load->view('tuition_fee_list/list',$head);
+		$this->load->view('student/payment_ist',$head);
 	}
 
 	public function payment_details($id)
@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{
 					$payment_status = ($row['total_due'] == $this->input->post('paid_amount') ? 'Paid' : 'Unpaid');
 					$this->GenerateTuitionFeeModel->update_due_payment($id,$payment_status,$this->input->post('paid_amount'));
-					$data['msg'] = '<div class="alert alert-success"><b><i class="fa fa-check-circle"></i></b> Payment has been added successfully.</div>';
+					$data['msg'] = '<div class="alert alert-success"><b><i class="fa fa-check-circle"></i></b>Tuition Fee Payment has been paid successfully.</div>';
 				}else{
 					$data['msg'] = '<div class="alert alert-danger"><b><i class="fa fa-info-circle"></i></b> Payment not added.</div>';
 				}

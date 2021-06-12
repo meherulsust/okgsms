@@ -37,17 +37,19 @@
 									<b><h4><?=$settings['name'] ?></h4></b><br/>
 									<b><?=$settings['address1'] ?> </b><br/>
 									
-									<b><h4>Bill To    :</h4></b><br/>
-									<b>Student Name   : <?php $full_name; ?> </b><br/>
-									<b>Student ID     : <?php echo $id_no; ?> </b><br/>
-									<b>Mobile         :<?php echo $mobile_no; ?> </b>
+									<b><h4>Bill To       :</h4></b><br/>
+									<b>Tuition fee Month :<?= $month. '-'.$year; ?> </b><br/>
+									<b>Student Name      : <?= $full_name; ?> </b><br/>
+									<b>Student ID        : <?= $id_no; ?> </b><br/>
+									<b>Mobile            : <?= $mobile_no; ?> </b><br/>
+									<b>Payment Status    : <?= $status; ?> </b>
 									<br/>
 								</td>
 								<td align="right">
 									<b><h2>Invoice</h2></b><hr/>
-									<b>Invoice No. :</b> <?php echo $invoice_no; ?><br/>
-									<b>Date :</b> <?php echo $created_at; ?><br/>
-									<b>Created By :</b> <?php echo $username; ?><br/><br/>
+									<b>Invoice No. :</b> <?= $invoice_no; ?><br/>
+									<b>Date :</b>   <?=$created_at; ?><br/>
+									<b>Created By : </b> <?= $username; ?><br/><br/>
 								</td>
 							</tr>
 						</table>	
@@ -71,10 +73,10 @@
 							$i++;
 							}			
 							?>
-							<tr>			
+							<!-- <tr>			
 								<td align="right" colspan="2"><b>Total :</b></td>
 								<td align="right"><b><?php echo sprintf('%.2f',$total_amount); ?></b></td>						
-							</tr>
+							</tr> -->
 							<tr>			
 								<td align="right" colspan="2"><b>Invoice Total :</b></td>
 								<td align="right" colspan="1"><b><?php echo sprintf('%.2f',$total_amount - $total_discount); ?></b></td>			
