@@ -21,6 +21,8 @@ class TuitionFeeConfig extends MT_Controller
 		$this->tpl->set_page_title('Tuition Fee Config');
 		$status_option = array('Active' => 'Active','Inactive' => 'Inactive');
 		$this->assign('status_options', $status_option);
+		$month_option = $this->optionmodel->month_option(); 
+		$this->assign('month_option', $month_option);
 		$tuition_fee_head_option = $this->optionmodel->tutuion_fee_head_options(); 
 		$this->assign('tuition_fee_head_options', $tuition_fee_head_option);
 		$class_options = $this->optionmodel->class_options(); 		
@@ -31,7 +33,7 @@ class TuitionFeeConfig extends MT_Controller
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee Config List','link_title'=>'New Tuition Fee Config','link_action'=>'TuitionFeeConfig/add');
-		$labels = array('title' => 'Title','class' => 'Class','amount' => 'Amount','status' => 'Status');
+		$labels = array('title' => 'Title','month' => 'Month','class' => 'Class','amount' => 'Amount','status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->TuitionFeeConfigModel->count_list();
 		$config['uri_segment'] = 6;
@@ -49,11 +51,12 @@ class TuitionFeeConfig extends MT_Controller
 	{
 		$head = array('page_title'=>'New Tuition Fee Config','link_title'=>'Tuition Fee Config List','link_action'=>'TuitionFeeConfig/index');
 		$this->form_validation->set_rules($this->validate());
-		$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
+		$this->validation_error_msg(); 
 		if($this->form_validation->run() == FALSE){
 			$this->load->view('tuition_fee_config/new',$head);	
 		}else{
 				$data['tuition_fee_head_id'] 			= $this->input->post('tuition_fee_head_id');
+				$data['month_id'] 						= $this->input->post('month_id');
 				$data['class_id'] 						= $this->input->post('class_id');
 				$data['amount'] 						= $this->input->post('amount');
 				$data['status']		   				    = $this->input->post('status');
@@ -73,12 +76,13 @@ class TuitionFeeConfig extends MT_Controller
 		$head = array('page_title'=>'Edit Tuition Fee Config','link_title'=>'Tuition Fee Config','link_action'=>'TuitionFeeConfig/index');
 		$this->assign($row);	
 		if (!empty($row)) {
-			$this->form_validation->set_rules($this->validate());
-			$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
+			$this->form_validation->set_rules($this->validate($row));
+			$this->validation_error_msg(); 
 			if($this->form_validation->run() == FALSE){
 				$this->load->view('tuition_fee_config/edit',$head);	
 			}else{
 				$data['tuition_fee_head_id'] 			= $this->input->post('tuition_fee_head_id');
+				$data['month_id'] 						= $this->input->post('month_id');
 				$data['class_id'] 						= $this->input->post('class_id');
 				$data['amount'] 						= $this->input->post('amount');
 				$data['status']		   				    = $this->input->post('status');
@@ -115,14 +119,40 @@ class TuitionFeeConfig extends MT_Controller
         echo $this->status_change($id, $val, 'TuitionFeeConfigModel', 'change_status'); //model name , method name 'change_status'
 	}
 
+	function duplicate_config_head($str,$param='')
+	{
+		$month_id     = $this->input->post('month_id');
+		$class_id     = $this->input->post('class_id');
+
+		$query = $this->db->query("SELECT id FROM sms_tuition_fee_config where tuition_fee_head_id='$str' AND month_id='$month_id'AND class_id='$class_id' AND tuition_fee_head_id<>'$param'");
+		if($query->num_rows()>0)
+		{
+			$this->form_validation->set_message('duplicate_config_head', "%s <span style='color:green;'>Tuition fee head for this month </span> already exists");
+			return false;
+		}
+		return true;
+	}
+
 	
-	private function validate(){
-        $config = array(
-				array('field'=>'tuition_fee_head_id','label'=>'Tuition Fee Head','rules'=>'trim|required'),
+	private function validate($row =""){
+        $config1 = array(
+				array('field'=>'month_id','label'=>'Month','rules'=>'trim|required'),
 				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
 				array('field'=>'amount','label'=>'Amount','rules'=>'trim|required'),
 				array('field'=>'status','label'=>'Status','rules'=>'trim|required')		
         );
+
+		if(!empty($row)){
+			$config2 = array(
+				array('field'=>'tuition_fee_head_id','label'=>'Tuition Fee Head','rules'=>'trim|required|callback_duplicate_config_head['.$row['tuition_fee_head_id'].']')
+			);
+		}else{
+			$config2 = array(
+				array('field'=>'tuition_fee_head_id','label'=>'Tuition Fee Head','rules'=>'trim|required|callback_duplicate_config_head')
+			);	
+		}
+
+		$config = array_merge($config1,$config2);
         return $config;
     }
 	

@@ -13,16 +13,6 @@
     enctype="multipart/form-data">
     <table class="form_table">
     <tr>
-        <td>Tuition Fee Head :</td>
-        <td>
-          <select class="form-control" name="tuition_fee_head_id" required>
-            <option value="" >---- Select Tuition fee head ----</option>
-            <?php echo html_options($tuition_fee_head_options, set_value('tuition_fee_head_id',$tuition_fee_head_id)); ?>
-          </select>
-          <span class='error'>* <?php echo form_error('tuition_fee_head_id'); ?></span>
-        </td>
-      </tr>
-      <tr>
 				<td>Class :</td>
 				<td>
 					<select name='class_id' class='form-control' id="class_id" required>
@@ -34,19 +24,23 @@
 				<input type="hidden" name="class_code" id="class_code" />
 			</tr>
       <tr>
-				<td>Amount :</td>
-				<td>
-					<input name="amount" type="number" class="form-control" value="<?=set_value('amount',$amount); ?>" autocomplete="off" required/>
-					<span class='error'>* <?php echo form_error('amount'); ?></span>
-				</td>
-			</tr>
-      <tr>
-        <td>Status :</td>
+        <td>Month :</td>
         <td>
-          <select class="form-control" name="status" required>
-            <?php echo html_options($status_options, set_value('status',$status)); ?>
+          <select class="form-control" name="month" required>
+            <option value="" >---- Select month ----</option>
+            <?php echo html_options($month_option, set_value('month',$month)); ?>
           </select>
-          <span class='error'>* <?php echo form_error('status'); ?></span>
+          <span class='error'>* <?php echo form_error('month'); ?></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Year :</td>
+        <td>
+          <select class="form-control" name="year" required>
+            <option value="" >---- Select year ----</option>
+            <?php echo html_options($year_option, set_value('year',$year)); ?>
+          </select>
+          <span class='error'>* <?php echo form_error('year'); ?></span>
         </td>
       </tr>
       <tr>

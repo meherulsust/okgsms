@@ -22,9 +22,10 @@ class TuitionFeeConfigModel extends MT_Model
    
     public function get_list()
     {
-        $this->db->select('tfc.*,tfh.title,c.title as class');
+        $this->db->select('tfc.*,tfh.title,c.title as class,m.title as month');
         $this->db->from('tuition_fee_config tfc');
         $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
+        $this->db->join('month_list m','m.id = tfc.month_id','left');
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
         $rs = $this->db->get();
         return $rs->result_array();
@@ -35,6 +36,7 @@ class TuitionFeeConfigModel extends MT_Model
         $this->db->select("count(tfc.id) num");
         $this->db->from('tuition_fee_config tfc');
         $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
+        $this->db->join('month_list m','m.id = tfc.month_id','left');
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
         $this->db->from('tuition_fee_config');
         return $this->get_one();

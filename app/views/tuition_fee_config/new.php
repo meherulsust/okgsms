@@ -23,6 +23,16 @@
         </td>
       </tr>
       <tr>
+        <td>Month :</td>
+        <td>
+          <select class="form-control" name="month_id" required>
+            <option value="" >---- Select month ----</option>
+            <?php echo html_options($month_option, set_value('month_id',date('m'))); ?>
+          </select>
+          <span class='error'>* <?php echo form_error('month_id'); ?></span>
+        </td>
+      </tr>
+      <tr>
 				<td>Class :</td>
 				<td>
 					<select name='class_id' class='form-control' id="class_id" required>

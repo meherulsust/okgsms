@@ -155,7 +155,7 @@ class GenerateTuitionFee extends MT_Controller
 		$this->assign($row);	
 		if (!empty($row)) {
 			$this->form_validation->set_rules($this->validate());
-			$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
+			$this->validation_error_msg();
 			if($this->form_validation->run() == FALSE){
 				$this->load->view('generate_tuition_fee/edit',$head);	
 			}else{
@@ -183,7 +183,7 @@ class GenerateTuitionFee extends MT_Controller
 		$month    = $this->input->post('month');
 		$year     = $this->input->post('year');
 
-		$query = $this->db->query("SELECT id FROM sms_tuition_fee_list where class_id='$str' AND month='$month'AND year='$year'");
+		$query = $this->db->query("SELECT id FROM sms_tuition_fee_list where class_id='$str' AND month='$month'AND year='$year' AND class_id<>'$param'");
 		if($query->num_rows()>0)
 		{
 			$this->form_validation->set_message('duplicate_tuition_fee', "%s <span style='color:green;'>tuition fee for this month $year </span> already exists");
@@ -198,9 +198,6 @@ class GenerateTuitionFee extends MT_Controller
         echo $this->status_change($id, $val, 'GenerateTuitionFeeModel', 'change_status'); //model name , method name 'change_status'
 	}
 
-
-
-	
 	private function validate(){
         $config = array(
 				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required|callback_duplicate_tuition_fee'),
