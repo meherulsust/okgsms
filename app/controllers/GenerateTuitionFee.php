@@ -61,14 +61,14 @@ class GenerateTuitionFee extends MT_Controller
 		$this->form_validation->set_rules($this->validate());
 		$this->validation_error_msg(); 
 
-		$class_id						        = $this->input->post('class_id');
-		$amount       					    	= $this->GenerateTuitionFeeModel->getTotalTuitionFeeBy($class_id);
-		$stuendtList       					    = $this->GenerateTuitionFeeModel->getStudentBy($class_id);
-		$tutionFeeConfigList 					= $this->GenerateTuitionFeeModel->getTuitionListBy($class_id);
-	
 		if($this->form_validation->run() == FALSE){
 			$this->load->view('tuition_fee_list/new',$head);	
-		}else{	
+		}else{
+			$class_id						        = $this->input->post('class_id');
+			$month_id						        = $this->input->post('month');
+			$amount       					    	= $this->GenerateTuitionFeeModel->getTotalTuitionFeeBy($class_id,$month_id);
+			$stuendtList       					    = $this->GenerateTuitionFeeModel->getStudentBy($class_id);
+			$tutionFeeConfigList 					= $this->GenerateTuitionFeeModel->getTutionFeeConfigListBy($class_id,$month_id);
 			if($amount['amount'] !='')	{
 			foreach($stuendtList as $stu){
 					$fee['student_id']		= $stu['id'];

@@ -149,18 +149,20 @@ class GenerateTuitionFeeModel extends MT_Model
         return $rs->result_array();
     }
 
-    public function getTuitionListBy($class_id){
+    public function getTutionFeeConfigListBy($class_id,$month_id){
         $this->db->select('*');
         $this->db->from('tuition_fee_config');
         $this->db->where('class_id',$class_id);
+        $this->db->where('month_id',$month_id);
         $rs = $this->db->get();
         return $rs->result_array();
     }
 
-    public function getTotalTuitionFeeBy($class_id){
+    public function getTotalTuitionFeeBy($class_id,$month_id){
         $this->db->select_sum('amount');
         $this->db->from('tuition_fee_config');
         $this->db->where('class_id',$class_id);
+        $this->db->where('month_id',$month_id);
         $rs = $this->db->get();
         return $rs->row_array();
     }
