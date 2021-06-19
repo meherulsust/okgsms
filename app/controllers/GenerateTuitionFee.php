@@ -96,10 +96,10 @@ class GenerateTuitionFee extends MT_Controller
 				}
 				$this->GenerateTuitionFeeModel->addDetail($data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee'));
-				redirect('GenerateTuitionFee');
+				redirect('GenerateTuitionFee/index');
 			}else{
 				$this->session->set_flashdata('message',$this->tpl->set_message('error','No Tuition Fee Config found for this class'));
-				redirect('GenerateTuitionFee');
+				redirect('GenerateTuitionFee/index');
 			} 		
 				 			
 		}
@@ -167,7 +167,7 @@ class GenerateTuitionFee extends MT_Controller
 				$data['updated_by'] 					= $this->session->userdata('admin_userid');
 				$this->GenerateTuitionFeeModel->edit($id,$data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Tuition Fee Config'));
-				redirect('GenerateTuitionFee'); 		
+				redirect('GenerateTuitionFee/index'); 		
 				
 								
 			}

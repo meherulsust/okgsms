@@ -64,7 +64,7 @@ class TuitionFeeConfig extends MT_Controller
 				$data['created_by'] 	 				= $this->session->userdata('admin_userid');
 				$this->TuitionFeeConfigModel->add($data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee Config'));
-				redirect('TuitionFeeConfig'); 		
+				redirect('TuitionFeeConfig/index'); 		
 				 			
 		}
 	}
@@ -89,7 +89,7 @@ class TuitionFeeConfig extends MT_Controller
 				$data['updated_by'] 					= $this->session->userdata('admin_userid');
 				$this->TuitionFeeConfigModel->edit($id,$data);
 				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Tuition Fee Config'));
-				redirect('TuitionFeeConfig'); 		
+				redirect('TuitionFeeConfig/index'); 		
 				
 								
 			}
@@ -102,7 +102,7 @@ class TuitionFeeConfig extends MT_Controller
     {
         $id = decode($id);
         if ($id == '') {
-            redirect('TuitionFeeConfig');
+            redirect('TuitionFeeConfig/index');
         }
 		$country = $this->TuitionFeeConfigModel->get_record($id); // get record
         if ($country) {
@@ -127,7 +127,7 @@ class TuitionFeeConfig extends MT_Controller
 		$query = $this->db->query("SELECT id FROM sms_tuition_fee_config where tuition_fee_head_id='$str' AND month_id='$month_id'AND class_id='$class_id' AND tuition_fee_head_id<>'$param'");
 		if($query->num_rows()>0)
 		{
-			$this->form_validation->set_message('duplicate_config_head', "%s <span style='color:green;'>Tuition fee head for this month </span> already exists");
+			$this->form_validation->set_message('duplicate_config_head', "%s <span style='color:green;'>for this month </span> already exists");
 			return false;
 		}
 		return true;
