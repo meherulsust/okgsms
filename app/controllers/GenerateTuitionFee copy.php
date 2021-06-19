@@ -36,19 +36,19 @@ class GenerateTuitionFee extends MT_Controller
 		$this->tpl->set_js(array('select-chain'));
  	}
 	 
-	public function index($sort_type = 'desc', $sort_on = 'class_id')
+	public function index($sort_type = 'desc', $sort_on = 'id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
-		$labels = array('class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_paid_amount' => 'Total Paid Amount','total_due' => 'Total Due');
+		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','mobile_no'=>'Mobile','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list($id='',$data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
-		$this->assign('grid_action','');
+		$this->assign('grid_action', array('view' => 'view'));
 		$this->set_pagination($config);
 		$list = $this->GenerateTuitionFeeModel->get_list($id='',$data); // get data list
 		$this->assign('records', $list);
@@ -110,7 +110,7 @@ class GenerateTuitionFee extends MT_Controller
 	{
 		$id = decode($id);
         $config = array(array('field' => 'paid_amount','label' => 'paid_amount','rules' => 'trim|required|numeric'));
-		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Tuition Fee list ','link_action'=>'GenerateTuitionFee/tuition_fee_list');
+		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Tuition Fee list ','link_action'=>'GenerateTuitionFee/index');
         $this->form_validation->set_rules($config);
 		$this->validation_error_msg(); 
 		if($this->form_validation->run()== FALSE) 
@@ -206,25 +206,6 @@ class GenerateTuitionFee extends MT_Controller
         );
         return $config;
     }
-
-	public function tuition_fee_list($sort_type = 'desc', $sort_on = 'id')
-	{
-		$data = $this->input->post();
-		$this->tpl->set_js(array('jquery.statusmenu'));
-		$head = array('page_title'=>'Tuition Fee List','link_title'=>'Generate Tuition Fee ','link_action'=>'GenerateTuitionFee/add');
-		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','mobile_no'=>'Mobile','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
-		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_tuition_fee_list($data);
-		$config['uri_segment'] = 6;
-		$config['select_value'] = $this->input->post('rec_per_page');
-		$config['sort_on'] = $sort_on;
-		$config['sort_type'] = $sort_type;
-		$this->assign('grid_action', array('view' => 'view'));
-		$this->set_pagination($config);
-		$list = $this->GenerateTuitionFeeModel->get_tuition_feel_list($data); // get data list
-		$this->assign('records', $list);
-		$this->load->view('tuition_fee_list/student_fee_list',$head);
-	}
 	
 }
 

@@ -43,10 +43,10 @@
     <i class="fa fa-pencil-square-o"></i>
     <h3 class="box-title"><?php echo $page_title; ?></h3>
       <div class="box-tools pull-right">
-        <a class="ajax_link" href="<?=$site_url . $link_action;?>">
+        <!-- <a class="ajax_link" href="<?=$site_url . $link_action;?>">
           <button class="btn btn-primary btn-xs" type="button"><i class='fa fa-plus'></i>
             <?php echo $link_title; ?></button>
-        </a>
+        </a> -->
       </div>
     </div>
     <span class="delete_message"><?php echo $this->session->flashdata('message'); ?></span>

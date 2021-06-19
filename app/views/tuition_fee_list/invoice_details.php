@@ -22,9 +22,12 @@
 				    <a class="ajax_link" href="#">
 						<button class="btn btn-primary btn-xs print" type="button"><i class='fa fa-print'></i> Print</button>
 					</a>
-					<a class="ajax_link" href="<?=$site_url;?>GenerateTuitionFee/index">
-						<button class="btn btn-primary btn-xs" type="button"><i class='fa fa-table'></i> Invoice List</button>
-					</a>
+					<div class="box-tools pull-right">
+						<a class="ajax_link" href="<?=$site_url . $link_action;?>">
+						<button class="btn btn-primary btn-xs" type="button"><i class='fa fa-bars'></i>
+							<?php echo $link_title; ?></button>
+						</a>
+					</div>
 				</div>
 			</div>
 			<div class="panel-body" id="panel-body">

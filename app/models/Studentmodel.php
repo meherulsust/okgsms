@@ -186,6 +186,29 @@
 		$this->db->order_by('id','asc');
  		return $this->get_assoc();
 	} 
+
+	public function get_paymenet_list($id)
+    {
+        $this->db->select('tfl.*,sl.full_name,sl.id_no,sl.mobile_no,c.title as class,m.title as month,tfl.status as payment_status');
+        $this->db->from('tuition_fee_list tfl');
+        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
+        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        $this->db->where('tfl.student_id',$id);
+        $rs = $this->db->get();
+        return $rs->result_array();
+    }
+
+    public function count_payment_list($id)
+    {
+        $this->db->select("count(tfl.id) num");
+        $this->db->from('tuition_fee_list tfl');
+        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
+        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        $this->db->where('tfl.student_id',$id);
+        return $this->get_one();
+    }
 			
  	
  }

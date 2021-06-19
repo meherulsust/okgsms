@@ -276,14 +276,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$head = array('page_title'=>'Payment List','link_title'=>'Student List','link_action'=>'Student/index');
 		$labels = array('id_no' => 'student ID','full_name' => 'Student Name','class' => 'Class','month'=>'Month','total_amount' => 'Total Amount','total_due' => 'Total Due','payment_status' => 'Status');
 		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->GenerateTuitionFeeModel->count_list($id);
+		$config['total_rows'] = $this->studentmodel->count_payment_list($id);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
 		$this->assign('grid_action', array('view' => 'payment_details'));
 		$this->set_pagination($config);
-		$list = $this->GenerateTuitionFeeModel->get_list($id); // get data list
+		$list = $this->studentmodel->get_paymenet_list($id); // get data list
 		$this->assign('records', $list);
 		$this->load->view('student/payment_ist',$head);
 	}
@@ -292,7 +292,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		$id = decode($id);
         $config = array(array('field' => 'paid_amount','label' => 'paid_amount','rules' => 'trim|required|numeric'));
-		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Tuition Fee list ','link_action'=>'GenerateTuitionFee/index');
+		$head = array('page_title'=>'Tuition Fee Details','link_title'=>'Student list ','link_action'=>'Student/index');
         $this->form_validation->set_rules($config);
 		$this->validation_error_msg(); 
 		if($this->form_validation->run()== FALSE) 

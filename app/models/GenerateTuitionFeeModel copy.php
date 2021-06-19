@@ -20,24 +20,62 @@ class GenerateTuitionFeeModel extends MT_Model
     }
 
    
-    public function get_list()
+    public function get_list($id='',$data=[])
     {
-        $this->db->select('tfl.id,SUM(tfl.total_amount) as total_amount,SUM(tfl.total_due) as total_due,(SUM(tfl.total_amount)-SUM(tfl.total_due)) as total_paid_amount,m.title as month,c.title as class,tfl.status as payment_status');
+        $this->db->select('tfl.*,sl.full_name,sl.id_no,sl.mobile_no,c.title as class,m.title as month,tfl.status as payment_status');
         $this->db->from('tuition_fee_list tfl');
+        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
         $this->db->join('month_list m', 'm.id =tfl.month', 'left');
-		$this->db->join('class c', 'c.id =tfl.class_id', 'left');
-        $this->db->group_by('tfl.class_id');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        if(isset($id) && $id!=""){
+            $this->db->where('tfl.student_id',$id);
+        }
+        if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
         $rs = $this->db->get();
         return $rs->result_array();
     }
 
-    public function count_list()
+    public function count_list($id='',$data=[])
     {
-        $this->db->select("tfl.id num");
+        $this->db->select("count(tfl.id) num");
         $this->db->from('tuition_fee_list tfl');
+        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
         $this->db->join('month_list m', 'm.id =tfl.month', 'left');
-		$this->db->join('class c', 'c.id =tfl.class_id', 'left');
-        $this->db->group_by('tfl.class_id');
+		$this->db->join('class c', 'c.id =sl.class_id', 'left');
+        if(isset($id) && $id!=""){
+            $this->db->where('tfl.student_id',$id);
+        }
+        if(isset($data['id_no']) &&  $data['id_no']!='')
+		{
+			$this->db->where('sl.id_no',$data['id_no']);
+		}
+		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
+		{
+			$this->db->where('sl.mobile_no',$data['mobile_no']);
+		}
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('sl.class_id',$data['class_id']);
+		}
+		if(isset($data['section_id']) && $data['section_id'] !='')
+		{
+			$this->db->where('sl.section_id',$data['section_id']);
+		}
         return $this->get_one();
     }
 
@@ -167,65 +205,6 @@ class GenerateTuitionFeeModel extends MT_Model
     {
         $this->db->insert('payment_history_list',$data);
 		return $this->db->insert_id();
-    }
-
-    public function get_tuition_feel_list($data)
-    {
-        $this->db->select('tfl.*,sl.full_name,sl.id_no,sl.mobile_no,c.title as class,m.title as month,tfl.status as payment_status');
-        $this->db->from('tuition_fee_list tfl');
-        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
-        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
-		$this->db->join('class c', 'c.id =sl.class_id', 'left');
-        if(isset($id) && $id!=""){
-            $this->db->where('tfl.student_id',$id);
-        }
-        if(isset($data['id_no']) &&  $data['id_no']!='')
-		{
-			$this->db->where('sl.id_no',$data['id_no']);
-		}
-		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
-		{
-			$this->db->where('sl.mobile_no',$data['mobile_no']);
-		}
-		if(isset($data['class_id']) &&  $data['class_id']!='')
-		{
-			$this->db->where('sl.class_id',$data['class_id']);
-		}
-		if(isset($data['section_id']) && $data['section_id'] !='')
-		{
-			$this->db->where('sl.section_id',$data['section_id']);
-		}
-        $rs = $this->db->get();
-        return $rs->result_array();
-    }
-
-    public function count_tuition_fee_list($data)
-    {
-        $this->db->select("count(tfl.id) num");
-        $this->db->from('tuition_fee_list tfl');
-        $this->db->join('student_list sl', 'sl.id =tfl.student_id', 'left');
-        $this->db->join('month_list m', 'm.id =tfl.month', 'left');
-		$this->db->join('class c', 'c.id =sl.class_id', 'left');
-        if(isset($id) && $id!=""){
-            $this->db->where('tfl.student_id',$id);
-        }
-        if(isset($data['id_no']) &&  $data['id_no']!='')
-		{
-			$this->db->where('sl.id_no',$data['id_no']);
-		}
-		if(isset($data['mobile_no']) &&  $data['mobile_no']!='')
-		{
-			$this->db->where('sl.mobile_no',$data['mobile_no']);
-		}
-		if(isset($data['class_id']) &&  $data['class_id']!='')
-		{
-			$this->db->where('sl.class_id',$data['class_id']);
-		}
-		if(isset($data['section_id']) && $data['section_id'] !='')
-		{
-			$this->db->where('sl.section_id',$data['section_id']);
-		}
-        return $this->get_one();
     }
 
 }
