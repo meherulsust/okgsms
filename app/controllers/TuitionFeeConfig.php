@@ -29,11 +29,11 @@ class TuitionFeeConfig extends MT_Controller
 		$this->assign('class_options',$class_options);
  	 }
 	 
-	public function index($sort_type = 'desc', $sort_on = 'id')
+	public function index($sort_type = 'desc', $sort_on = 'class_id')
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee Config List','link_title'=>'New Tuition Fee Config','link_action'=>'TuitionFeeConfig/add');
-		$labels = array('title' => 'Title','month' => 'Month','class' => 'Class','amount' => 'Amount','status' => 'Status');
+		$labels = array('class' => 'Class','title' => 'Head Name','month' => 'Month','amount' => 'Amount','status' => 'Status');
 		$this->assign('labels', $labels);
 		$config['total_rows'] = $this->TuitionFeeConfigModel->count_list();
 		$config['uri_segment'] = 6;
