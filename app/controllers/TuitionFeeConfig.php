@@ -21,6 +21,8 @@ class TuitionFeeConfig extends MT_Controller
 		$this->tpl->set_page_title('Tuition Fee Config');
 		$status_option = array('Active' => 'Active','Inactive' => 'Inactive');
 		$this->assign('status_options', $status_option);
+		$payment_status = array('Paid' => 'Paid','Unpaid' => 'Unpaid');
+		$this->assign('payment_status', $payment_status);
 		$month_option = $this->optionmodel->month_option(); 
 		$this->assign('month_option', $month_option);
 		$tuition_fee_head_option = $this->optionmodel->tutuion_fee_head_options(); 
@@ -29,20 +31,21 @@ class TuitionFeeConfig extends MT_Controller
 		$this->assign('class_options',$class_options);
  	 }
 	 
-	public function index($sort_type = 'desc', $sort_on = 'class_id')
+	public function index($sort_type = 'asc', $sort_on = 'm.id')
 	{
+		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee Config List','link_title'=>'New Tuition Fee Config','link_action'=>'TuitionFeeConfig/add');
 		$labels = array('class' => 'Class','title' => 'Head Name','month' => 'Month','amount' => 'Amount','status' => 'Status');
 		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->TuitionFeeConfigModel->count_list();
+		$config['total_rows'] = $this->TuitionFeeConfigModel->count_list($data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
 		$this->assign('grid_action', array('edit' => 'edit','view' => 'view'));
 		$this->set_pagination($config);
-		$list = $this->TuitionFeeConfigModel->get_list(); // get data list
+		$list = $this->TuitionFeeConfigModel->get_list($data); // get data list
 		$this->assign('records', $list);
 		$this->load->view('tuition_fee_config/list',$head);
 	}
@@ -60,7 +63,7 @@ class TuitionFeeConfig extends MT_Controller
 				$data['month_id'] 						= $this->input->post('month_id');
 				$data['class_id'] 						= $this->input->post('class_id');
 				$data['amount'] 						= $this->input->post('amount');
-				$data['status']		   				    = $this->input->post('status');
+				$data['status']		   				    = 'Active';
 				$data['created_at']	   				    = $this->current_date();
 				$data['created_by'] 	 				= $this->session->userdata('admin_userid');
 				
@@ -152,7 +155,7 @@ class TuitionFeeConfig extends MT_Controller
 				array('field'=>'month_id','label'=>'Month','rules'=>'trim|required'),
 				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
 				array('field'=>'amount','label'=>'Amount','rules'=>'trim|required'),
-				array('field'=>'status','label'=>'Status','rules'=>'trim|required')		
+				//array('field'=>'status','label'=>'Status','rules'=>'trim|required')		
         );
 
 		if(!empty($row)){

@@ -20,25 +20,43 @@ class TuitionFeeConfigModel extends MT_Model
     }
 
    
-    public function get_list()
+    public function get_list($data)
     {
         $this->db->select('tfc.*,tfh.title,c.title as class,m.title as month');
         $this->db->from('tuition_fee_config tfc');
         $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
         $this->db->join('month_list m','m.id = tfc.month_id','left');
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
+      
+		if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('tfc.class_id',$data['class_id']);
+		}
+		if(isset($data['month_id']) && $data['month_id'] !='')
+		{
+			$this->db->where('tfc.month_id',$data['month_id']);
+		}
+       
         $this->db->order_by('m.id');
         $rs = $this->db->get();
         return $rs->result_array();
     }
 
-    public function count_list()
+    public function count_list($data)
     {
         $this->db->select("count(tfc.id) num");
         $this->db->from('tuition_fee_config tfc');
         $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
         $this->db->join('month_list m','m.id = tfc.month_id','left');
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
+        if(isset($data['class_id']) &&  $data['class_id']!='')
+		{
+			$this->db->where('tfc.class_id',$data['class_id']);
+		}
+		if(isset($data['month_id']) && $data['month_id'] !='')
+		{
+			$this->db->where('tfc.month_id',$data['month_id']);
+		}
         $this->db->order_by('m.id');
         return $this->get_one();
     }

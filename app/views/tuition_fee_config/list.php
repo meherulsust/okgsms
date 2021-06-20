@@ -39,7 +39,7 @@
         <td>
           <select class="form-control" name="month_id" required>
             <option value="" >---- Select month ----</option>
-            <?php echo html_options($month_option, set_value('month_id',date('m'))); ?>
+            <?php echo html_options($month_option, set_value('month_id')); ?>
           </select>
           <span class='error'>* <?php echo form_error('month_id'); ?></span>
         </td>
@@ -51,7 +51,7 @@
 					<span class='error'>* <?php echo form_error('amount'); ?></span>
 				</td>
 			</tr>
-      <tr>
+      <!-- <tr>
         <td>Status :</td>
         <td>
           <select class="form-control" name="status" required>
@@ -59,7 +59,7 @@
           </select>
           <span class='error'>* <?php echo form_error('status'); ?></span>
         </td>
-      </tr>
+      </tr> -->
       <tr>
         <td></td>
         <td>
@@ -70,6 +70,35 @@
     </table>
     </form>
     <form id="ajax_submit" role="form" action="<?=$site_url . $active_controller;?>" method="post">
+    <div class="box box-primary">	
+        <div class="box-header">
+            <i class="fa fa-search"></i><h3 class="box-title">Search</h3>
+        </div>	
+        <table class="search_form_table">
+            <tr>                
+                <td>Class :</td>
+                <td>
+                    <select name='class_id' class='form-control' id="class_id">
+                      <option value="" >---- Select Class ----</option>
+                      <?php echo html_options($class_options,set_value('class_id')); ?>
+					          </select>
+                </td>
+                <td>Month:</td>
+                <td>
+                    <select name='month_id' class='form-control' id="month_id">
+                      <option value="" >---- Select Month ----</option>
+                      <?php echo html_options($month_option,set_value('month_id')); ?>
+					          </select>                               
+                </td>  
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <a href="<?= $site_url . $active_controller.'/'.$this->method; ?>"><span class="btn btn-sm btn-info">Reset</span></a>
+                </td>
+            </tr>
+        </table>    
+    </div>
       <?php $this->load->element('grid_board');?>
     </form>
   </div>

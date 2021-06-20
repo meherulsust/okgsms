@@ -39,7 +39,7 @@ class GenerateTuitionFee extends MT_Controller
 		$this->tpl->set_js(array('select-chain'));
  	}
 	 
-	public function index($sort_type = 'desc', $sort_on = 'class_id')
+	public function index($sort_type = 'asc', $sort_on = 'm.id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
@@ -205,13 +205,13 @@ class GenerateTuitionFee extends MT_Controller
 	private function validate(){
         $config = array(
 				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required|callback_duplicate_tuition_fee'),
-				array('field'=>'year','label'=>'Month','rules'=>'trim|required'),
+				array('field'=>'year','label'=>'Year','rules'=>'trim|required'),
 				array('field'=>'month','label'=>'Month','rules'=>'trim|required')
         );
         return $config;
     }
 
-	public function tuition_fee_list($sort_type = 'desc', $sort_on = 'id')
+	public function tuition_fee_list($sort_type = 'asc', $sort_on = 'm.id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));

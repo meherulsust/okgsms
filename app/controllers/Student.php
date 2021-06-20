@@ -269,7 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		echo json_encode($array);
 	}
 
-	public function payment($id,$sort_type='desc',$sort_on='id'){
+	public function payment($id,$sort_type='asc',$sort_on='m.id'){
 		
 		$id = decode($id);
 		$this->tpl->set_js(array('jquery.statusmenu'));
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->set_pagination($config);
 		$list = $this->studentmodel->get_paymenet_list($id); // get data list
 		$this->assign('records', $list);
-		$this->load->view('student/payment_ist',$head);
+		$this->load->view('student/payment_list',$head);
 	}
 
 	public function payment_details($id)

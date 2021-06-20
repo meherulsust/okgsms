@@ -197,6 +197,7 @@ class GenerateTuitionFeeModel extends MT_Model
 		{
 			$this->db->where('tfl.status',$data['status']);
 		}
+        $this->db->order_by('tfl.month');
         $rs = $this->db->get();
         return $rs->result_array();
     }

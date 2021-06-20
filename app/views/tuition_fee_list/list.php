@@ -29,7 +29,7 @@ enctype="multipart/form-data">
         <td>
           <select class="form-control" name="month" required>
             <option value="" >---- Select month ----</option>
-            <?php echo html_options($month_option, set_value('month',date('m'))); ?>
+            <?php echo html_options($month_option, set_value('month')); ?>
           </select>
           <span class='error'>* <?php echo form_error('month'); ?></span>
         </td>

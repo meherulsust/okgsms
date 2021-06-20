@@ -20,6 +20,9 @@
     <thead>
       <tr>
         <th width="30" align="center">#</th>
+        <?php if (!isset($grid_action) || (is_array($grid_action) && !empty($grid_action))): ?>
+          <th width="10%" align="center"><a href="#">Action</a></th>
+        <?php endif?>
         <?php foreach ($labels as $field => $lbl): ?>
         <th class="short">
           <?php if ($sort_on == $field): ?>
@@ -36,16 +39,60 @@
           <?php endif?>
         </th>
         <?php endforeach?>
-        <?php if (!isset($grid_action) || (is_array($grid_action) && !empty($grid_action))): ?>
-        <th width="10%" align="center"><a href="#">Action</a></th>
-        <?php endif?>
       </tr>
     </thead>
     <tbody>
 
     <?php foreach ($records as $row): ?>
       <tr class="<?php echo cycle(array('bg1', 'bg')); ?>">
-        <td><?php echo sprintf('%02d', ++$offset); ?></td>
+
+      <td><?php echo sprintf('%02d', ++$offset); ?></td>
+      
+      <?php if (!isset($grid_action)): ?>
+        <td class='actn-btn'>
+          <a href="<?=$site_url . $active_controller;?>/edit/<?=encode($row['id'])?>"
+            title="Click here for edit this item" class='edit ajax_link'><span class="action_btn btn-primary"><i
+                class="fa fa-pencil"></i></span></a>
+          <a href="<?=$site_url . $active_controller;?>/del/<?=encode($row['id'])?>"
+            title="Click here for delete this item" class='del ajax_link'> <span class="action_btn btn-danger"><i
+                class="fa fa-times"></i></span></a>
+        </td>
+        <?php elseif (is_array($grid_action) && !empty($grid_action)): ?>
+        <td class='actn-btn' align="center">
+          <?php foreach ($grid_action as $gatype => $gactn): ?>
+          <?php if ($gatype === 'edit'): ?>
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
+            title="Click here for edit this item"><span class="action_btn btn-primary"><i
+                class="fa fa-pencil"></i></span></a>
+          <?php elseif ($gatype === 'view'): ?>
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
+            title="Click here for view details"><span class="action_btn btn-success"><i
+                class="fa fa-search-plus"></i></span></a>
+          <?php elseif ($gatype === 'payment'): ?>
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
+            title="Click here for view details"><span class="action_btn btn-success"><i
+                class="fa fa-money"></i></span></a>      
+          <?php elseif ($gatype === 'processview'): ?>
+          <!-- only for letter process -->
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . $row['process_id']?>"
+            title="Click here for view details"><img src="<?=$image_url?>a_view.gif" width="16" height="13" border="0"
+              alt="View" /></a>
+          <?php elseif ($gatype === 'del' || $gatype === 'delete'): ?>
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>"
+            title="Click here for delete this item" class='del'><span class="action_btn btn-danger"><i
+                class="fa fa-times"></i></span></a>
+          <?php else: ?>
+          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>"
+            title="Click here for <?php echo $gactn ?> this item" class='<?php echo $gactn; ?>'><img
+              src="<?=$image_url?>a_<?php echo $gactn; ?>.gif" width="16" height="13" border="0"
+              alt="<?php echo $gactn; ?>" /></a>
+          <?php endif?>
+          <?php endforeach?>
+        </td>
+        <?php endif?>
+        
+      
+
         <?php foreach ($labels as $field => $label): ?>
         <?php if ($field == 'status' or $field == 'custom_set_status' or $field == 'customs_set_status'):
 			$status_link = ($field == 'status' ? 'set_status' : ($field == 'custom_set_status' ? 'custom_set_status' : 'customs_set_status'));
@@ -105,48 +152,6 @@
         <td><?php echo $row[$field] ?></td>
         <?php endif?>
         <?php endforeach?>
-        <?php if (!isset($grid_action)): ?>
-        <td class='actn-btn'>
-          <a href="<?=$site_url . $active_controller;?>/edit/<?=encode($row['id'])?>"
-            title="Click here for edit this item" class='edit ajax_link'><span class="action_btn btn-primary"><i
-                class="fa fa-pencil"></i></span></a>
-          <a href="<?=$site_url . $active_controller;?>/del/<?=encode($row['id'])?>"
-            title="Click here for delete this item" class='del ajax_link'> <span class="action_btn btn-danger"><i
-                class="fa fa-times"></i></span></a>
-        </td>
-        <?php elseif (is_array($grid_action) && !empty($grid_action)): ?>
-        <td class='actn-btn' align="center">
-          <?php foreach ($grid_action as $gatype => $gactn): ?>
-          <?php if ($gatype === 'edit'): ?>
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
-            title="Click here for edit this item"><span class="action_btn btn-primary"><i
-                class="fa fa-pencil"></i></span></a>
-          <?php elseif ($gatype === 'view'): ?>
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
-            title="Click here for view details"><span class="action_btn btn-success"><i
-                class="fa fa-search-plus"></i></span></a>
-          <?php elseif ($gatype === 'payment'): ?>
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>" class="ajax_link"
-            title="Click here for view details"><span class="action_btn btn-success"><i
-                class="fa fa-money"></i></span></a>      
-          <?php elseif ($gatype === 'processview'): ?>
-          <!-- only for letter process -->
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . $row['process_id']?>"
-            title="Click here for view details"><img src="<?=$image_url?>a_view.gif" width="16" height="13" border="0"
-              alt="View" /></a>
-          <?php elseif ($gatype === 'del' || $gatype === 'delete'): ?>
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>"
-            title="Click here for delete this item" class='del'><span class="action_btn btn-danger"><i
-                class="fa fa-times"></i></span></a>
-          <?php else: ?>
-          <a href="<?=$site_url . $active_controller . '/' . $gactn . '/' . encode($row['id'])?>"
-            title="Click here for <?php echo $gactn ?> this item" class='<?php echo $gactn; ?>'><img
-              src="<?=$image_url?>a_<?php echo $gactn; ?>.gif" width="16" height="13" border="0"
-              alt="<?php echo $gactn; ?>" /></a>
-          <?php endif?>
-          <?php endforeach?>
-        </td>
-        <?php endif?>
       </tr>
       <?php endforeach?>
 
@@ -162,7 +167,13 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    
+    <div id="example2_info" class="dataTables_info">
+      &nbsp;&nbsp;&nbsp;&nbsp;<span>Page <strong><?=$cur_page?>/<?=$total_page?></strong></span> | <span>View
+        <select name="rec_per_page" id='rec_per_page'>
+          <?php echo html_options(array(5 => 5, 10 => 10, 30 => 30, 50 => 50, 100 => 100, 200 => 200), $rec_per_page); ?>
+        </select>
+        per page | Total <strong><?=$total_record;?> </strong> records found.</span>
+    </div>
   </div>
   <div class="col-xs-6">
     <div class="dataTables_paginate paging_bootstrap">

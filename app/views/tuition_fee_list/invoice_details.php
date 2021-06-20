@@ -18,17 +18,19 @@
 		<div class="box box-primary">
 			<div class="panel-heading">
 				<i class="fa fa-table"></i><?php echo $page_title;?>
-				<div class="box-tools pull-right">
-				    <a class="ajax_link" href="#">
-						<button class="btn btn-primary btn-xs print" type="button"><i class='fa fa-print'></i> Print</button>
-					</a>
 					<div class="box-tools pull-right">
+						<a class="ajax_link" href="<?=$site_url .'Student/payment/'.encode($student_id);?>">
+							<button class="btn btn-primary btn-xs" type="button"></i>
+							Payment List</button>
+						</a>
+						<a class="ajax_link" href="#">
+							<button class="btn btn-primary btn-xs print" type="button"><i class='fa fa-print'></i> Print</button>
+						</a>
 						<a class="ajax_link" href="<?=$site_url . $link_action;?>">
-						<button class="btn btn-primary btn-xs" type="button"><i class='fa fa-bars'></i>
+							<button class="btn btn-primary btn-xs" type="button"><i class='fa fa-bars'></i>
 							<?php echo $link_title; ?></button>
 						</a>
 					</div>
-				</div>
 			</div>
 			<div class="panel-body" id="panel-body">
 				<div class="row">
