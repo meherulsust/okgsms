@@ -52,9 +52,11 @@ enctype="multipart/form-data">
         </td>
       </tr>
     </table>
-    <?php $this->load->element('grid_board');?>
+    </form>
+    <form id="ajax_submit" role="form" action="<?=$site_url . $active_controller;?>" method="post">
+      <?php $this->load->element('grid_board');?>
+    </form>  
   </div>
-</form>
 
 <script>
 
