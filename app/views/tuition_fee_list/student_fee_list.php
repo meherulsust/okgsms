@@ -18,17 +18,29 @@
                 <td>Class:</td>
                 <td>
                     <select name='class_id' class='form-control' id="class_id">
-						<option value="" >---- Select Class ----</option>
-						<?php echo html_options($class_options,set_value('class_id')); ?>
-					</select>                               
+                      <option value="" >---- Select Class ----</option>
+                      <?php echo html_options($class_options,set_value('class_id')); ?>
+					          </select>                               
                 </td>
                 <td>Form</td>
                 <td>
                     <select name='section_id' class='form-control' id="section_id">
-						<option value="" >---- Select Form ----</option>
-						<?php echo html_options($section_options,set_value('section_id')); ?>
-					</select>
+                      <option value="" >---- Select Form ----</option>
+                      <?php echo html_options($section_options,set_value('section_id')); ?>
+					          </select>
                 </td>   
+            </tr>
+            <tr>                
+                <td>Payment Status:</td>
+                <td>
+                    <select name='status' class='form-control' id="status">
+                      <option value="" >---- Select status ----</option>
+                      <?php echo html_options($status_options,set_value('status')); ?>
+					          </select>                               
+                </td>
+
+                <td></td>
+                <td></td>   
             </tr>
             <tr>
                 <td colspan="4" align="center">

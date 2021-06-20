@@ -156,7 +156,7 @@ $(document).ready(function() {
           } else {
             $('.delete_message').html(obj.message);
           }
-          $('.alert').fadeOut(3000);
+          $('.alert').fadeOut(30000);
         }
       });
       return false;
@@ -183,7 +183,7 @@ $(document).ready(function() {
           $('.dropdown-menu').fadeOut();
           $('.delete_message').html(obj.message);
         }
-        $('.alert').fadeOut(3000);
+        $('.alert').fadeOut(30000);
       }
     });
     return false;
@@ -191,7 +191,7 @@ $(document).ready(function() {
 
   setTimeout(function() {
     $('.alert').fadeOut();
-  }, 2000);
+  }, 30000);
 
 });
 </script>

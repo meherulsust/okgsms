@@ -53,7 +53,8 @@ class TuitionFeeConfig extends MT_Controller
 		$this->form_validation->set_rules($this->validate());
 		$this->validation_error_msg(); 
 		if($this->form_validation->run() == FALSE){
-			$this->load->view('tuition_fee_config/new',$head);	
+			$this->index($sort_type = 'desc', $sort_on = 'class_id');
+			//$this->load->view('tuition_fee_config/new',$head);	
 		}else{
 				$data['tuition_fee_head_id'] 			= $this->input->post('tuition_fee_head_id');
 				$data['month_id'] 						= $this->input->post('month_id');
@@ -62,8 +63,14 @@ class TuitionFeeConfig extends MT_Controller
 				$data['status']		   				    = $this->input->post('status');
 				$data['created_at']	   				    = $this->current_date();
 				$data['created_by'] 	 				= $this->session->userdata('admin_userid');
-				$this->TuitionFeeConfigModel->add($data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee Config'));
+				
+				$checkFeelist = $this->TuitionFeeConfigModel->checkFeelist($data);
+				if($checkFeelist){
+					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can add this configuration, Tuition Fee already has been generated for this class !'));
+				}else{
+					$this->TuitionFeeConfigModel->add($data);
+					$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee Config'));
+				}
 				redirect('TuitionFeeConfig/index'); 		
 				 			
 		}
@@ -87,8 +94,14 @@ class TuitionFeeConfig extends MT_Controller
 				$data['amount'] 						= $this->input->post('amount');
 				$data['status']		   				    = $this->input->post('status');
 				$data['updated_by'] 					= $this->session->userdata('admin_userid');
-				$this->TuitionFeeConfigModel->edit($id,$data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('edit','Tuition Fee Config'));
+
+				$checkFeelist = $this->TuitionFeeConfigModel->checkFeelist($data);
+				if($checkFeelist){
+					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can add this configuration, Tuition Fee already has been generated for this class !'));
+				}else{
+					$this->TuitionFeeConfigModel->edit($id,$data);
+					$this->session->set_flashdata('message',$this->tpl->set_message('edit','Tuition Fee Config'));
+				}
 				redirect('TuitionFeeConfig/index'); 		
 				
 								

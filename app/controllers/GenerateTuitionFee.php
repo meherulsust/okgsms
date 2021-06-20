@@ -31,6 +31,9 @@ class GenerateTuitionFee extends MT_Controller
 		$section_options = $this->optionmodel->section_options($class_id); 		
 		$this->assign('section_options',$section_options);
 
+		$status_option = array('Paid' => 'Paid','Unpaid' => 'Unpaid');
+		$this->assign('status_options', $status_option);
+
 		$this->tpl->set_css(array('datepicker/datepicker'));
         $this->tpl->set_js(array('plugins/datepicker/bootstrap-datepicker'));
 		$this->tpl->set_js(array('select-chain'));
@@ -62,7 +65,8 @@ class GenerateTuitionFee extends MT_Controller
 		$this->validation_error_msg(); 
 
 		if($this->form_validation->run() == FALSE){
-			$this->load->view('tuition_fee_list/new',$head);	
+			$this->index($sort_type = 'desc', $sort_on = 'class_id');
+			//$this->load->view('tuition_fee_list/list',$head);	
 		}else{
 			$class_id						        = $this->input->post('class_id');
 			$month_id						        = $this->input->post('month');

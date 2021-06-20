@@ -14,6 +14,17 @@
     <span class="delete_message"><?php echo $this->session->flashdata('message'); ?></span>
     <table class="form_table">
       <tr>
+				<td>Class :</td>
+				<td>
+					<select name='class_id' class='form-control' id="class_id" required>
+						<option value="" >---- Select Class ----</option>
+						<?php echo html_options($class_options,set_value('class_id')); ?>
+					</select>
+					<span class='error'>* <?php echo form_error('class_id'); ?> </span>
+				</td>
+				<input type="hidden" name="class_code" id="class_code" />
+			</tr>
+      <tr>
         <td>Tuition Fee Head :</td>
         <td>
           <select class="form-control" name="tuition_fee_head_id" required>
@@ -33,17 +44,6 @@
           <span class='error'>* <?php echo form_error('month_id'); ?></span>
         </td>
       </tr>
-      <tr>
-				<td>Class :</td>
-				<td>
-					<select name='class_id' class='form-control' id="class_id" required>
-						<option value="" >---- Select Class ----</option>
-						<?php echo html_options($class_options,set_value('class_id')); ?>
-					</select>
-					<span class='error'>* <?php echo form_error('class_id'); ?> </span>
-				</td>
-				<input type="hidden" name="class_code" id="class_code" />
-			</tr>
       <tr>
 				<td>Amount :</td>
 				<td>

@@ -39,6 +39,7 @@ class TuitionFeeConfigModel extends MT_Model
         $this->db->join('tuition_fee_head tfh', 'tfh.id =tfc.tuition_fee_head_id', 'left');
         $this->db->join('month_list m','m.id = tfc.month_id','left');
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
+        $this->db->order_by('m.id');
         return $this->get_one();
     }
 
@@ -61,6 +62,16 @@ class TuitionFeeConfigModel extends MT_Model
 		$this->db->join('class c', 'c.id =tfc.class_id', 'left');
         $this->db->where('tfc.id', $id);
         return $this->get_row();
+    }
+
+    public function checkFeelist($data)
+    {
+        $this->db->select("count(id) num");
+        $this->db->from('tuition_fee_list tfl');
+        $this->db->where('class_id', $data['class_id']);
+        $this->db->where('month', $data['month_id']);
+        $this->db->where('year', date('Y'));
+        return $this->get_one();
     }
 
     public function del($id)
