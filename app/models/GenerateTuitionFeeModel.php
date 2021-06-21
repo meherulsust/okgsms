@@ -26,7 +26,8 @@ class GenerateTuitionFeeModel extends MT_Model
         $this->db->from('tuition_fee_list tfl');
         $this->db->join('month_list m', 'm.id =tfl.month', 'left');
 		$this->db->join('class c', 'c.id =tfl.class_id', 'left');
-        $this->db->group_by('m.id');
+        $this->db->group_by('tfl.month');
+        $this->db->group_by('tfl.class_id');
         $rs = $this->db->get();
         return $rs->result_array();
     }
