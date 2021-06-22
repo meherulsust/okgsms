@@ -23,7 +23,7 @@ class TuitionFeeHead extends MT_Controller
 		$this->assign('status_options', $status_option);
  	 }
 	 
-	public function index($sort_type = 'desc', $sort_on = 'id')
+	public function index($sort_type = 'asc', $sort_on = 'id')
 	{
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Tuition Fee Head List','link_title'=>'New Tuition Fee Head','link_action'=>'TuitionFeeHead/add');
@@ -47,7 +47,7 @@ class TuitionFeeHead extends MT_Controller
 		$this->form_validation->set_rules($this->validate());
 		$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
 		if($this->form_validation->run() == FALSE){
-			$this->load->view('tuition_fee_head/new',$head);	
+			$this->index($sort_type = 'asc', $sort_on = 'id');	
 		}else{
 				$data['title'] 			= $this->input->post('title');
 				$data['status']		    = $this->input->post('status');
@@ -67,7 +67,7 @@ class TuitionFeeHead extends MT_Controller
 		$head = array('page_title'=>'Edit Tuition Fee Head','link_title'=>'Tuition Fee Head','link_action'=>'TuitionFeeHead/index');
 		$this->assign($row);	
 		if (!empty($row)) {
-			$this->form_validation->set_rules($this->validate());
+			$this->form_validation->set_rules($this->validate($row));
 			$this->form_validation->set_error_delimiters('<span class="verr"><i class="fa fa-exclamation-circle"></i> ', '</span>');
 			if($this->form_validation->run() == FALSE){
 				$this->load->view('tuition_fee_head/edit',$head);	
@@ -107,12 +107,28 @@ class TuitionFeeHead extends MT_Controller
         echo $this->status_change($id, $val, 'TuitionFeeHeadModel', 'change_status'); //model name 'usermdoel' method name 'change_status'
 	}
 
+	//check duplicate head for validation
 	
-	private function validate(){
-        $config = array(
-				array('field'=>'title','label'=>'Tuition Fee Head Name','rules'=>'trim|required'),
-				array('field'=>'status','label'=>'Status','rules'=>'trim|required')		
-        );
+	function duplicate_head_check($str,$param='')
+    {
+		$query = $this->db->query("SELECT id FROM sms_tuition_fee_head where title='$str' AND title<>'$param'");
+       if($query->num_rows()>0)
+       {
+          $this->form_validation->set_message('duplicate_head_check', "%s <span style='color:green;'>$str</span> already exists");
+		 	 	 return false;
+       }
+       return true;
+	}
+
+	
+	private function validate($row=""){
+        $config1 = array(array('field'=>'status','label'=>'Status','rules'=>'trim|required'));
+		if($row){
+			$config2 = array(array('field'=>'title','label'=>'Head Name','rules'=>'trim|required|callback_duplicate_head_check['.$row['title'].']'));
+		}else{
+			$config2 = array(array('field'=>'title','label'=>'Tuition Fee Head Name','rules'=>'trim|required|callback_duplicate_head_check'));	
+		}
+		$config = array_merge($config1,$config2);
         return $config;
     }
 	

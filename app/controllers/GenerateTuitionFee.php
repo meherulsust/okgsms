@@ -39,7 +39,7 @@ class GenerateTuitionFee extends MT_Controller
 		$this->tpl->set_js(array('select-chain'));
  	}
 	 
-	public function index($sort_type = 'asc', $sort_on = 'm.id')
+	public function index($sort_type = 'asc', $sort_on = 'c.id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
@@ -65,7 +65,7 @@ class GenerateTuitionFee extends MT_Controller
 		$this->validation_error_msg(); 
 
 		if($this->form_validation->run() == FALSE){
-			$this->index($sort_type = 'desc', $sort_on = 'class_id');
+			$this->index($sort_type = 'desc', $sort_on = 'c.id');
 			//$this->load->view('tuition_fee_list/list',$head);	
 		}else{
 			$class_id						        = $this->input->post('class_id');
@@ -211,7 +211,7 @@ class GenerateTuitionFee extends MT_Controller
         return $config;
     }
 
-	public function tuition_fee_list($sort_type = 'asc', $sort_on = 'm.id')
+	public function tuition_fee_list($sort_type = 'asc', $sort_on = 'c.id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));

@@ -31,7 +31,7 @@ class TuitionFeeConfig extends MT_Controller
 		$this->assign('class_options',$class_options);
  	 }
 	 
-	public function index($sort_type = 'asc', $sort_on = 'm.id')
+	public function index($sort_type = 'asc', $sort_on = 'c.id')
 	{
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
@@ -56,7 +56,7 @@ class TuitionFeeConfig extends MT_Controller
 		$this->form_validation->set_rules($this->validate());
 		$this->validation_error_msg(); 
 		if($this->form_validation->run() == FALSE){
-			$this->index($sort_type = 'desc', $sort_on = 'class_id');
+			$this->index($sort_type = 'asc', $sort_on = 'c.id');
 			//$this->load->view('tuition_fee_config/new',$head);	
 		}else{
 				$data['tuition_fee_head_id'] 			= $this->input->post('tuition_fee_head_id');
@@ -69,7 +69,7 @@ class TuitionFeeConfig extends MT_Controller
 				
 				$checkFeelist = $this->TuitionFeeConfigModel->checkFeelist($data);
 				if($checkFeelist){
-					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can add this configuration, Tuition Fee already has been generated for this class !'));
+					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can not add this configuration, Tuition Fee already has been generated for this class !'));
 				}else{
 					$this->TuitionFeeConfigModel->add($data);
 					$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee Config'));
@@ -100,7 +100,7 @@ class TuitionFeeConfig extends MT_Controller
 
 				$checkFeelist = $this->TuitionFeeConfigModel->checkFeelist($data);
 				if($checkFeelist){
-					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can add this configuration, Tuition Fee already has been generated for this class !'));
+					$this->session->set_flashdata('message',$this->tpl->set_message('error','You can not add this configuration, Tuition Fee already has been generated for this class !'));
 				}else{
 					$this->TuitionFeeConfigModel->edit($id,$data);
 					$this->session->set_flashdata('message',$this->tpl->set_message('edit','Tuition Fee Config'));
