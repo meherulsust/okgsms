@@ -169,6 +169,15 @@ class Optionmodel extends MT_Model
             return $year_list;
     }
 
+    function message_options()
+ 	{
+ 		$this->db->select('id, title');
+ 		$this->db->from('msg_template');
+		$this->db->where('status','Active');
+		$this->db->order_by('id','asc');
+ 		return $this->get_assoc(); 
+ 	}  
+
        
         
 }
