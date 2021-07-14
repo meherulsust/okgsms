@@ -27,3 +27,26 @@ function send_single_sms($data){
 	$sms->sendSms($requestType, $message, $recipient, $messageType);
 }
 
+function bulk_sms($data){
+	
+	$message =  $data['message'];
+	$recipient= $data['recipient']; // For bulk sms i.e. general campaign 
+
+	$requestType = 'GENERAL_CAMPAIGN';
+	$messageType = 'UNICODE'; // option available: "TEXT", "UNICODE"
+	$campaignTitle = $data['message_title']; // set a meaningful campaign title
+
+	/*
+	* Sending SMS with sendBulkSms() method
+	* ---------
+	* Params:
+	* ---------
+	* $message       : Required
+	* $recipient     : Required
+	* $messageType   : Must contain any of the two values: "TEXT", "UNICODE"
+	* $campaignTitle : Required
+	*/
+	$sms = new AdnSmsNotification();
+	$sms->sendBulkSms($message, $recipient, $messageType, $campaignTitle);
+}
+

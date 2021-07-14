@@ -48,6 +48,7 @@ class StudentSms extends MT_Controller
 
 	public function add()
 	{
+		$this->load->helper('send_sms');
 		$head = array('page_title'=>'Student SMS','link_title'=>'Send Student SMS List','link_action'=>'StudentSms/index');
 		$this->form_validation->set_rules($this->validate());
 		$this->validation_error_msg(); 
@@ -58,25 +59,37 @@ class StudentSms extends MT_Controller
 			$class_id						        = $this->input->post('class_id');
 			$msg						            = $this->input->post('full_message');
 			$stuendtList       					    = $this->StudentSmsModel->getStudentBy($class_id);
-			printr($stuendtList); exit;
-			if($amount['stuendtList'] !='')	{
+			
+			if(!empty($stuendtList))	{
 			foreach($stuendtList as $stu){
 					$sms['student_id']		= $stu['id'];
 					$sms['mobile_no']		= '880'.substr($stu['mobile_no'],-10);
 					$sms['class_id']	    = $class_id;
-					$sms['msg']	    		= $msg;	
+					$sms['full_message']	= $msg;	
 					$sms['status']			= 'Send';
 					$sms['created_at']	   	= $this->current_date();
 					$sms['created_by'] 	 	= $this->session->userdata('admin_userid');
-				
-
-				
+					$sms_data[] = $sms;
 				}
-				$this->StudentSmsModel->addDetail($data);
-				$this->session->set_flashdata('message',$this->tpl->set_message('Add','Tuition Fee'));
+
+				foreach($stuendtList as $val)
+				{
+					$mobile_number[]='+880'.substr($val['mobile_no'],-10);
+				}
+
+				$data['recipient'] 			   = implode(",",$mobile_number);
+				$data['message'] 	           = $this->input->post('full_message');
+				$title_array                   = explode(' ',trim($data['message']));
+				$data['message_title'] 		   = $title_array[0].' '.$title_array[1];
+				//sending sms
+				bulk_sms($data);
+
+				$this->StudentSmsModel->add_sms_history($sms_data);
+				$this->session->set_flashdata('message',$this->tpl->set_message('Add','SMS History'));
 				redirect('StudentSms/index');
+				
 			}else{
-				$this->session->set_flashdata('message',$this->tpl->set_message('error','No Tuition Fee Config found for this class'));
+				$this->session->set_flashdata('message',$this->tpl->set_message('error','No SMS is send for this class'));
 				redirect('StudentSms/index');
 			} 		
 				 			
@@ -125,7 +138,8 @@ class StudentSms extends MT_Controller
 	public function test_sms(){
 		$this->load->helper('send_sms');
 		$data['message']     = 'পবিত্র ঈদুল আজহা উপলক্ষে চলমান বিধিনিষেধ ১৪ জুলাই মধ্যরাত থেকে ২৩ জুলাই সকাল ৬টা পর্যন্ত শিথিল করেছে সরকার।';
-		$data['mobile']   = '8801754954954';
+		$data['mobile']      = '+8801711441623';
+		//$data['mobile']    = '8801754954954';
 		send_single_sms($data);
 	}
 	

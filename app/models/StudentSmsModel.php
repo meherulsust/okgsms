@@ -78,4 +78,10 @@ class StudentSmsModel extends MT_Model
         return $rs->result_array();
     }
 
+    public function add_sms_history($data)
+    {
+        $this->db->insert_batch('send_msg_info', $data);  
+    }
+
+
 }
