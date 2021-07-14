@@ -121,6 +121,13 @@ class StudentSms extends MT_Controller
         );
         return $config;
     }
+
+	public function test_sms(){
+		$this->load->helper('send_sms');
+		$data['message']     = 'পবিত্র ঈদুল আজহা উপলক্ষে চলমান বিধিনিষেধ ১৪ জুলাই মধ্যরাত থেকে ২৩ জুলাই সকাল ৬টা পর্যন্ত শিথিল করেছে সরকার।';
+		$data['mobile']   = '8801754954954';
+		send_single_sms($data);
+	}
 	
 }
 
