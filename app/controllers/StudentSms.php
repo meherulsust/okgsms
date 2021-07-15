@@ -32,16 +32,16 @@ class StudentSms extends MT_Controller
 		$data = $this->input->post();
 		$this->tpl->set_js(array('jquery.statusmenu'));
 		$head = array('page_title'=>'Student SMS','link_title'=>'Send Student SMS','link_action'=>'StudentSms/add');
-		$labels = array('mobile_no'=>'Mobile','class' => 'Class','description'=>'Full SMS','status' => 'Status');
+		$labels = array('mobile_no'=>'Mobile','class' => 'Class','full_message'=>'Full Message');
 		$this->assign('labels', $labels);
-		$config['total_rows'] = $this->StudentSmsModel->count_list($id='',$data);
+		$config['total_rows'] = $this->StudentSmsModel->count_list($data);
 		$config['uri_segment'] = 6;
 		$config['select_value'] = $this->input->post('rec_per_page');
 		$config['sort_on'] = $sort_on;
 		$config['sort_type'] = $sort_type;
-		$this->assign('grid_action', array('view' => 'view'));
+		$this->assign('grid_action', array());
 		$this->set_pagination($config);
-		$list = $this->StudentSmsModel->get_list($id='',$data); // get data list
+		$list = $this->StudentSmsModel->get_list($data); // get data list
 		$this->assign('records', $list);
 		$this->load->view('student_sms/list',$head);
 	}
@@ -61,15 +61,17 @@ class StudentSms extends MT_Controller
 			$stuendtList       					    = $this->StudentSmsModel->getStudentBy($class_id);
 			
 			if(!empty($stuendtList))	{
-			foreach($stuendtList as $stu){
-					$sms['student_id']		= $stu['id'];
-					$sms['mobile_no']		= '880'.substr($stu['mobile_no'],-10);
-					$sms['class_id']	    = $class_id;
-					$sms['full_message']	= $msg;	
-					$sms['status']			= 'Send';
-					$sms['created_at']	   	= $this->current_date();
-					$sms['created_by'] 	 	= $this->session->userdata('admin_userid');
-					$sms_data[] = $sms;
+
+				foreach($stuendtList as $stu){
+					$sms_history['student_id']		= $stu['id'];
+					$sms_history['mobile_no']		= '880'.substr($stu['mobile_no'],-10);
+					$sms_history['class_id']	    = $class_id;
+					$sms_history['message_id']	    = $this->input->post('message_id');
+					$sms_history['full_message']	= $msg;	
+					$sms_history['status']			= 'Send';
+					$sms_history['created_at']	   	= $this->current_date();
+					$sms_history['created_by'] 	 	= $this->session->userdata('admin_userid');
+					$sms_data[] = $sms_history;
 				}
 
 				foreach($stuendtList as $val)
@@ -89,7 +91,7 @@ class StudentSms extends MT_Controller
 				redirect('StudentSms/index');
 				
 			}else{
-				$this->session->set_flashdata('message',$this->tpl->set_message('error','No SMS is send for this class'));
+				$this->session->set_flashdata('message',$this->tpl->set_message('error','No SMS has send to this class !'));
 				redirect('StudentSms/index');
 			} 		
 				 			
@@ -101,15 +103,14 @@ class StudentSms extends MT_Controller
 
 	//check duplicate admission Number for validation
 
-	function duplicate_tuition_fee($str,$param='')
+	function duplicate_sms($str,$param='')
 	{
-		$month    = $this->input->post('month');
-		$year     = $this->input->post('year');
+		$class_id    = $this->input->post('class_id');
 
-		$query = $this->db->query("SELECT id FROM sms_tuition_fee_list where class_id='$str' AND month='$month'AND year='$year' AND class_id<>'$param'");
+		$query = $this->db->query("SELECT id FROM sms_send_msg_info where message_id='$str' AND class_id='$class_id' AND message_id<>'$param'");
 		if($query->num_rows()>0)
 		{
-			$this->form_validation->set_message('duplicate_tuition_fee', "%s <span style='color:green;'>tuition fee for this month $year </span> already exists");
+			$this->form_validation->set_message('duplicate_sms', "%s <span style='color:green;'>This SMS has already send to this class</span>");
 			return false;
 		}
 		return true;
@@ -129,19 +130,12 @@ class StudentSms extends MT_Controller
 	private function validate(){
         $config = array(
 				array('field'=>'class_id','label'=>'Class','rules'=>'trim|required'),
-				array('field'=>'message_id','label'=>'Message title','rules'=>'trim|required'),
+				array('field'=>'message_id','label'=>'Message title','rules'=>'trim|required|callback_duplicate_sms'),
 				array('field'=>'full_message','label'=>'Full Message','rules'=>'trim|required')
         );
         return $config;
     }
 
-	public function test_sms(){
-		$this->load->helper('send_sms');
-		$data['message']     = 'পবিত্র ঈদুল আজহা উপলক্ষে চলমান বিধিনিষেধ ১৪ জুলাই মধ্যরাত থেকে ২৩ জুলাই সকাল ৬টা পর্যন্ত শিথিল করেছে সরকার।';
-		$data['mobile']      = '+8801711441623';
-		//$data['mobile']    = '8801754954954';
-		send_single_sms($data);
-	}
 	
 }
 

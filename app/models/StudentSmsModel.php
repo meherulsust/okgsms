@@ -22,7 +22,7 @@ class StudentSmsModel extends MT_Model
    
     public function get_list($data)
     {
-        $this->db->select('smi.*,smi.full_message as description,c.title as class');
+        $this->db->select('smi.*,smi.full_message,c.title as class');
         $this->db->from('send_msg_info smi');
 		$this->db->join('class c', 'c.id =smi.class_id', 'left');
       
@@ -30,9 +30,9 @@ class StudentSmsModel extends MT_Model
 		{
 			$this->db->where('smi.class_id',$data['class_id']);
 		}
-		if(isset($data['student_id']) && $data['student_id'] !='')
+		if(isset($data['mobile_no']) && $data['mobile_no'] !='')
 		{
-			$this->db->where('smi.student_id',$data['student_id']);
+			$this->db->where('smi.mobile_no',$data['mobile_no']);
 		}
         $rs = $this->db->get();
         return $rs->result_array();
@@ -48,9 +48,9 @@ class StudentSmsModel extends MT_Model
 		{
 			$this->db->where('smi.class_id',$data['class_id']);
 		}
-		if(isset($data['student_id']) && $data['student_id'] !='')
+		if(isset($data['mobile_no']) && $data['mobile_no'] !='')
 		{
-			$this->db->where('smi.student_id',$data['student_id']);
+			$this->db->where('smi.mobile_no',$data['mobile_no']);
 		}
         return $this->get_one();
     }

@@ -12,41 +12,41 @@
   <form class="ajax_submit" role="form" action="<?=$site_url . $active_controller?>/add" method="post"
     enctype="multipart/form-data">
     <table class="form_table">
-      <tr>
-				<td>title :</td>
-				<td>
-					<select name="message_id" class="form-control message">
-						<option value="">---- None ----</option>
-						<?php echo html_options($message_options,set_value('message_id'));?>
-					</select>
-				</td>
-			</tr>	
-			<tr>
-				<td>Full Message :</td>
-				<td>
-					<textarea type="text" class="form-control full_message" rows="10" name="full_message"><?=set_value('full_message'); ?></textarea>
-					<span class="error">* <?php echo form_error('full_message'); ?></span>
-					<div id="charNum">(Maximum 480 characters)</div> 
-				</td>
-			</tr>
-      <tr>
-				<td>Class :</td>
-				<td>
-					<select name='class_id' class='form-control' id="class_id" required>
-						<option value="" >---- Select Class ----</option>
-						<?php echo html_options($class_options,set_value('class_id')); ?>
-					</select>
-					<span class='error'>* <?php echo form_error('class_id'); ?> </span>
-				</td>
-				<input type="hidden" name="class_code" id="class_code" />
-			</tr>
-      <tr>
-        <td></td>
-        <td>
-          <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-          <button type="reset" class="btn btn-sm btn-danger">Reset</button>
-        </td>
-      </tr>
+		<tr>
+			<td>title :</td>
+			<td>
+				<select name="message_id" class="form-control message">
+					<option value="">---- None ----</option>
+					<?php echo html_options($message_options,set_value('message_id'));?>
+				</select>
+				<span class='error'>* <?php echo form_error('message_id'); ?> </span>
+			</td>
+		</tr>	
+		<tr>
+			<td>Full Message :</td>
+			<td>
+				<textarea type="text" class="form-control full_message" rows="10" name="full_message"><?=set_value('full_message'); ?></textarea>
+				<span class="error">* <?php echo form_error('full_message'); ?></span>
+				<div id="charNum">(Maximum 480 characters)</div> 
+			</td>
+		</tr>
+		<tr>
+			<td>Class :</td>
+			<td>
+				<select name='class_id' class='form-control' id="class_id" required>
+					<option value="" >---- Select Class ----</option>
+					<?php echo html_options($class_options,set_value('class_id')); ?>
+				</select>
+				<span class='error'>* <?php echo form_error('class_id'); ?> </span>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+			<button type="reset" class="btn btn-sm btn-danger">Reset</button>
+			</td>
+		</tr>
     </table>
   </form>
 </div>
